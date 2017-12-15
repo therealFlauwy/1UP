@@ -4,7 +4,7 @@
 var express = require('express');
 var ParseServer = require('parse-server').ParseServer;
 var path = require('path');
-
+require('dotenv').config();
 var databaseUri = process.env.DATABASE_URI || process.env.MONGODB_URI;
 
 if (!databaseUri) {
@@ -27,6 +27,21 @@ var app = express();
 
 // Serve static assets from the /public folder
 app.use('/public', express.static(path.join(__dirname, '/public')));
+
+app.get('/suggestions', function(req, res) {
+  var sug=null;
+  var aSug = Parse.Object.extend("Suggestions");
+  var query = new Parse.Query(aSug);
+  query.descending("createdAt");
+        query.find({
+          success: function(sug) {
+            if(sug!==undefined)
+            {
+              res.render('main.ejs', {suggestions: sug});
+            }
+          }
+        });
+});
 
 // Serve the Parse API on the /parse URL prefix
 var mountPath = process.env.PARSE_MOUNT || '/parse';

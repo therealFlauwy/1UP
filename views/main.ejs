@@ -12,7 +12,16 @@
       </div>
 
       <h1>Sugestions</h1>
-      <div class='suggestions'></div>
+      <div class='suggestions'>
+        <ul>
+       <% suggestions.forEach(function(sug, index) { %>
+           <li><a href="<%= sug.get('url') %>"><%= sug.get('url') %></a>
+             <p>Suggested by @<%= sug.get('from')%></p>
+           </li>
+       <% }); %>
+       </ul>
+
+      </div>
 
 
       <footer id="footer" class="align-center">
