@@ -14,10 +14,13 @@
       <h1>Sugestions</h1>
       <div class='suggestions'>
         <ul>
-       <% suggestions.forEach(function(sug, index) { %>
-           <li><a href="<%= sug.get('url') %>"><%= sug.get('url') %></a>
-             <p>Suggested by @<%= sug.get('from')%></p>
+       <%
+       suggestions.forEach(function(sug, index) { console.log(sug.result);%>
+           <li><a href="<%= sug.get('url') %>"><%= sug.title %></a>
+             <p>Posted by @<%= sug.author %> (<%= sug.reputation %>). Suggested by @<%= sug.get('from')%>.</p>
+             <span>Upvotes: <%= sug.votes %>. Pending payout: <%= sug.payout %></span>
            </li>
+
        <% }); %>
        </ul>
 
@@ -34,6 +37,7 @@
 
     </div>
     <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script src="/public/assets/js/vendor/steemjs.js"></script>
     <script src="/public/assets/js/suggestions.js"></script>
   </body>
 </html>
