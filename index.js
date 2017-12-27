@@ -33,7 +33,7 @@ app.get('/suggestions', function(req, res) {
   var sug=null;
   var aSug = Parse.Object.extend("Suggestions");
   var query = new Parse.Query(aSug);
-  query.descending("createdAt");
+  query.descending("from_length");
   query.limit(10);
          query.find({
           success: function(suggestions) {

@@ -15,9 +15,9 @@
       <div class='suggestions'>
         <ul>
        <%
-       suggestions.forEach(function(sug, index) { console.log(sug.result);%>
+       suggestions.forEach(function(sug, index) { %>
            <li><a href="<%= sug.get('url') %>"><%= sug.title %></a>
-             <p>Posted by @<%= sug.author %> (<%= sug.reputation %>). Suggested by @<%= sug.get('from')%>.</p>
+             <p>Posted by @<%= sug.author %> (<%= sug.reputation %>). Suggested by <%= sug.get('from_length')%> users: <%= sug.get('from')%>.</p>
              <span>Upvotes: <%= sug.votes %>. Pending payout: <%= sug.payout %></span>
            </li>
 
