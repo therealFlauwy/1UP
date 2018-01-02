@@ -33,27 +33,46 @@ app.get('/suggestions', function(req, res) {
   var sug=null;
   var aSug = Parse.Object.extend("Suggestions");
   var query = new Parse.Query(aSug);
+  var sug_list=[];
   query.descending("from_length");
-  query.limit(10);
+  query.equalTo("voted",false);
          query.find({
           success: function(suggestions) {
-            if(suggestions!==undefined)
+            if(suggestions!==undefined&&suggestions.length!==0)
             {
                for ( const [i, sug] of suggestions.entries()){
                   const content= steem.api.getContentAsync(sug.get('url').split('@')[1].split('/')[0], sug.get('url').split('/')[sug.get('url').split('/').length-1]);
                    content.then(result=> {
+                     console.log(i,'content');
                      suggestions[i].title=result.title;
                      suggestions[i].votes=result.active_votes.length;
                      suggestions[i].author=result.author;
                      suggestions[i].payout=result.pending_payout_value;
                      suggestions[i].result=result;
                      suggestions[i].reputation=steem.formatter.reputation(result.author_reputation);
+                    if(result.active_votes.find(function (element) {
+                        return element.voter == 'utopian-io'||element.voter == 'utopian-1up';
+                    })!==undefined)
+                    {
+                        console.log('Voted already');
+                        suggestions[i].set('voted',true);
+                        suggestions[i].save(null,{useMasterKey:true});
+                    }
+                    else {
+                      sug_list.push(sug);
+                    }
+
                      if(sug===suggestions[suggestions.length-1])
-                        res.render('main.ejs', {suggestions: suggestions});
+                        res.render('main.ejs', {suggestions: sug_list});
                    });
                  }
             }
-          }
+            else
+            {
+              console.log('Nothing to show');
+              res.render('main.ejs', {suggestions: []});
+            }
+          },error:function(error){console.log(error);}
         });
   });
 
