@@ -11,7 +11,7 @@
         <img id="1UP-logo" src="/public/assets/images/1UP-logo.png">
       </div>
 
-      <h1>Sugestions</h1>
+      <h1>Suggestions</h1>
       <div class='suggestions'>
         <ul>
        <%
@@ -23,6 +23,9 @@
 
        <% }); %>
        </ul>
+       <% if(suggestions.length===0){%>
+       <p>Nothing to show, sorry ;p</p><% } %>
+
 
       </div>
 

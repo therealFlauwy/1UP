@@ -4,7 +4,6 @@ Parse.Cloud.define('hello', function(req, res) {
 });
 
 Parse.Cloud.beforeSave('Suggestions', function (request, response) {
-  console.log('original',request.original);
     if(request.original===undefined){
       var aSug = Parse.Object.extend("Suggestions");
       var query = new Parse.Query(aSug);
@@ -43,4 +42,5 @@ Parse.Cloud.beforeSave('Suggestions', function (request, response) {
             ,error:function(err){console.log(err);}
           });
     }
+    else response.success();
 });
