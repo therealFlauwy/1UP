@@ -1,6 +1,5 @@
 // Example express application adding the parse-server module to expose Parse
 // compatible API routes.
-var steem = require('steem');
 var express = require('express');
 var ParseServer = require('parse-server').ParseServer;
 var path = require('path');
@@ -29,48 +28,23 @@ var app = express();
 // Serve static assets from the /public folder
 app.use('/public', express.static(path.join(__dirname, '/public')));
 //app.use(favicon(__dirname + '/public/images/favicon.ico'));
-app.get('/suggestions', function(req, res) {
-  var sug=null;
-  var aSug = Parse.Object.extend("Suggestions");
-  var query = new Parse.Query(aSug);
-  var sug_list=[];
+app.get('/posts', function(req, res) {
+  var post=null;
+  var aPost = Parse.Object.extend("Posts");
+  var query = new Parse.Query(aPost);
   query.descending("from_length");
   query.equalTo("voted",false);
          query.find({
-          success: function(suggestions) {
-            if(suggestions!==undefined&&suggestions.length!==0)
+          success: function(posts) {
+            if(posts!==undefined&&posts.length!==0)
             {
-               for ( const [i, sug] of suggestions.entries()){
-                  const content= steem.api.getContentAsync(sug.get('url').split('@')[1].split('/')[0], sug.get('url').split('/')[sug.get('url').split('/').length-1]);
-                   content.then(result=> {
-                     console.log(i,'content');
-                     suggestions[i].title=result.title;
-                     suggestions[i].votes=result.active_votes.length;
-                     suggestions[i].author=result.author;
-                     suggestions[i].payout=result.pending_payout_value;
-                     suggestions[i].result=result;
-                     suggestions[i].reputation=steem.formatter.reputation(result.author_reputation);
-                    if(result.active_votes.find(function (element) {
-                        return element.voter == 'utopian-io'||element.voter == 'utopian-1up';
-                    })!==undefined)
-                    {
-                        console.log('Voted already');
-                        suggestions[i].set('voted',true);
-                        suggestions[i].save(null,{useMasterKey:true});
-                    }
-                    else {
-                      sug_list.push(sug);
-                    }
-
-                     if(sug===suggestions[suggestions.length-1])
-                        res.render('main.ejs', {suggestions: sug_list});
-                   });
-                 }
+                res.render('main.ejs', {posts: posts});
+                Parse.Cloud.run('checkVote', null).then(function(v){});
             }
             else
             {
               console.log('Nothing to show');
-              res.render('main.ejs', {suggestions: []});
+              res.render('main.ejs', {posts: []});
             }
           },error:function(error){console.log(error);}
         });
