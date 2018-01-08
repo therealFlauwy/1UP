@@ -1,7 +1,8 @@
 <!DOCTYPE html>
+
 <html lang="en">
   <head>
-    <title>Utopian 1UP Suggestions</title>
+    <title>Utopian 1UP</title>
     <link href="/public/assets/css/style.css" rel="stylesheet">
   </head>
 
@@ -11,19 +12,19 @@
         <img id="1UP-logo" src="/public/assets/images/1UP-logo.png">
       </div>
 
-      <h1>Suggestions</h1>
-      <div class='suggestions'>
+      <h1>Posts</h1>
+      <div class='posts'>
         <ul>
        <%
-       suggestions.forEach(function(sug, index) { %>
-           <li><a href="<%= sug.get('url') %>"><%= sug.title %></a>
-             <p>Posted by @<%= sug.author %> (<%= sug.reputation %>). Suggested by <%= sug.get('from_length')%> users: <%= sug.get('from')%>.</p>
-             <span>Upvotes: <%= sug.votes %>. Pending payout: <%= sug.payout %></span>
+       posts.forEach(function(post, index) { %>
+           <li><a class='url' href="<%= post.get('url') %>"><%= post.get('title') %></a>
+             <p>Posted by @<%= post.get('author') %> (<%= post.get('reputation') %>). Suggested by <%= post.get('from_length')%> users: <%= post.get('from')%>.</p>
+             <span class="info"></span>
            </li>
 
        <% }); %>
        </ul>
-       <% if(suggestions.length===0){%>
+       <% if(posts.length===0){%>
        <p>Nothing to show, sorry ;p</p><% } %>
 
 
@@ -39,8 +40,26 @@
       </footer>
 
     </div>
-    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
-    <script src="/public/assets/js/vendor/steemjs.js"></script>
-    <script src="/public/assets/js/suggestions.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="//cdn.steemjs.com/lib/latest/steem.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/parse/1.11.0/parse.min.js"></script>
+    <script>
+$( document ).ready(function() {
+    $('.posts li').each(function(i){
+      steem.config.set('websocket','wss://steemd.privex.io');
+      steem.api.getContentAsync($('.url').eq(i).attr('href').split('@')[1].split('/')[0], $('.url').eq(i).attr('href').split('/')[$('.url').eq(i).attr('href').split('/').length-1]).then(result=> {
+        if(result.active_votes.find(function (element) {
+            return element.voter == 'utopian-io'||element.voter == 'utopian-1up';
+        })!==undefined)
+      {
+          console.log('Voted already');
+          $('.posts li').eq(i).hide();
+      }
+      $('.info').eq(i).html('Upvotes: '+result.active_votes.length+'. Pending payout: '+result.pending_payout_value);
+    });
+  });
+});
+    </script>
   </body>
 </html>
