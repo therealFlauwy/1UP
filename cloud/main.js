@@ -1,7 +1,6 @@
 var steem = require('steem');
-const MAX_VOTE_PER_DAY=2;
+const MAX_VOTE_PER_DAY=10;
 steem.api.setOptions({ url: 'https://api.steemit.com' });
-
 
 
 Parse.Cloud.define("checkVote", function(request, response) {
