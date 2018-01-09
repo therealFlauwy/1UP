@@ -1,7 +1,6 @@
-
 var steem = require('steem');
+const MAX_VOTE_PER_DAY=10;
 steem.api.setOptions({ url: 'https://api.steemit.com' });
-
 
 
 Parse.Cloud.define("checkVote", function(request, response) {
@@ -32,6 +31,41 @@ Parse.Cloud.define("checkVote", function(request, response) {
           response.success('yea');
 });
 
+
+Parse.Cloud.beforeSave('Votes', function (request, response) {
+  var aPost = Parse.Object.extend("Posts");
+  var aVote = Parse.Object.extend("Votes");
+  const author=request.object.get('url').split('@')[1].split('/')[0];
+  console.log(author,new Date(new Date()-24*3600000),new Date(),request.object.get('from'));
+  request.object.set('author',author);
+
+  // Selfvote
+  if(author===request.object.get('from'))
+    response.error('You cannot vote for yourself!');
+
+  // Check vote more than once for same user
+  var query = new Parse.Query(aVote);
+  query.equalTo('from',request.object.get('from'));
+  query.greaterThan('createdAt',new Date(new Date()-24*3600000));
+  query.find( {
+        useMasterKey: true,
+        success: function (votes) {
+          console.log(votes);
+          if(votes.length!==0)
+          {
+            for (vote of votes){
+              if(author===vote.get('author'))
+                response.error('You can only vote once a day for @'+author);
+            }
+            if(votes.length>=MAX_VOTE_PER_DAY)
+                response.error('You can only vote '+MAX_VOTE_PER_DAY+' times per day. Please try again tomorrow!');
+
+          }
+        }
+        ,error:function(err){console.log(err);}
+      });
+      response.success();
+});
 
 Parse.Cloud.beforeSave('Posts', function (request, response) {
     if(request.original===undefined){
