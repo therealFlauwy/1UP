@@ -1,7 +1,13 @@
 var steem = require('steem');
 const MAX_VOTE_PER_DAY=10;
 steem.api.setOptions({ url: 'https://api.steemit.com' });
+let sc2=require('sc2-sdk');
 
+ let steemc = sc2.Initialize({
+    app: 'steem-plus',
+    callbackURL: 'https://steemit.com/@steem-plus',
+    scope: ['vote']
+});
 
 Parse.Cloud.define("checkVote", function(request, response) {
   var aPost = Parse.Object.extend("Posts");
@@ -31,14 +37,18 @@ Parse.Cloud.define("checkVote", function(request, response) {
           response.success('yea');
 });
 
-
 Parse.Cloud.beforeSave('Votes', function (request, response) {
   var aPost = Parse.Object.extend("Posts");
   var aVote = Parse.Object.extend("Votes");
   const author=request.object.get('url').split('@')[1].split('/')[0];
   console.log(author,new Date(new Date()-24*3600000),new Date(),request.object.get('from'));
   request.object.set('author',author);
+   steemc.setAccessToken(request.object.get('token'));
 
+  steemc.me().then((me) =>{
+    //console.log(me);
+    request.object.unset('token');
+    request.object.set('from',me.name);
   // Selfvote
   if(author===request.object.get('from'))
     response.error('You cannot vote for yourself!');
@@ -61,10 +71,22 @@ Parse.Cloud.beforeSave('Votes', function (request, response) {
                 response.error('You can only vote '+MAX_VOTE_PER_DAY+' times per day. Please try again tomorrow!');
 
           }
+          response.success();
         }
         ,error:function(err){console.log(err);}
       });
-      response.success();
+      // Check for bad token
+    }).catch(e => response.error('We could not identify you. Please make sure you are connected via SteemConnect.'));
+});
+
+
+Parse.Cloud.afterSave('Votes', function (request) {
+
+  var aPost =  Parse.Object.extend("Posts");
+  var newPost = new aPost();
+  newPost.set('from',[request.object.get('from')]);
+  newPost.set('url',request.object.get('url'));
+  newPost.save({useMasterKey:true});
 });
 
 Parse.Cloud.beforeSave('Posts', function (request, response) {
@@ -84,6 +106,8 @@ Parse.Cloud.beforeSave('Posts', function (request, response) {
                    request.object.set('title', result.title);
                    request.object.set('author', result.author);
                    request.object.set('reputation',steem.formatter.reputation(result.author_reputation));
+                   request.object.set('voted', false);
+                   request.object.set('from_length', 1);
 
                    response.success();
                      });
@@ -92,11 +116,7 @@ Parse.Cloud.beforeSave('Posts', function (request, response) {
               {
                 console.log(post[0].get('from'));
                 var from=post[0].get('from');
-                if(from.includes(request.object.get('from')[0])){
-                  response.error('You can only vote once! ');
-                  return
-                }
-                else {
+
 
                   from.push(request.object.get('from')[0]);
                     console.log(from);
@@ -110,12 +130,12 @@ Parse.Cloud.beforeSave('Posts', function (request, response) {
                   request.object=post[0];
                   post[0].destroy({useMasterKey:true});
                   response.success();
-                }
+
               }
             }
             ,error:function(err){console.log(err);}
           });
 
-}
+        }
   else response.success();
-});
+  });
