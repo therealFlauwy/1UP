@@ -34,17 +34,18 @@ app.get('/posts', function(req, res) {
   var query = new Parse.Query(aPost);
   query.descending("from_length");
   query.equalTo("voted",false);
+  //query.equalTo("voted_utopian",false);
          query.find({
           success: function(posts) {
             if(posts!==undefined&&posts.length!==0)
             {
-                res.render('main.ejs', {posts: posts});
+                res.render('main.ejs', {posts: posts,active:0});
                 Parse.Cloud.run('checkVote', null).then(function(v){});
             }
             else
             {
               console.log('Nothing to show');
-              res.render('main.ejs', {posts: []});
+              res.render('main.ejs', {posts: [],active:0});
             }
           },error:function(error){console.log(error);}
         });

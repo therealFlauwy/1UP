@@ -8,23 +8,51 @@
 
   <body>
     <div class="container">
-      <div class="align-center">
+      <div class="header">
         <img id="1UP-logo" src="/public/assets/images/1UP-logo.png">
-      </div>
-
-      <h1>Posts</h1>
-      <div class='posts'>
         <ul>
+        <li><a href="https://steemit.com/utopian-io/@flauwy/steemy-ep-46-how-to-create-and-follow-a-curation-trail-with-steemauto" target="_blank">How to vote?</a></li>
+          <li><a href="https://steemit.com/curation/@flauwy/utopian-1up-a-lucrative-steem-trail-for-the-best-daily-utopian-contributions" target="_blank">About</a></li>
+          <li><a href="https://github.com/therealFlauwy/1UP" target="_blank">1UP on Github</a></li>
+        </ul>
+      </div>
+      <div class="top">
+        <div class="top_left">
+          <div class="menu">
+            <ul>
+              <li><a href="/now">Now</a></li>
+              <li><a href="/today">Today</a></li>
+              <li><a href="/yesterday">Yesterday</a></li>
+              <li><a href="/alltime">All time</a></li>
+            </ul>
+          </div>
+          <div class="voting_period">
+            <p>Voting period ends in:</p>
+            <span class="voting_period">1h 24min 36s</span> <!-- TODO: Implement actual voting period!-->
+            <span class="goes_to">1UP goes to @<span class="goes_to_user"><%= posts[0].get('author')%></span></span>
+          </div>
+        </div>
+        <div class="top_post">
+          <span class="nb_post">1</span>
+          <img class="post_img"src="<%= posts[0].get('image')%>"/>
+          <div class="1UP_votes"><img src="/public/assets/images/1UP-logo.png"/><%= posts[0].get('from_length')%></div>
+          <div class="post_author"><a href="https://utopian.io/<%= posts[0].get('author')%>"><%= posts[0].get('author')%> (<%= posts[0].get('reputation')%>)</a></div>
+          <div class="post_title"><%= posts[0].get('title')%></div>
+        </div>
+      </div>
+      <div class='other_posts'>
+        <div class="post">
        <%
-       posts.forEach(function(post, index) { %>
-           <li><a class='url' href="<%= post.get('url') %>"><%= post.get('title') %></a>
-             <p>Posted by @<%= post.get('author') %> (<%= post.get('reputation') %>). Suggested by <%= post.get('from_length')%> users: <%= post.get('from')%>.</p>
-             <span class="info"></span>
-           </li>
+       posts.forEach(function(post, index) { if(index!==0){%>
+         <span class="nb_post"><%=index+1%></span>
+         <img class="post_img"src="<%= posts[index].get('image')%>"/>
+         <div class="1UP_votes"><img src="/public/assets/images/1UP-logo.png"/><%= posts[index].get('from_length')%></div>
+         <div class="post_author"><a href="https://utopian.io/<%= posts[index].get('author')%>"><%= posts[index].get('author')%></a> (<%= posts[index].get('reputation')%>)</div>
+         <div class="post_title"><%= posts[index].get('title')%></div>
 
-       <% }); %>
-       </ul>
-       <% if(posts.length===0){%>
+       <% }}); %>
+     </div>
+       <% if(posts.length<=1){%>
        <p>Nothing to show, sorry ;p</p><% } %>
 
 
@@ -32,11 +60,7 @@
 
 
       <footer id="footer" class="align-center">
-        <ul>
-          <li><a href="https://steemit.com/curation/@flauwy/utopian-1up-a-lucrative-steem-trail-for-the-best-daily-utopian-contributions" target="_blank">1UP Intro</a></li>
-          <li><a href="https://steemit.com/utopian-io/@flauwy/steemy-ep-46-how-to-create-and-follow-a-curation-trail-with-steemauto" target="_blank">Follow the trail</a></li>
-          <li><a href="https://github.com/therealFlauwy/1UP" target="_blank">1UP on Github</a></li>
-        </ul>
+
       </footer>
 
     </div>
@@ -45,7 +69,8 @@
     <script src="//cdn.steemjs.com/lib/latest/steem.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/parse/1.11.0/parse.min.js"></script>
     <script>
-$( document ).ready(function() {
+    $('.menu ul li a').eq(<%=active%>).addClass('active');
+/*$( document ).ready(function() {
     $('.posts li').each(function(i){
       steem.config.set('websocket','wss://steemd.privex.io');
       steem.api.getContentAsync($('.url').eq(i).attr('href').split('@')[1].split('/')[0], $('.url').eq(i).attr('href').split('/')[$('.url').eq(i).attr('href').split('/').length-1]).then(result=> {
@@ -59,7 +84,7 @@ $( document ).ready(function() {
       $('.info').eq(i).html('Upvotes: '+result.active_votes.length+'. Pending payout: '+result.pending_payout_value);
     });
   });
-});
+});*/
     </script>
   </body>
 </html>
