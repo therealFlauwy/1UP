@@ -23,12 +23,20 @@ Parse.Cloud.define("checkVote", function(request, response) {
                   const content= steem.api.getContentAsync(post.get('url').split('@')[1].split('/')[0], post.get('url').split('/')[post.get('url').split('/').length-1]);
                    content.then(result=> {
                     if(result.active_votes.find(function (element) {
-                        return element.voter == 'utopian-io'||element.voter == 'utopian-1up';
+                        return element.voter == 'utopian-1up';
                     })!==undefined)
                     {
                         posts[i].set('voted',true);
                         posts[i].save(null,{useMasterKey:true});
                     }
+                    if(result.active_votes.find(function (element) {
+                        return element.voter == 'utopian-io';
+                    })!==undefined)
+                    {
+                        posts[i].set('voted_utopian',true);
+                        posts[i].save(null,{useMasterKey:true});
+                    }
+
                   });
                 }
               }
@@ -41,7 +49,6 @@ Parse.Cloud.beforeSave('Votes', function (request, response) {
   var aPost = Parse.Object.extend("Posts");
   var aVote = Parse.Object.extend("Votes");
   const author=request.object.get('url').split('@')[1].split('/')[0];
-  console.log(author,new Date(new Date()-24*3600000),new Date(),request.object.get('from'));
   request.object.set('author',author);
    steemc.setAccessToken(request.object.get('token'));
 
@@ -98,7 +105,6 @@ Parse.Cloud.beforeSave('Posts', function (request, response) {
       query.find( {
             useMasterKey: true,
             success: function (post) {
-              console.log(post);
               if(post.length===0)
               {
                 const content= steem.api.getContentAsync(request.object.get('url').split('@')[1].split('/')[0], request.object.get('url').split('/')[request.object.get('url').split('/').length-1]);
@@ -107,7 +113,11 @@ Parse.Cloud.beforeSave('Posts', function (request, response) {
                    request.object.set('author', result.author);
                    request.object.set('reputation',steem.formatter.reputation(result.author_reputation));
                    request.object.set('voted', false);
+                   request.object.set('voted_utopian', false);
                    request.object.set('from_length', 1);
+
+                   request.object.set('image', JSON.parse(result.json_metadata).image[0]);
+
 
                    response.success();
                      });
@@ -123,6 +133,7 @@ Parse.Cloud.beforeSave('Posts', function (request, response) {
                     post[0].set('from',from);
                     post[0].set('from_length',from.length);
                     post[0].set('voted', false);
+                    post[0].set('voted_utopian', false);
                     post[0].set('url',post[0].get('url'));
                     post[0].set('title',post[0].get('title'));
                     post[0].set('author',post[0].get('author'));
