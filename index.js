@@ -28,7 +28,7 @@ var app = express();
 // Serve static assets from the /public folder
 app.use('/public', express.static(path.join(__dirname, '/public')));
 //app.use(favicon(__dirname + '/public/images/favicon.ico'));
-app.get('/posts', function(req, res) {
+app.get('/now', function(req, res) {
   var post=null;
   var aPost = Parse.Object.extend("Posts");
   var query = new Parse.Query(aPost);
@@ -50,6 +50,118 @@ app.get('/posts', function(req, res) {
           },error:function(error){console.log(error);}
         });
   });
+
+  app.get('/now', function(req, res) {
+    var post=null;
+    var aPost = Parse.Object.extend("Posts");
+    var query = new Parse.Query(aPost);
+    query.descending("from_length");
+    query.equalTo("voted",false);
+    //query.equalTo("voted_utopian",false);
+           query.find({
+            success: function(posts) {
+              if(posts!==undefined&&posts.length!==0)
+              {
+                  res.render('main.ejs', {posts: posts,active:0});
+                  Parse.Cloud.run('checkVote', null).then(function(v){});
+              }
+              else
+              {
+                console.log('Nothing to show');
+                res.render('main.ejs', {posts: [],active:0});
+              }
+            },error:function(error){console.log(error);}
+          });
+    });
+
+    app.get('/now', function(req, res) {
+      var post=null;
+      var aPost = Parse.Object.extend("Posts");
+      var query = new Parse.Query(aPost);
+      query.descending("from_length");
+      query.equalTo("voted",false);
+      //query.equalTo("voted_utopian",false);
+             query.find({
+              success: function(posts) {
+                if(posts!==undefined&&posts.length!==0)
+                {
+                    res.render('main.ejs', {posts: posts,active:0});
+                    Parse.Cloud.run('checkVote', null).then(function(v){});
+                }
+                else
+                {
+                  console.log('Nothing to show');
+                  res.render('main.ejs', {posts: [],active:0});
+                }
+              },error:function(error){console.log(error);}
+            });
+      });
+
+      app.get('/today', function(req, res) {
+        var post=null;
+        var aPost = Parse.Object.extend("Posts");
+        var query = new Parse.Query(aPost);
+        query.descending("from_length");
+        query.equalTo("voted",true);
+        query.greaterThan('createdAt',new Date(new Date()-24*3600000));
+               query.find({
+                success: function(posts) {
+                  if(posts!==undefined&&posts.length!==0)
+                  {
+                      res.render('main.ejs', {posts: posts,active:1});
+                  }
+                  else
+                  {
+                    console.log('Nothing to show');
+                    res.render('main.ejs', {posts: [],active:1});
+                  }
+                },error:function(error){console.log(error);}
+              });
+        });
+
+        app.get('/yesterday', function(req, res) {
+          var post=null;
+          var aPost = Parse.Object.extend("Posts");
+          var query = new Parse.Query(aPost);
+          query.descending("from_length");
+          query.equalTo("voted",true);
+          query.greaterThan('createdAt',new Date(new Date()-2*24*3600000));
+                 query.find({
+                  success: function(posts) {
+                    if(posts!==undefined&&posts.length!==0)
+                    {
+                        res.render('main.ejs', {posts: posts,active:2});
+                    }
+                    else
+                    {
+                      console.log('Nothing to show');
+                      res.render('main.ejs', {posts: [],active:2});
+                    }
+                  },error:function(error){console.log(error);}
+                });
+          });
+
+          app.get('/alltime', function(req, res) {
+            var post=null;
+            var aPost = Parse.Object.extend("Posts");
+            var query = new Parse.Query(aPost);
+            query.descending("from_length");
+            query.equalTo("voted",true);
+            //query.equalTo("voted_utopian",false);
+                   query.find({
+                    success: function(posts) {
+                      if(posts!==undefined&&posts.length!==0)
+                      {
+                          res.render('main.ejs', {posts: posts,active:3});
+                      }
+                      else
+                      {
+                        console.log('Nothing to show');
+                        res.render('main.ejs', {posts: [],active:3});
+                      }
+                    },error:function(error){console.log(error);}
+                  });
+            });
 
 
 // Serve the Parse API on the /parse URL prefix
