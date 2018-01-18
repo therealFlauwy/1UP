@@ -27,11 +27,13 @@
             </ul>
           </div>
           <div class="voting_period">
+            <% if(active===0){ %>
             <p>Voting period ends in:</p>
             <span class="voting_period">1h 24min 36s</span> <!-- TODO: Implement actual voting period!-->
             <span class="goes_to">1UP goes to @<span class="goes_to_user"><%= posts[0].get('author')%></span></span>
-          </div>
+          </div> <%}%>
         </div>
+        <% if(posts.length!==0){ %>
         <div class="top_post">
           <span class="nb_post">1</span>
           <img class="post_img"src="<%= posts[0].get('image')%>"/>
@@ -39,6 +41,7 @@
           <div class="post_author"><a href="https://utopian.io/<%= posts[0].get('author')%>"><%= posts[0].get('author')%> (<%= posts[0].get('reputation')%>)</a></div>
           <div class="post_title"><%= posts[0].get('title')%></div>
         </div>
+        <%}%>
       </div>
       <div class='other_posts'>
         <div class="post">
@@ -70,6 +73,63 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/parse/1.11.0/parse.min.js"></script>
     <script>
     $('.menu ul li a').eq(<%=active%>).addClass('active');
+
+      steem.config.set('websocket','wss://steemd.privex.io');
+
+      console.log(<%=active%>);
+      if(<%=active%>==0)
+      {
+        steem.api.getAccounts(['utopian-1up'], function(err, result) {
+        console.log(err, result);
+        var vp=getVotingPower(result["0"]);
+        var timeBeforeFull=getTimeBeforeFull(vp);
+        startTicker(timeBeforeFull);
+        console.log(vp,timeBeforeFull);
+        });
+
+      }
+
+    function getVotingPower(acc) {
+      var secondsago = (new Date - new Date(acc.last_vote_time + "Z")) / 1000;
+      vpow = acc.voting_power + (10000 * secondsago / 432000);
+      vpow = Math.min(vpow / 100, 100).toFixed(2);
+      return vpow;
+    }
+
+    function getTimeBeforeFull(vp)
+    {
+      var gap=100-vp;
+      return gap*60*60*1.2;
+
+    }
+    function startTicker(timeBeforeFull)
+    {
+      var time=timeBeforeFull;
+      $('.voting_period').html(sToTime(time));
+      var interval=setInterval(function(){
+        time--;
+        if(time>=0){
+          $('.voting_period').html(sToTime(time));
+        }
+        else
+          clearInterval(interval);
+
+      }, 1000);
+    }
+
+    function sToTime(duration) {
+    var  seconds = parseInt((duration%60))
+        , minutes = parseInt((duration/60)%60)
+        , hours = parseInt((duration/(60*60))%24);
+
+    hours = (hours < 10) ? "0" + hours : hours;
+    minutes = (minutes < 10) ? "0" + minutes : minutes;
+    seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+    return hours + " h " + minutes + " m " + seconds +" s";
+}
+
+
 /*$( document ).ready(function() {
     $('.posts li').each(function(i){
       steem.config.set('websocket','wss://steemd.privex.io');
