@@ -15,76 +15,31 @@ var api = new ParseServer({
   databaseURI: process.env.MONGODB_URI || 'mongodb://localhost:27017/dev',
   cloud: process.env.CLOUD_CODE_MAIN || __dirname + '/cloud/main.js',
   appId: process.env.APP_ID || 'myAppId',
-  masterKey: process.env.MASTER_KEY || '', //Add your master key here. Keep it secret!
-  serverURL: serverURL+'/parse',  // Don't forget to change to https if needed
+  masterKey: process.env.MASTER_KEY || '',
+  serverURL: serverURL+'/parse',
 
 });
-// Client-keys like the javascript key or the .NET key are not necessary with parse-server
-// If you wish you require them, you can set them as options in the initialization above:
-// javascriptKey, restAPIKey, dotNetKey, clientKey
 
 var app = express();
 
-// Serve static assets from the /public folder
 app.use('/public', express.static(path.join(__dirname, '/public')));
 //app.use(favicon(__dirname + '/public/images/favicon.ico'));
-app.get('/now', function(req, res) {
-  var post=null;
-  var aPost = Parse.Object.extend("Posts");
-  var query = new Parse.Query(aPost);
-  query.descending("from_length");
-  query.equalTo("voted",false);
-  //query.equalTo("voted_utopian",false);
-         query.find({
-          success: function(posts) {
-            if(posts!==undefined&&posts.length!==0)
-            {
-                res.render('main.ejs', {posts: posts,active:0});
-                Parse.Cloud.run('checkVote', null).then(function(v){});
-            }
-            else
-            {
-              console.log('Nothing to show');
-              res.render('main.ejs', {posts: [],active:0});
-            }
-          },error:function(error){console.log(error);}
-        });
-  });
 
-  app.get('/now', function(req, res) {
-    var post=null;
-    var aPost = Parse.Object.extend("Posts");
-    var query = new Parse.Query(aPost);
-    query.descending("from_length");
-    query.equalTo("voted",false);
-    //query.equalTo("voted_utopian",false);
-           query.find({
-            success: function(posts) {
-              if(posts!==undefined&&posts.length!==0)
-              {
-                  res.render('main.ejs', {posts: posts,active:0});
-                  Parse.Cloud.run('checkVote', null).then(function(v){});
-              }
-              else
-              {
-                console.log('Nothing to show');
-                res.render('main.ejs', {posts: [],active:0});
-              }
-            },error:function(error){console.log(error);}
-          });
-    });
 
     app.get('/now', function(req, res) {
       var post=null;
       var aPost = Parse.Object.extend("Posts");
       var query = new Parse.Query(aPost);
+
       query.descending("from_length");
       query.equalTo("voted",false);
       //query.equalTo("voted_utopian",false);
-             query.find({
+      query.limit(10);
+      query.find({
               success: function(posts) {
                 if(posts!==undefined&&posts.length!==0)
                 {
+                  console.log('a',posts.length);
                     res.render('main.ejs', {posts: posts,active:0});
                     Parse.Cloud.run('checkVote', null).then(function(v){});
                 }
@@ -103,6 +58,7 @@ app.get('/now', function(req, res) {
         var query = new Parse.Query(aPost);
         query.descending("from_length");
         query.equalTo("voted",true);
+        query.limit(10);
         query.greaterThan('createdAt',new Date(new Date()-24*3600000));
                query.find({
                 success: function(posts) {
@@ -125,6 +81,7 @@ app.get('/now', function(req, res) {
           var query = new Parse.Query(aPost);
           query.descending("from_length");
           query.equalTo("voted",true);
+          query.limit(10);
           query.greaterThan('createdAt',new Date(new Date()-2*24*3600000));
                  query.find({
                   success: function(posts) {
@@ -147,6 +104,7 @@ app.get('/now', function(req, res) {
             var query = new Parse.Query(aPost);
             query.descending("from_length");
             query.equalTo("voted",true);
+            query.limit(10);
             //query.equalTo("voted_utopian",false);
                    query.find({
                     success: function(posts) {
@@ -170,7 +128,7 @@ app.use(mountPath, api);
 
 // Parse Server plays nicely with the rest of your web routes
 app.get('/', function(req, res) {
-  res.status(200).send('Backend for Utopian 1UP!');
+  res.redirect('/now');
 });
 
 // There will be a test page available on the /test path of your server url
@@ -179,7 +137,7 @@ app.get('/', function(req, res) {
 var port = process.env.PORT || 1337;
 var httpServer = require('http').createServer(app);
 httpServer.listen(port, function() {
-    console.log('parse-server-example running on port ' + port + '.');
+    console.log('Utopian 1UP running on port ' + port + '.');
 });
 
 // This will enable the Live Query real-time server

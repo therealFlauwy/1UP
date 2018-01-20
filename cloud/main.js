@@ -9,6 +9,38 @@ let sc2=require('sc2-sdk');
     scope: ['vote']
 });
 
+function getVotingPower(acc) {
+  var secondsago = (new Date - new Date(acc.last_vote_time + "Z")) / 1000;
+  vpow = acc.voting_power + (10000 * secondsago / 432000);
+  vpow = Math.min(vpow / 100, 100).toFixed(2);
+  return vpow;
+}
+
+Parse.Cloud.define("botVote", function(request, response) {
+  var aPost = Parse.Object.extend("Posts");
+  var query = new Parse.Query(aPost);
+  var post_list=[];
+  steem.api.getAccounts(['utopian-1up'], function(err, result) {
+  console.log(err, result);
+  var vp=getVotingPower(result["0"]);
+  if(vp==100){
+
+  query.descending("from_length");
+  query.equalTo("voted",false);
+         query.first({
+          success: function(post) {
+              if(post!==undefined&&post.length!==0)
+              {
+                 //TODO : Implement vote WIF or SC2 to discuss with Flauwy
+
+              }
+            }
+          });
+          response.success('yea');
+        }
+        });
+});
+
 Parse.Cloud.define("checkVote", function(request, response) {
   var aPost = Parse.Object.extend("Posts");
   var query = new Parse.Query(aPost);
@@ -110,6 +142,7 @@ Parse.Cloud.beforeSave('Posts', function (request, response) {
                  content.then(result=> {
                    request.object.set('title', result.title);
                    request.object.set('author', result.author);
+                   request.object.set('permlink', result.permlink);
                    request.object.set('reputation',steem.formatter.reputation(result.author_reputation));
                    request.object.set('voted', false);
                    request.object.set('voted_utopian', false);
