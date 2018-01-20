@@ -3,61 +3,86 @@
 <html lang="en">
   <head>
     <title>Utopian 1UP</title>
+		<meta name="theme-color" content="#993493">
     <link href="/public/assets/css/style.css" rel="stylesheet">
+    <link href="/public/assets/css/icon-font.css" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700" rel="stylesheet">
   </head>
 
   <body>
     <div class="container">
       <div class="header">
-        <img id="1UP-logo" src="/public/assets/images/1UP-logo.png">
-        <ul>
-        <li><a href="https://steemit.com/utopian-io/@flauwy/steemy-ep-46-how-to-create-and-follow-a-curation-trail-with-steemauto" target="_blank">How to vote?</a></li>
-          <li><a href="https://steemit.com/curation/@flauwy/utopian-1up-a-lucrative-steem-trail-for-the-best-daily-utopian-contributions" target="_blank">About</a></li>
-          <li><a href="https://github.com/therealFlauwy/1UP" target="_blank">1UP on Github</a></li>
-        </ul>
+				<div class="wrapper">
+					<img class="logo" src="/public/assets/images/logo.svg" alt="1UP logo" title="1UP">
+	        <ul class="menu-main">
+	        	<li><a href="https://steemit.com/utopian-io/@flauwy/steemy-ep-46-how-to-create-and-follow-a-curation-trail-with-steemauto" target="_blank" class="item">How to vote?</a></li>
+	          <li><a href="https://steemit.com/curation/@flauwy/utopian-1up-a-lucrative-steem-trail-for-the-best-daily-utopian-contributions" target="_blank" class="item">About</a></li>
+	          <li><a href="https://github.com/therealFlauwy/1UP" target="_blank" class="item icon-github" title="1UP on Github"></a></li>
+	        </ul>
+				</div>
       </div>
-      <div class="top">
-        <div class="top_left">
-          <div class="menu">
-            <ul>
-              <li><a href="/now">Now</a></li>
-              <li><a href="/today">Today</a></li>
-              <li><a href="/yesterday">Yesterday</a></li>
-              <li><a href="/alltime">All time</a></li>
-            </ul>
-          </div>
-          <div class="voting_period">
-            <% if(active===0){ %>
-            <p>Voting period ends in:</p>
-            <span class="voting_period">1h 24min 36s</span> <!-- TODO: Implement actual voting period!-->
-            <span class="goes_to">1UP goes to @<span class="goes_to_user"><%= posts[0].get('author')%></span></span>
-          </div> <%}%>
+			<div class="top">
+        <div class="wrapper">
+					<div class="top_left">
+	          <div class="menu">
+	            <ul class="menu-charts">
+	              <li><a href="/now" class="item">Now</a></li>
+	              <li><a href="/today" class="item">Today</a></li>
+	              <li><a href="/yesterday" class="item">Yesterday</a></li>
+	              <li><a href="/alltime" class="item">Alltime</a></li>
+	            </ul>
+	          </div>
+	          <div class="voting_period_wrapper">
+	            <% if(active===0){ %>
+	            <p class="h2">Voting period ends in:</p>
+	            <div class="voting_period">
+								<span class="skeleton">
+									00<span class='unit'>h</span> 00<span class='unit'>m</span> 00<span class='unit'>s</span>
+								</span>
+							</div> <!-- TODO: Implement actual voting period!-->
+	            <div class="goes_to">1UP goes to <a href="https://utopian.io/<%= posts[0].get('author')%>" class="goes_to_user" target="_blank" title="Utopian profile">@<%= posts[0].get('author')%></a></div>
+	          </div> <%}%>
+	        </div>
+	        <% if(posts.length!==0){ %>
+	        <div class="post_default top_post">
+	          <span class="nb_post">1</span>
+		          <div class="post_img" style="background-image: url(<%= posts[0].get('image')%>)">
+								<div class="post_links">
+									 <!-- TODO: Add links to each -->
+									<a href="https://steemit.com/" class="post_link link-steemit icon-steemit" target="_blank" title="Open on Steemit"></a>
+									<a href="https://utopian.io/" class="post_link link-utopian icon-utopian" target="_blank" title="Open on Utopian"></a>
+									<a href="https://busy.org/" class="post_link link-busy icon-busy" target="_blank" title="Open on Busy"></a>
+								</div>
+								<div class="button-upvote 1UP_votes" title="Give 1UP"><span class="icon icon-1up"></span><span class="votes_amount"><%= posts[0].get('from_length')%></span></div>
+							</div>
+	          <div class="post_author"><a href="https://utopian.io/<%= posts[0].get('author')%>" target="_blank"><%= posts[0].get('author')%> <%= /*posts[0].get('reputation')*/%></a></div>
+	          <a href="https://utopian.io/" class="post_title" title="<%= posts[0].get('title')%>"><%= posts[0].get('title')%></a> <!-- TODO: Add link to post -->
+	        </div>
+	        <%}%>
         </div>
-        <% if(posts.length!==0){ %>
-        <div class="top_post">
-          <span class="nb_post">1</span>
-          <img class="post_img"src="<%= posts[0].get('image')%>"/>
-          <div class="1UP_votes"><img src="/public/assets/images/1UP-logo.png"/><%= posts[0].get('from_length')%></div>
-          <div class="post_author"><a href="https://utopian.io/<%= posts[0].get('author')%>"><%= posts[0].get('author')%> (<%= posts[0].get('reputation')%>)</a></div>
-          <div class="post_title"><%= posts[0].get('title')%></div>
-        </div>
-        <%}%>
       </div>
+
       <div class='other_posts'>
-        <div class="post">
-       <%
-       posts.forEach(function(post, index) { if(index!==0){%>
-         <span class="nb_post"><%=index+1%></span>
-         <img class="post_img"src="<%= posts[index].get('image')%>"/>
-         <div class="1UP_votes"><img src="/public/assets/images/1UP-logo.png"/><%= posts[index].get('from_length')%></div>
-         <div class="post_author"><a href="https://utopian.io/<%= posts[index].get('author')%>"><%= posts[index].get('author')%></a> (<%= posts[index].get('reputation')%>)</div>
-         <div class="post_title"><%= posts[index].get('title')%></div>
+       	<% posts.forEach(function(post, index) { if(index!==0){%>
+				<div class="post_default post">
 
-       <% }}); %>
-     </div>
+         	<span class="nb_post"><%=index+1%></span>
+					 	<div class="post_img" style="background-image: url(<%= posts[index].get('image')%>)">
+							<div class="post_links">
+								<!-- TODO: Add links to each -->
+								<a href="https://steemit.com/" class="post_link link-steemit icon-steemit" target="_blank" title="Open on Steemit"></a>
+								<a href="https://utopian.io/" class="post_link link-utopian icon-utopian" target="_blank" title="Open on Utopian"></a>
+								<a href="https://busy.org/" class="post_link link-busy icon-busy" target="_blank" title="Open on Busy"></a>
+						 	</div>
+							<div class="button-upvote 1UP_votes" title="Give 1UP"><span class="icon icon-1up"></span><span class="votes_amount"><%= posts[index].get('from_length')%></span></div>
+						</div>
+	        <div class="post_author"><a href="https://utopian.io/<%= posts[index].get('author')%>" target="_blank"><%= posts[index].get('author')%></a> <%= /*posts[index].get('reputation')*/%></div>
+	        <a href="https://utopian.io/" class="post_title" title="<%= posts[index].get('title')%>"><%= posts[index].get('title')%></a> <!-- TODO: Add link to post -->
+				</div>
+	      <% }}); %>
+
        <% if(posts.length<=1){%>
-       <p>Nothing to show, sorry ;p</p><% } %>
-
+       <p class="h2 empty">Nothing to show, sorry ;p</p><% } %>
 
       </div>
 
@@ -126,7 +151,7 @@
     minutes = (minutes < 10) ? "0" + minutes : minutes;
     seconds = (seconds < 10) ? "0" + seconds : seconds;
 
-    return hours + " h " + minutes + " m " + seconds +" s";
+    return hours + "<span class='unit'>h</span> " + minutes + "<span class='unit'>m</span> " + seconds +"<span class='unit'>s</span>";
 }
 
 

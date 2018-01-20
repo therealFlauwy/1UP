@@ -1,0 +1,33 @@
+
+.button-upvote
+	position: absolute
+	bottom: -20px
+	right: 20px
+	height: 40px
+	width: 102px
+	border-radius: 20px
+	+buttonGrad
+	color: #fff
+	box-shadow: 0 3px 10px rgba(0,0,0,.3)
+	transition: all .3s
+	z-index: 2
+	cursor: pointer
+
+	.icon
+		position: absolute
+		top: 12px
+		left: 17px
+		font-size: 16px
+
+	.votes_amount
+		position: absolute
+		top: 10px
+		left: 60px
+		right: 10px
+		line-height: 1.2
+		text-align: center
+		font-size: 16px
+
+	&:hover
+		transform: translateY(-2px)
+		box-shadow: 0 6px 10px rgba(153, 0, 153, 0.4)
