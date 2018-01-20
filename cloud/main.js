@@ -110,6 +110,7 @@ Parse.Cloud.beforeSave('Posts', function (request, response) {
                  content.then(result=> {
                    request.object.set('title', result.title);
                    request.object.set('author', result.author);
+                   request.object.set('permlink', result.permlink);
                    request.object.set('reputation',steem.formatter.reputation(result.author_reputation));
                    request.object.set('voted', false);
                    request.object.set('voted_utopian', false);
