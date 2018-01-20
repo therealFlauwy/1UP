@@ -49,9 +49,9 @@
 		          <div class="post_img" style="background-image: url(<%= posts[0].get('image')%>)">
 								<div class="post_links">
 									 <!-- TODO: Add links to each -->
-									<a href="https://steemit.com/<%= posts[0].get('permlink') %>" class="post_link link-steemit icon-steemit" target="_blank" title="Open on Steemit"></a>
-									<a href="https://utopian.io/<%= posts[0].get('permlink') %>" class="post_link link-utopian icon-utopian" target="_blank" title="Open on Utopian"></a>
-									<a href="https://busy.org/<%= posts[0].get('permlink') %>" class="post_link link-busy icon-busy" target="_blank" title="Open on Busy"></a>
+									<a href="https://steemit.com/utopian-io/@<%= posts[0].get('author')%>/<%=posts[0].get('permlink') %>" class="post_link link-steemit icon-steemit" target="_blank" title="Open on Steemit"></a>
+									<a href="https://utopian.io/utopian-io/@<%= posts[0].get('author')%>/<%=posts[0].get('permlink') %>" class="post_link link-utopian icon-utopian" target="_blank" title="Open on Utopian"></a>
+									<a href="https://busy.org/utopian-io/@<%= posts[0].get('author')%>/<%=posts[0].get('permlink') %>" class="post_link link-busy icon-busy" target="_blank" title="Open on Busy"></a>
 								</div>
 								<div class="button-upvote 1UP_votes" title="Give 1UP"><span class="icon icon-1up"></span><span class="votes_amount"><%= posts[0].get('from_length')%></span></div>
 							</div>
@@ -70,9 +70,9 @@
 					 	<div class="post_img" style="background-image: url(<%= posts[index].get('image')%>)">
 							<div class="post_links">
 								<!-- TODO: Add links to each -->
-								<a href="https://steemit.com/<%= post.get('permlink') %>" class="post_link link-steemit icon-steemit" target="_blank" title="Open on Steemit"></a>
-								<a href="https://utopian.io/<%= post.get('permlink') %>" class="post_link link-utopian icon-utopian" target="_blank" title="Open on Utopian"></a>
-								<a href="https://busy.org/<%= post.get('permlink') %>" class="post_link link-busy icon-busy" target="_blank" title="Open on Busy"></a>
+								<a href="https://utopian.io/utopian-io/@<%= post.get('author')%>/<%=post.get('permlink') %>" class="post_link link-utopian icon-utopian" target="_blank" title="Open on Utopian"></a>
+                <a href="https://steemit.com/utopian-io/@<%= post.get('author')%>/<%=post.get('permlink') %>" class="post_link link-steemit icon-steemit" target="_blank" title="Open on Steemit"></a>
+								<a href="https://busy.org/utopian-io/@<%= post.get('author')%>/<%=post.get('permlink') %>" class="post_link link-busy icon-busy" target="_blank" title="Open on Busy"></a>
 						 	</div>
 							<div class="button-upvote 1UP_votes" title="Give 1UP"><span class="icon icon-1up"></span><span class="votes_amount"><%= posts[index].get('from_length')%></span></div>
 						</div>
