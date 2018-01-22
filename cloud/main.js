@@ -16,7 +16,7 @@ function getVotingPower(acc) {
   return vpow;
 }
 
-Parse.Cloud.define("botVote", function(request, response) {
+Parse.Cloud.job("botVote", function(request, response) {
   const WIF=process.env.WIF;
   var aPost = Parse.Object.extend("Posts");
   var query = new Parse.Query(aPost);
@@ -32,19 +32,22 @@ Parse.Cloud.define("botVote", function(request, response) {
           success: function(post) {
               if(post!==undefined&&post.length!==0)
               {
-                 //TODO : Implement vote WIF or SC2 to discuss with Flauwy
-                 console.log('Voting for', post);
-                 steem.broadcast.vote(STOO, 'stoodkev', post.author, post.permlink, 100, function(err, result) {
+                 console.log('Voting for', post.get('title'),' of @',post.get('author'));
+                 steem.broadcast.vote(WIF, 'utopian-1up', post.get('author'), post.get('permlink'), 100, function(err, result) {
 	                   console.log(err, result);
+                     response.success('Vote done');
                 });
-
               }
+              else
+                response.error('No post to vote!');
             }
+            ,error:function(err){console.log(err); response.error('Something went wrong!');}
           });
-          response.success('yea');
         }
-      else
+      else{
         console.log('Still resting!');
+        response.error('Will vote later');
+      }
         });
 });
 
@@ -79,6 +82,7 @@ Parse.Cloud.define("checkVote", function(request, response) {
                 }
               }
             }
+            ,error:function(err){console.log(err);}
           });
           response.success('yea');
 });
@@ -147,6 +151,7 @@ Parse.Cloud.beforeSave('Posts', function (request, response) {
               {
                 const content= steem.api.getContentAsync(request.object.get('url').split('@')[1].split('/')[0], request.object.get('url').split('/')[request.object.get('url').split('/').length-1]);
                  content.then(result=> {
+                   //console.log(result);
                    request.object.set('title', result.title);
                    request.object.set('author', result.author);
                    request.object.set('permlink', result.permlink);
@@ -154,8 +159,10 @@ Parse.Cloud.beforeSave('Posts', function (request, response) {
                    request.object.set('voted', false);
                    request.object.set('voted_utopian', false);
                    request.object.set('from_length', 1);
-
-                   request.object.set('image', JSON.parse(result.json_metadata).image[0]);
+                   if(JSON.parse(result.json_metadata).image!==undefined)
+                    request.object.set('image', JSON.parse(result.json_metadata).image[0]);
+                   else
+                    request.object.set('image', '/public/assets/images/bg-1920.png');
 
 
                    response.success();
