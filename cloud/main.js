@@ -17,12 +17,13 @@ function getVotingPower(acc) {
 }
 
 Parse.Cloud.define("botVote", function(request, response) {
+  const WIF=process.env.WIF;
   var aPost = Parse.Object.extend("Posts");
   var query = new Parse.Query(aPost);
   var post_list=[];
   steem.api.getAccounts(['utopian-1up'], function(err, result) {
-  console.log(err, result);
   var vp=getVotingPower(result["0"]);
+  console.log('voting power',vp);
   if(vp==100){
 
   query.descending("from_length");
@@ -32,12 +33,18 @@ Parse.Cloud.define("botVote", function(request, response) {
               if(post!==undefined&&post.length!==0)
               {
                  //TODO : Implement vote WIF or SC2 to discuss with Flauwy
+                 console.log('Voting for', post);
+                 steem.broadcast.vote(STOO, 'stoodkev', post.author, post.permlink, 100, function(err, result) {
+	                   console.log(err, result);
+                });
 
               }
             }
           });
           response.success('yea');
         }
+      else
+        console.log('Still resting!');
         });
 });
 
