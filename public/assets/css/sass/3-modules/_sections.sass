@@ -1,0 +1,355 @@
+
+.container
+
+.top
+	margin: 20px 0
+	+horizontalGrad
+
+	.wrapper
+		display: flex
+		justify-content: space-between
+		max-width: 960px
+		margin: 0 auto
+
+		.top_left
+			width: 50%
+
+@media screen and (max-width: 1024px)
+
+		.top
+			.wrapper
+				padding: 0 20px
+
+@media screen and (max-width: 640px)
+
+	.top
+		height: auto
+		margin: 0
+		padding-bottom: 20px
+
+		.wrapper
+			display: block
+			padding: 0
+
+			.top_left
+				width: 100%
+
+
+.menu-charts
+	position: relative
+	left: 0
+	display: flex
+	justify-content: center
+	margin: 0
+	padding-right: 20px
+	list-style: none
+
+	li
+		.item
+			position: relative
+			display: inline-block
+			padding: 0 15px
+			line-height: 60px
+			text-align: center
+			color: rgba(255,255,255,.5)
+			font-size: 14px
+			transition: all .3s
+
+			&:hover
+				background: rgba(255,255,255,.1)
+
+			&.active
+				color: #fff
+
+				&::after
+					content: ''
+					position: absolute
+					bottom: 13px
+					left: 50%
+					transform: translateX(-2px)
+					width: 3px
+					height: 3px
+					background: #fff
+
+@media screen and (max-width: 1024px)
+
+	.menu-charts
+		padding: 0 10px
+
+		li
+			.item
+				font-size: 13px
+
+.voting_period_wrapper
+	padding-right: 20px
+	color: #fff
+	text-align: center
+
+	.h2
+		padding-top: 40px
+
+.voting_period
+	display: block
+	font-size: 25px
+	font-weight: 700
+
+	.skeleton
+		opacity: .6
+
+	.unit
+		font-weight: 400
+		font-size: .75em
+		padding-left: 5px
+
+.goes_to
+	margin-top: 30px
+
+	.goes_to_user
+		color: #fff
+		opacity: .6
+
+		&:hover
+			opacity: 1
+
+.other_posts
+	display: flex
+	flex-wrap: wrap
+	max-width: 960px
+	margin: 0 auto
+	padding-top: 60px
+
+	.empty-state
+		width: 100%
+		padding-bottom: 80px
+		background: url('../images/empty-state-arrow.png') top center no-repeat
+		text-align: center
+
+@media screen and (max-width: 1024px)
+
+	.other_posts
+		padding: 60px 20px 40px 20px
+
+@media screen and (max-width: 640px)
+
+	.other_posts
+		padding-top: 30px
+		padding-left: 0px
+		padding-right: 0px
+
+		.empty-state
+			background: none
+			padding: 0 20px
+			padding-bottom: 40px
+
+			.h2
+				font-size: 22px
+
+.post_default
+	position: relative
+	background: #fff
+	border: 1px solid #ddd
+
+	&.post
+		width: 31.9%
+		margin: 0 20px 20px 0
+
+		&:nth-child(3n+3)
+			margin-right: 0
+
+	.nb_post
+		position: absolute
+		top: -10px
+		left: -10px
+		width: 35px
+		height: 35px
+		border-radius: 50%
+		background: #fff
+		text-align: center
+		color: $blue
+		font-size: 18px
+		font-weight: 500
+		box-shadow: 0 7px 24px -4px rgba(0,0,0,0.5)
+		z-index: 2
+
+	.post_img
+		position: relative
+		padding-top: 56.25%
+		background-position: center center
+		background-size: cover
+
+	.post_author
+		padding: 15px 20px
+		padding-bottom: 0
+		font-size: 14px
+		font-weight: 500
+
+	.post_title
+		display: block
+		max-height: 120px
+		color: $black
+		padding: 10px 20px 0 20px
+		margin-bottom: 20px
+		line-height: 1.2
+		font-weight: 500
+		font-size: 16px
+		overflow: hidden
+
+		&:hover
+			color: $pink
+
+	/* Post links show up on hover */
+
+	.post_links
+		position: absolute
+		top: 0
+		bottom: 0
+		left: 0
+		right: 0
+		display: flex
+		justify-content: center
+		align-items: center
+		background: rgba(255,255,255,.9)
+		opacity: 0
+		transition: all .4s
+		z-index: 1
+
+		.post_link
+			width: 50px
+			height: 50px
+			border: 2px solid #C2CCD3
+			line-height: 47px
+			border-radius: 50%
+			margin: 5px
+			text-align: center
+			font-size: 1.1em
+			opacity: 0
+			transform: scale(.8)
+			transition: all .3s
+
+			&:hover
+				color: #fff
+
+		.link-steemit
+			color: #06D6A9
+
+			&:hover
+				border-color: #06D6A9
+				background: #06D6A9
+				box-shadow: 0 6px 10px rgba(6, 214, 169, 0.33)
+
+		.link-utopian
+			color: $purple
+
+			&:hover
+				border-color: $purple
+				background: $purple
+				box-shadow: 0 6px 10px rgba(153, 52, 147, 0.37)
+
+		.icon-utopian:before
+			margin-left: -3px
+
+		.link-busy
+			color: #4757B2
+
+			&:hover
+				border-color: #4757B2
+				background: #4757B2
+				box-shadow: 0 6px 10px rgba(71, 87, 178, 0.38)
+
+	&:hover .post_links
+		opacity: 1
+
+		.post_link
+			opacity: 1
+			transform: scale(1)
+
+
+@media screen and (max-width: 1024px)
+
+	.post_default
+		&.post
+			width: 48.3%
+			margin: 0 20px 20px 0
+
+			&:nth-child(3n+3)
+				margin-right: 20px
+
+			&:nth-child(2n+2)
+				margin-right: 0
+
+		.nb_post
+			left: 10px
+
+@media screen and (max-width: 640px)
+
+	.post_default
+		&.post
+			width: 100%
+			margin: 0
+			margin-bottom: 30px
+
+/* Just top post */
+
+.top_post
+	min-height: 315px
+	max-width: 48%
+	margin-top: -20px
+	margin-bottom: -20px
+	border: 0
+	box-shadow: 0 3px 20px rgba(0,0,0,.2)
+
+	.post_title
+		font-size: 18px
+		margin-bottom: 0
+		height: 60px
+		font-size: 18px
+		line-height: 1.2
+		white-space: nowrap
+		text-overflow: ellipsis
+
+@media screen and (min-width: 1024px)
+
+	.top_post
+		.nb_post
+			width: 35px
+			height: 35px
+			line-height: 35px
+			font-size: 18px
+
+
+@media screen and (max-width: 1024px)
+
+	.top_post
+		margin-top: 20px
+
+		.post_title
+			font-size: 16px
+			overflow: auto
+			white-space: normal
+			text-overflow: inherit
+			height: auto
+			padding-bottom: 20px
+
+@media screen and (max-width: 640px)
+
+	.top_post
+		max-width: 100%
+		margin: 0
+
+		.nb_post
+			left: 10px
+
+	.voting_period_wrapper
+		padding: 0 10px
+
+		.h2
+			padding-top: 10px
+			font-size: 15px
+
+		.voting_period
+			font-size: 19px
+			padding-top: 5px
+
+		.goes_to
+			margin-top: 15px
+			margin-bottom: 30px

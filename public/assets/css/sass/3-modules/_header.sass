@@ -1,0 +1,128 @@
+
+.header
+	.wrapper
+		position: relative
+		max-width: 960px
+		height: 130px
+		margin: 0 auto
+
+@media screen and (max-width: 640px)
+	.header
+		.wrapper
+			height: 110px
+
+/* Main menu styles */
+
+.menu-main
+	position: absolute
+	top: 50%
+	right: 0
+	transform: translateY(-50%)
+	display: flex
+
+	li
+		display: inline-block
+		margin: 0
+
+		.item
+			padding: 30px 15px
+			line-height: 80px
+			text-align: center
+			font-size: 15px
+
+		.icon-github
+			font-size: 1.1em
+
+@media screen and (max-width: 1024px)
+
+	.menu-main
+		right: 5px
+
+@media screen and (max-width: 640px)
+
+	.menu-main
+		top: 0
+		left: 0
+		transform: translateY(-100%)
+		padding-top: 60px
+		display: block
+		background: #fff
+		z-index: 3
+		transition: all .5s
+
+		li
+			display: block
+
+			.item
+				display: block
+				font-size: 18px
+				text-align: center
+				line-height: 60px
+				padding: 0
+
+	.open-menu
+		.menu-main
+			transform: translateY(0)
+			box-shadow: 0 6px 15px rgba(0,0,0,.2)
+
+.menu-main-button
+	position: absolute
+	top: 0
+	right: 0
+	width: 70px
+	height: 60px
+	z-index: 4
+
+	.bar
+		position: absolute
+		right: 17px
+		width: 35px
+		height: 2px
+		+horizontalGrad
+		transition: top .3s .3s, transform .3s 0s
+
+	.bar-1
+		top: 19px
+
+	.bar-2
+		top: 29px
+		transition: all .3s
+
+	.bar-3
+		top: 39px
+
+
+.open-menu
+	.menu-main-button
+		.bar-1
+			top: 29px
+			transform: rotate(45deg)
+			transition: top .3s 0s, transform .3s .3s
+
+		.bar-2
+			opacity: 0
+
+		.bar-3
+			top: 29px
+			transform: rotate(-45deg)
+			transition: top .3s 0s, transform .3s .3s
+
+@media screen and (min-width: 640px)
+	.menu-main-button
+		display: none
+
+/* Logo styles */
+
+.logo
+	position: absolute
+	top: 29px
+	left: 0
+
+@media screen and (max-width: 1024px)
+	.logo
+		left: 25px
+
+@media screen and (max-width: 640px)
+	.logo
+		top: 22px
+		width: 67px
