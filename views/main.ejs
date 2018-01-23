@@ -32,8 +32,8 @@
 	              <li><a href="/alltime" class="item">Alltime</a></li>
 	            </ul>
 	          </div>
-	          <div class="voting_period_wrapper">
-	            <% if(active===0){ %>
+						<% if(active===0){ %>
+						<div class="voting_period_wrapper">
 	            <p class="h2">Voting period ends in:</p>
 	            <div class="voting_period">
 								<span class="skeleton">
@@ -48,7 +48,6 @@
 	          <span class="nb_post">1</span>
 		          <div class="post_img" style="background-image: url(<%= posts[0].get('image')%>)">
 								<div class="post_links">
-									 <!-- TODO: Add links to each -->
 									<a href="https://steemit.com/utopian-io/@<%= posts[0].get('author')%>/<%=posts[0].get('permlink') %>" class="post_link link-steemit icon-steemit" target="_blank" title="Open on Steemit"></a>
 									<a href="https://utopian.io/utopian-io/@<%= posts[0].get('author')%>/<%=posts[0].get('permlink') %>" class="post_link link-utopian icon-utopian" target="_blank" title="Open on Utopian"></a>
 									<a href="https://busy.org/utopian-io/@<%= posts[0].get('author')%>/<%=posts[0].get('permlink') %>" class="post_link link-busy icon-busy" target="_blank" title="Open on Busy"></a>
@@ -56,7 +55,7 @@
 								<div class="button-upvote 1UP_votes" ><span class="icon icon-1up"></span><span class="votes_amount"><%= posts[0].get('from_length')%></span></div>
 							</div>
 	          <div class="post_author"><a href="https://utopian.io/<%= posts[0].get('author')%>" target="_blank"><%= posts[0].get('author')%> <%= /*posts[0].get('reputation')*/%></a></div>
-	          <a href="https://utopian.io/" class="post_title" title="<%= posts[0].get('title')%>"><%= posts[0].get('title')%></a> <!-- TODO: Add link to post -->
+	          <a href="https://utopian.io/utopian-io/@<%= posts[0].get('author')%>/<%=posts[0].get('permlink') %>" class="post_title" title="<%= posts[0].get('title')%>" target="_blank"><%= posts[0].get('title')%></a> <!-- TODO: Add link to post -->
 	        </div>
 	        <%}%>
         </div>
@@ -69,7 +68,7 @@
          	<span class="nb_post"><%=index+1%></span>
 					 	<div class="post_img" style="background-image: url(<%= posts[index].get('image')%>)">
 							<div class="post_links">
-								<!-- TODO: Add links to each -->
+								<!-- TODO: These links dont work -->
 								<a href="https://utopian.io/utopian-io/@<%= post.get('author')%>/<%=post.get('permlink') %>" class="post_link link-utopian icon-utopian" target="_blank" title="Open on Utopian"></a>
                 <a href="https://steemit.com/utopian-io/@<%= post.get('author')%>/<%=post.get('permlink') %>" class="post_link link-steemit icon-steemit" target="_blank" title="Open on Steemit"></a>
 								<a href="https://busy.org/utopian-io/@<%= post.get('author')%>/<%=post.get('permlink') %>" class="post_link link-busy icon-busy" target="_blank" title="Open on Busy"></a>
@@ -77,18 +76,25 @@
 							<div class="button-upvote 1UP_votes" ><span class="icon icon-1up"></span><span class="votes_amount"><%= posts[index].get('from_length')%></span></div>
 						</div>
 	        <div class="post_author"><a href="https://utopian.io/<%= posts[index].get('author')%>" target="_blank"><%= posts[index].get('author')%></a> <%= /*posts[index].get('reputation')*/%></div>
-	        <a href="https://utopian.io/" class="post_title" title="<%= posts[index].get('title')%>"><%= posts[index].get('title')%></a> <!-- TODO: Add link to post -->
+	        <a href="https://utopian.io/utopian-io/@<%= posts[index].get('author')%>/<%=posts[0].get('permlink') %>" class="post_title" title="<%= posts[index].get('title')%>" target="_blank"><%= posts[index].get('title')%></a> <!-- TODO: Add link to post -->
 				</div>
 	      <% }}); %>
 
-       <% if(posts.length<=1){%>
-       <p class="h2 empty">Nothing to show, sorry ;p</p><% } %>
+				<% if(posts.length<=1){%>
+ 				 <div class="empty-state">
+ 					 <br>
+ 					 <p class="h2">We don’t have anything<br> to show yet</p>
+ 					 <br>
+ 					 <p>Switch to "Now" and vote to change that.</p>
+ 				 </div>
+ 			 <% } %>
 
       </div>
 
 
-      <footer id="footer" class="align-center">
-
+			<footer id="footer" class="align-center">
+				<p>Created with <span class="heart">♥</span> for Steem and Utopian</p>
+				<p>Idea by <a href="https://steemit.com/@flauwy" target="_blank">@flauwy</a>, development by <a href="https://steemit.com/@stoodkev" target="_blank">@stoodkev</a>, design by <a href="https://steemit.com/@andrejcibik" target="_blank">@andrejcibik</a>.</p>
       </footer>
 
     </div>
