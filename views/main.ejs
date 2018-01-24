@@ -14,6 +14,11 @@
       <div class="header">
 				<div class="wrapper">
 					<a href="/now"><img class="logo" src="/public/assets/images/logo.svg" alt="1UP logo" title="1UP"></a>
+					<span class="menu-main-button">
+						<span class="bar bar-1"></span>
+						<span class="bar bar-2"></span>
+						<span class="bar bar-3"></span>
+					</span>
 	        <ul class="menu-main">
 	        	<li><a href="https://steemit.com/utopian-io/@flauwy/steemy-ep-46-how-to-create-and-follow-a-curation-trail-with-steemauto" target="_blank" class="item">How to vote?</a></li>
 	          <li><a href="https://steemit.com/curation/@flauwy/utopian-1up-a-lucrative-steem-trail-for-the-best-daily-utopian-contributions" target="_blank" class="item">About</a></li>
@@ -160,6 +165,17 @@
     return hours + "<span class='unit'>h</span> " + minutes + "<span class='unit'>m</span> " + seconds +"<span class='unit'>s</span>";
 }
 
+	/* Mobile menu openning */
+	$( document ).ready(function() {
+		var menuMainButton = $('.menu-main-button');
+		menuMainButton.click(function(){
+			if ($('body').hasClass('open-menu'))
+				$('body').removeClass('open-menu');
+			else {
+				$('body').addClass('open-menu');
+			}
+		});
+	});
 
 /*$( document ).ready(function() {
     $('.posts li').each(function(i){
