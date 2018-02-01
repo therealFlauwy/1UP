@@ -35,7 +35,7 @@ Parse.Cloud.job("botVote", function(request, response) {
           if(post!==undefined&&post.length!==0)
           {
              console.log('Voting for', post.get('title'),' of @',post.get('author'));
-             steem.broadcast.vote(WIF, BOT, post.get('author'), post.get('permlink'), 1000, function(err, result) {
+             steem.broadcast.vote(WIF, BOT, post.get('author'), post.get('permlink'), 10000, function(err, result) {
   	            console.log(err, result);
                 post.set('voted',true);
                 post.save(null,{useMasterKey:true});
