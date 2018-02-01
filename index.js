@@ -33,7 +33,7 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
 
       query.descending("from_length");
       query.equalTo("voted",false);
-      //query.equalTo("voted_utopian",false);
+      query.equalTo("voted_utopian",false);
       query.limit(10);
       query.find({
               success: function(posts) {
@@ -41,7 +41,6 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
                 {
                   console.log('a',posts.length);
                     res.render('main.ejs', {posts: posts,active:0});
-                    Parse.Cloud.run('checkVote', null).then(function(v){});
                 }
                 else
                 {
