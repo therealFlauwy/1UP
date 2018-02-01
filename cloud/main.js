@@ -26,7 +26,7 @@ Parse.Cloud.job("botVote", function(request, response) {
     steem.api.getAccounts([BOT], function(err, result) {
     var vp=getVotingPower(result["0"]);
     console.log('voting power',vp);
-    if(vp!==100){
+    if(vp==100){
       query.descending("from_length");
       query.equalTo("voted",false);
       query.equalTo("voted_utopian",false);
