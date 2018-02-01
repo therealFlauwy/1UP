@@ -44,8 +44,8 @@
 								<span class="skeleton">
 									00<span class='unit'>h</span> 00<span class='unit'>m</span> 00<span class='unit'>s</span>
 								</span>
-							</div> <!-- TODO: Implement actual voting period!-->
-	            <div class="goes_to">1UP goes to <a href="https://utopian.io/<%= posts[0].get('author')%>" class="goes_to_user" target="_blank" title="Utopian profile">@<%= posts[0].get('author')%></a></div>
+							</div> <% if(posts.length!==0){ %>
+	            <div class="goes_to">1UP goes to <a href="https://utopian.io/<%= posts[0].get('author')%>" class="goes_to_user" target="_blank" title="Utopian profile">@<%= posts[0].get('author')%></a></div><%}%>
 	          </div> <%}%>
 	        </div>
 	        <% if(posts.length!==0){ %>

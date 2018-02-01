@@ -1,5 +1,6 @@
 var steem = require('steem');
 const MAX_VOTE_PER_DAY=10;
+const BOT='stoodkev';
 steem.api.setOptions({ url: 'https://api.steemit.com' });
 let sc2=require('sc2-sdk');
 
@@ -21,34 +22,38 @@ Parse.Cloud.job("botVote", function(request, response) {
   var aPost = Parse.Object.extend("Posts");
   var query = new Parse.Query(aPost);
   var post_list=[];
-  steem.api.getAccounts(['utopian-1up'], function(err, result) {
-  var vp=getVotingPower(result["0"]);
-  console.log('voting power',vp);
-  if(vp==100){
-
-  query.descending("from_length");
-  query.equalTo("voted",false);
-         query.first({
-          success: function(post) {
-              if(post!==undefined&&post.length!==0)
-              {
-                 console.log('Voting for', post.get('title'),' of @',post.get('author'));
-                 steem.broadcast.vote(WIF, 'utopian-1up', post.get('author'), post.get('permlink'), 10000, function(err, result) {
-	                   console.log(err, result);
-                     response.success('Vote done');
-                });
-              }
-              else
-                response.error('No post to vote!');
-            }
-            ,error:function(err){console.log(err); response.error('Something went wrong!');}
-          });
+  Parse.Cloud.run('checkVote', null).then(function(v){
+    steem.api.getAccounts([BOT], function(err, result) {
+    var vp=getVotingPower(result["0"]);
+    console.log('voting power',vp);
+    if(vp!==100){
+      query.descending("from_length");
+      query.equalTo("voted",false);
+      query.equalTo("voted_utopian",false);
+      query.first({
+        success: function(post) {
+          if(post!==undefined&&post.length!==0)
+          {
+             console.log('Voting for', post.get('title'),' of @',post.get('author'));
+             steem.broadcast.vote(WIF, BOT, post.get('author'), post.get('permlink'), 1000, function(err, result) {
+  	            console.log(err, result);
+                post.set('voted',true);
+                post.save(null,{useMasterKey:true});
+                response.success('Vote done');
+              });
+          }
+          else
+            response.error('No post to vote!');
         }
+        ,error:function(err){console.log(err); response.error('Something went wrong!');}
+            });
+      }
       else{
         console.log('Still resting!');
         response.error('Will vote later');
       }
-        });
+    });
+  });
 });
 
 Parse.Cloud.define("checkVote", function(request, response) {
@@ -65,7 +70,7 @@ Parse.Cloud.define("checkVote", function(request, response) {
                   const content= steem.api.getContentAsync(post.get('url').split('@')[1].split('/')[0], post.get('url').split('/')[post.get('url').split('/').length-1]);
                    content.then(result=> {
                     if(result.active_votes.find(function (element) {
-                        return element.voter == 'utopian-1up';
+                        return element.voter == BOT;
                     })!==undefined)
                     {
                         posts[i].set('voted',true);
@@ -91,6 +96,7 @@ Parse.Cloud.beforeSave('Votes', function (request, response) {
   var aPost = Parse.Object.extend("Posts");
   var aVote = Parse.Object.extend("Votes");
   const author=request.object.get('url').split('@')[1].split('/')[0];
+  const perm=request.object.get('url').split('/')[request.object.get('url').split('/').length-1];
   request.object.set('author',author);
    steemc.setAccessToken(request.object.get('token'));
 
@@ -102,27 +108,34 @@ Parse.Cloud.beforeSave('Votes', function (request, response) {
   if(author===request.object.get('from'))
     response.error('You cannot vote for yourself!');
 
-  // Check vote more than once for same user
-  var query = new Parse.Query(aVote);
-  query.equalTo('from',request.object.get('from'));
-  query.greaterThan('createdAt',new Date(new Date()-24*3600000));
-  query.find( {
-        useMasterKey: true,
-        success: function (votes) {
-          console.log(votes);
-          if(votes.length!==0)
-          {
-            for (vote of votes){
-              if(author===vote.get('author'))
-                response.error('You can only vote once a day for @'+author);
-            }
-            if(votes.length>=MAX_VOTE_PER_DAY)
-                response.error('You can only vote '+MAX_VOTE_PER_DAY+' times per day. Please try again tomorrow!');
+  const content= steem.api.getContentAsync(author, perm);
+  content.then(result=> {
+    if(result.active_votes.find(function (element) {return element.voter == BOT;})!==undefined)
+      response.error('Too late! This post was already voted by the trail!');
+    if(result.active_votes.find(function (element) {return element.voter == 'utopian-io';})!==undefined)
+      response.error('Too late! This post was already voted by Utopian!');
 
+  // Check vote more than once for same user
+    var query = new Parse.Query(aVote);
+    query.equalTo('from',request.object.get('from'));
+    query.greaterThan('createdAt',new Date(new Date()-24*3600000));
+    query.find( {
+          useMasterKey: true,
+          success: function (votes) {
+            console.log(votes);
+            if(votes.length!==0)
+            {
+              for (vote of votes){
+                if(author===vote.get('author'))
+                  response.error('You can only vote once a day for @'+author);
+              }
+              if(votes.length>=MAX_VOTE_PER_DAY)
+                  response.error('You can only vote '+MAX_VOTE_PER_DAY+' times per day. Please try again tomorrow!');
+            }
+            response.success();
           }
-          response.success();
-        }
-        ,error:function(err){console.log(err);}
+          ,error:function(err){console.log(err);}
+        });
       });
       // Check for bad token
     }).catch(e => response.error('We could not identify you. Please make sure you are connected via SteemConnect.'));
