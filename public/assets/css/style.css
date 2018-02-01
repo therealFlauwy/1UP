@@ -392,9 +392,7 @@ hr {
   background: linear-gradient(to right, #C406C4 0%, #990099 100%);
   color: #fff;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
-  transition: all .3s;
   z-index: 2;
-  cursor: pointer;
 }
 
 .button-upvote .icon {
@@ -412,13 +410,6 @@ hr {
   line-height: 1.2;
   text-align: center;
   font-size: 16px;
-}
-
-.button-upvote:hover {
-  -webkit-transform: translateY(-2px);
-      -ms-transform: translateY(-2px);
-          transform: translateY(-2px);
-  box-shadow: 0 6px 10px rgba(153, 0, 153, 0.4);
 }
 
 @media screen and (max-width: 640px) {
@@ -595,7 +586,10 @@ hr {
 
 .top {
   margin: 20px 0;
-  background: linear-gradient(to right, #993493 0%, #5771B8 100%);
+  background: linear-gradient(270deg, #5771b8, #993493);
+  background-size: 200%;
+  -webkit-animation: horizontalGradAnimation 20s ease infinite;
+          animation: horizontalGradAnimation 20s ease infinite;
 }
 
 .top .wrapper {
@@ -611,6 +605,30 @@ hr {
 
 .top .wrapper .top_left {
   width: 50%;
+}
+
+@-webkit-keyframes horizontalGradAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+    100% {
+    }
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes horizontalGradAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+    100% {
+    }
+    background-position: 0% 50%;
+  }
 }
 
 @media screen and (max-width: 1024px) {

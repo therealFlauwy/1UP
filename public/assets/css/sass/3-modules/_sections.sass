@@ -3,7 +3,9 @@
 
 .top
 	margin: 20px 0
-	+horizontalGrad
+	background: linear-gradient(270deg, #5771b8, #993493)
+	background-size: 200%
+	animation: horizontalGradAnimation 20s ease infinite
 
 	.wrapper
 		display: flex
@@ -13,6 +15,15 @@
 
 		.top_left
 			width: 50%
+
+
+@keyframes horizontalGradAnimation
+	0%
+		background-position: 0% 50%
+	50%
+		background-position: 100% 50%
+  100%
+		background-position: 0% 50%
 
 @media screen and (max-width: 1024px)
 
