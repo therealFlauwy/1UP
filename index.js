@@ -34,18 +34,26 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
       query.descending("from_length");
       query.equalTo("voted",false);
       query.equalTo("voted_utopian",false);
-      query.limit(10);
       query.find({
               success: function(posts) {
                 if(posts!==undefined&&posts.length!==0)
                 {
                   console.log('a',posts.length);
-                    res.render('main.ejs', {posts: posts,active:0});
+                  posts=posts.sort(function(a,b){
+                    if(a.get('from_length')>b.get('from_length'))
+                      return -1;
+                    else if(b.get('from_length')>a.get('from_length'))
+                      return 1;
+                    else{
+                      return b.get('createdAt')-a.get('createdAt');
+                    }
+                  });
+                    res.render('main.ejs', {bot:process.env.BOT,posts: posts,active:0});
                 }
                 else
                 {
                   console.log('Nothing to show');
-                  res.render('main.ejs', {posts: [],active:0});
+                  res.render('main.ejs', {bot:process.env.BOT,posts: [],active:0});
                 }
               },error:function(error){console.log(error);}
             });
@@ -63,12 +71,12 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
                 success: function(posts) {
                   if(posts!==undefined&&posts.length!==0)
                   {
-                      res.render('main.ejs', {posts: posts,active:1});
+                      res.render('main.ejs', {bot:process.env.BOT,posts: posts,active:1});
                   }
                   else
                   {
                     console.log('Nothing to show');
-                    res.render('main.ejs', {posts: [],active:1});
+                    res.render('main.ejs', {bot:process.env.BOT,posts: [],active:1});
                   }
                 },error:function(error){console.log(error);}
               });
@@ -87,12 +95,12 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
                   success: function(posts) {
                     if(posts!==undefined&&posts.length!==0)
                     {
-                        res.render('main.ejs', {posts: posts,active:2});
+                        res.render('main.ejs', {bot:process.env.BOT,posts: posts,active:2});
                     }
                     else
                     {
                       console.log('Nothing to show');
-                      res.render('main.ejs', {posts: [],active:2});
+                      res.render('main.ejs', {bot:process.env.BOT,posts: [],active:2});
                     }
                   },error:function(error){console.log(error);}
                 });
@@ -109,12 +117,12 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
                     success: function(posts) {
                       if(posts!==undefined&&posts.length!==0)
                       {
-                          res.render('main.ejs', {posts: posts,active:3});
+                          res.render('main.ejs', {bot:process.env.BOT,posts: posts,active:3});
                       }
                       else
                       {
                         console.log('Nothing to show');
-                        res.render('main.ejs', {posts: [],active:3});
+                        res.render('main.ejs', {bot:process.env.BOT,posts: [],active:3});
                       }
                     },error:function(error){console.log(error);}
                   });

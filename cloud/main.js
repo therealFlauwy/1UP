@@ -1,6 +1,6 @@
 var steem = require('steem');
 const MAX_VOTE_PER_DAY=10;
-const BOT='steem-plus';
+const BOT=process.env.BOT;
 steem.api.setOptions({ url: 'https://api.steemit.com' });
 let sc2=require('sc2-sdk');
 
@@ -175,7 +175,7 @@ Parse.Cloud.beforeSave('Posts', function (request, response) {
                    if(JSON.parse(result.json_metadata).image!==undefined)
                     request.object.set('image', JSON.parse(result.json_metadata).image[0]);
                    else
-                    request.object.set('image', '/public/assets/images/bg-1920.png');
+                    request.object.set('image', '/public/assets/images/no-image.png');
 
 
                    response.success();
