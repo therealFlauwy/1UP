@@ -2,474 +2,175 @@
 <!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="90px" height="93px" viewBox="0 0 90 93" enable-background="new 0 0 90 93" xml:space="preserve">
+	 width="196.128px" height="64px" viewBox="0 0 196.128 64" enable-background="new 0 0 196.128 64" xml:space="preserve">
 <g>
-	<rect x="14.826" y="33.789" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="5.638" height="2.825"/>
-	<rect x="14.826" y="2.824" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.818" height="33.79"/>
-	<polygon fill-rule="evenodd" clip-rule="evenodd" fill="#990099" points="35.813,30.965 35.813,2.824 32.993,2.824 32.993,36.614 
-		32.997,36.614 35.81,36.614 47.036,36.614 47.036,30.965 	"/>
-	<rect x="30.174" y="2.824" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.819" height="33.79"/>
-	<rect x="47.036" y="2.824" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.819" height="33.79"/>
-	<rect x="49.855" y="2.824" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.818" height="33.79"/>
-	<path fill-rule="evenodd" clip-rule="evenodd" fill="#990099" d="M66.752,2.824H63.95v8.436v5.639v8.453v11.263h2.819V25.368
-		h16.861v-7.062v-1.408V11.26V8.592V2.824H66.752z M77.993,16.895H66.77v-5.649h11.224V16.895z"/>
-	<rect x="61.131" y="2.824" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.819" height="33.79"/>
-	<rect x="75.174" y="8.422" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.819" height="2.823"/>
-	<rect x="75.174" y="16.895" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.819" height="2.825"/>
+	<polygon fill="#FFFFFF" points="6.193,21.073 6.2,21.073 6.193,20.324 	"/>
+	<path fill="#715BAB" d="M81.892,44.043h-9.633h-0.689V0H44.731v56.43h7.569V64H94.28v-7.57h7.57V0H81.892V44.043z M83.956,2.065
+		h15.829v52.3h-7.57v7.57H54.366v-7.57h-7.57v-52.3h22.709v44.042h0.688h13.763V2.065z"/>
+	<path fill="#715BAB" d="M153.463,0h-48.86v64h26.838V48.859h22.022v-7.2v-0.368h7.568V6.881h-7.568V0z M158.968,8.947v30.278
+		h-7.571v0.369v7.201h-22.021v15.141h-22.71V2.065h44.73v6.882H158.968z"/>
+	<path fill="#715BAB" d="M143.138,30.647V17.205h-13.762v14.451h13.762V30.647z M141.074,28.583v1.008h-9.634V19.269h9.634V28.583z"
+		/>
+	<path fill="#715BAB" d="M196.128,48.539v-4.816V0H169.29v43.723v4.816V64h26.838V48.539z M194.063,45.787v0.688v15.459h-22.709
+		V46.476v-0.688V2.064h22.709V45.787z"/>
+	<path fill="#715BAB" d="M0,34.408h8.258V44.73H7.57H0.688V64h41.29V44.73h-7.57V0H8.258v7.57H0V34.408z M2.064,17.205V9.634h7.569
+		h0.688V2.065h22.022v44.73h7.57v15.141H2.752V46.795h6.881h0.688V32.712v-0.368"/>
+	<path d="M69.505,46.107V2.065H46.796v52.3h7.57v7.57h37.849v-7.57h7.57v-52.3H83.956v44.042H70.193H69.505z M86.022,48.172V5.459
+		V5.438v-1.31h2.053h0.042h7.385h0.04h2.179v1.31v0.021V49.99v0.019v2.292h-2.179h-0.04H90.15v5.113v0.021v2.436h-2.033h-0.042
+		H58.416h-0.041H56.43v-2.436v-0.021v-5.113h-5.439H50.95h-2.09v-2.292V49.99V5.459V5.438v-1.31h2.09h0.041h14.81h0.04h1.6v1.31
+		v0.021v42.713h0.689h0.04H86.022z"/>
+	<path d="M151.396,2.065h-44.73v59.871h22.71V46.795h22.021v-7.201v-0.369h7.571V8.947h-7.571V2.065z M154.902,11.011h0.039h1.962
+		v1.854v0.02v22.254v0.021v2.002h-1.962h-0.039h-5.568v0.346v0.022v5.033v0.021v2.146h-1.818h-0.039h-20.164v12.684v0.021v2.436
+		h-2.071h-0.039h-14.812h-0.04h-1.62v-2.436v-0.021V5.459V5.438v-1.31h1.62h0.04h37.086h0.039h1.818v1.31v0.021v5.552H154.902z"/>
+	<path d="M127.313,33.722h17.892v-1.009v-0.021V15.14h-17.892V33.722z M129.376,17.205h13.762v13.443v1.007h-13.762V17.205z"/>
+	<path d="M171.354,45.787v0.688v15.461h22.709V46.475v-0.688V2.065h-22.709V45.787z M173.419,42.584v-0.02V5.46V5.438v-1.31h1.838
+		h0.04h14.811h0.041H192v1.31V5.46v37.104v0.02v2.147h-1.852h-0.041h-14.811h-0.04h-1.838V42.584z M173.419,57.436v-0.02V50.01
+		v-0.02v-1.817h1.838h0.04h14.811h0.041H192v1.817v0.02v7.406v0.02v2.436h-1.852h-0.041h-14.811h-0.04h-1.838V57.436z"/>
 	<g>
-		<polygon fill-rule="evenodd" clip-rule="evenodd" points="20.464,28.171 20.464,25.354 20.464,22.534 20.464,19.716 
-			20.464,16.896 20.464,14.07 17.645,14.07 17.645,16.896 17.645,19.716 17.645,22.534 17.645,25.354 17.645,28.171 17.645,30.989 
-			17.645,33.789 20.464,33.789 20.464,36.614 17.635,36.614 14.821,36.614 12.009,36.614 9.188,36.614 9.188,33.789 12.007,33.789 
-			12.007,30.989 12.007,28.171 12.007,25.354 12.007,22.534 12.007,19.716 12.007,16.896 12.007,14.07 9.188,14.07 9.188,16.896 
-			9.188,19.716 9.188,22.534 9.188,25.354 9.188,28.171 9.188,30.965 6.369,30.965 6.369,33.809 6.369,36.626 6.369,39.438 
-			9.195,39.438 12.009,39.438 14.821,39.438 17.635,39.438 20.447,39.438 23.283,39.438 23.283,36.626 23.283,33.809 23.283,30.965 
-			20.464,30.965 		"/>
-		<polygon fill-rule="evenodd" clip-rule="evenodd" points="9.188,11.245 9.188,14.07 12.007,14.07 12.007,11.262 12.007,11.26 
-			12.007,8.422 9.195,8.422 6.369,8.422 6.369,5.649 9.188,5.649 9.188,2.824 12.009,2.824 14.821,2.824 17.645,2.824 17.645,5.624 
-			17.645,8.441 17.645,11.26 17.645,11.262 17.645,14.07 20.464,14.07 20.464,11.262 20.464,11.26 20.464,8.441 20.464,5.624 
-			20.464,2.806 20.464,0 17.635,0 14.821,0 12.009,0 9.195,0 6.369,0 6.369,2.824 3.55,2.824 3.55,5.624 3.55,8.441 3.55,11.245 
-			6.383,11.245 		"/>
-		<polygon fill-rule="evenodd" clip-rule="evenodd" points="38.631,25.354 38.631,22.534 38.631,19.716 38.631,16.896 38.631,14.07 
-			35.813,14.07 35.813,16.896 35.813,19.716 35.813,22.534 35.813,25.354 35.813,28.171 35.813,30.965 38.624,30.965 41.437,30.965 
-			44.249,30.965 47.036,30.965 47.036,28.171 47.036,25.354 47.036,22.534 47.036,19.716 47.036,16.896 47.036,14.07 44.27,14.07 
-			44.27,16.896 44.27,19.716 44.27,22.534 44.27,25.354 44.27,28.193 41.437,28.193 38.631,28.193 		"/>
-		<polygon fill-rule="evenodd" clip-rule="evenodd" points="30.174,11.262 30.174,11.26 30.174,8.441 30.174,5.624 30.174,2.824 
-			32.997,2.824 35.813,2.824 35.813,5.624 35.813,8.441 35.813,11.26 35.813,11.262 35.813,14.07 38.631,14.07 38.631,11.262 
-			38.631,11.26 38.631,8.441 38.631,5.624 38.631,2.806 38.631,0 35.81,0 32.997,0 30.184,0 27.355,0 27.355,2.806 27.355,5.624 
-			27.355,8.441 27.355,11.26 27.355,11.262 27.355,14.07 30.174,14.07 		"/>
-		<polygon fill-rule="evenodd" clip-rule="evenodd" points="49.874,0 47.062,0 44.27,0 44.27,2.806 44.27,5.624 44.27,8.441 
-			44.27,11.26 44.27,11.262 44.27,14.07 47.036,14.07 47.036,11.262 47.036,11.26 47.036,8.441 47.036,5.624 47.036,2.824 
-			49.874,2.824 52.674,2.824 52.674,5.624 52.674,8.441 52.674,11.26 52.674,11.262 52.674,14.07 55.493,14.07 55.493,11.262 
-			55.493,11.26 55.493,8.441 55.493,5.624 55.493,2.806 55.493,0 52.687,0 		"/>
-		<polygon fill-rule="evenodd" clip-rule="evenodd" points="52.674,16.896 52.674,19.716 52.674,22.534 52.674,25.354 
-			52.674,28.171 52.674,30.989 52.674,33.809 52.674,36.614 49.874,36.614 47.062,36.614 44.249,36.614 41.437,36.614 
-			38.624,36.614 35.81,36.614 32.997,36.614 30.174,36.614 30.174,33.809 30.174,30.989 30.174,28.171 30.174,25.354 30.174,22.534 
-			30.174,19.716 30.174,16.896 30.174,14.07 27.355,14.07 27.355,16.896 27.355,19.716 27.355,22.534 27.355,25.354 27.355,28.171 
-			27.355,30.989 27.355,33.809 27.355,36.626 27.355,39.438 30.184,39.438 32.997,39.438 35.81,39.438 38.624,39.438 41.437,39.438 
-			44.249,39.438 47.062,39.438 49.874,39.438 52.687,39.438 55.493,39.438 55.493,36.626 55.493,33.809 55.493,30.989 
-			55.493,28.171 55.493,25.354 55.493,22.534 55.493,19.716 55.493,16.896 55.493,14.07 52.674,14.07 		"/>
-		<rect x="75.174" y="14.07" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<polygon fill-rule="evenodd" clip-rule="evenodd" points="72.377,8.422 69.564,8.422 66.77,8.422 66.77,11.26 66.77,11.262 
-			66.77,14.07 69.588,14.07 69.588,11.245 72.377,11.245 75.174,11.245 75.174,14.07 77.993,14.07 77.993,11.245 75.174,11.245 
-			75.174,8.422 		"/>
-		<polygon fill-rule="evenodd" clip-rule="evenodd" points="58.313,16.896 58.313,19.716 58.313,22.534 58.313,25.354 
-			58.313,28.171 58.313,30.989 58.313,33.809 58.313,36.626 58.313,39.438 61.131,39.438 61.131,36.626 61.131,33.809 
-			61.131,30.989 61.131,28.171 61.131,25.354 61.131,22.534 61.131,19.716 61.131,16.896 61.131,14.07 58.313,14.07 		"/>
-		<polygon fill-rule="evenodd" clip-rule="evenodd" points="58.313,2.806 58.313,5.624 58.313,8.441 58.313,11.26 58.313,11.262 
-			58.313,14.07 61.131,14.07 61.131,11.262 61.131,11.26 61.131,8.441 61.131,5.624 61.131,2.806 61.131,0 58.313,0 		"/>
-		<polygon fill-rule="evenodd" clip-rule="evenodd" points="66.77,16.896 66.77,19.72 69.564,19.72 72.377,19.72 75.174,19.72 
-			75.174,16.895 72.377,16.895 69.588,16.895 69.588,14.07 66.77,14.07 		"/>
-		<polygon fill-rule="evenodd" clip-rule="evenodd" points="72.377,25.368 69.564,25.368 66.77,25.368 66.77,28.171 66.77,30.989 
-			66.77,33.809 66.77,36.614 63.938,36.614 63.938,36.614 61.131,36.614 61.131,39.438 63.938,39.438 63.938,39.438 66.752,39.438 
-			69.588,39.438 69.588,36.626 69.588,33.809 69.588,30.989 69.588,28.193 72.377,28.193 75.191,28.193 77.993,28.193 
-			77.993,25.368 75.191,25.368 		"/>
-		<polygon fill-rule="evenodd" clip-rule="evenodd" points="75.191,0 72.377,0 69.564,0 66.752,0 63.938,0 63.938,0 61.131,0 
-			61.131,2.824 63.938,2.824 63.938,2.824 66.752,2.824 69.564,2.824 72.377,2.824 75.191,2.824 77.993,2.824 77.993,0 		"/>
-		<polygon fill-rule="evenodd" clip-rule="evenodd" points="77.993,22.544 77.993,25.368 80.816,25.368 83.631,25.368 
-			83.631,22.544 80.816,22.544 		"/>
-		<polygon fill-rule="evenodd" clip-rule="evenodd" points="83.631,16.896 83.631,19.716 83.631,22.544 86.45,22.544 86.45,19.716 
-			86.45,16.896 86.45,14.07 83.631,14.07 		"/>
-		<polygon fill-rule="evenodd" clip-rule="evenodd" points="83.631,5.649 83.631,8.441 83.631,11.26 83.631,11.262 83.631,14.07 
-			86.45,14.07 86.45,11.262 86.45,11.26 86.45,8.441 86.45,5.649 		"/>
-		<polygon fill-rule="evenodd" clip-rule="evenodd" points="80.816,2.824 77.993,2.824 77.993,5.649 80.816,5.649 83.631,5.649 
-			83.631,2.824 		"/>
+		<defs>
+			<polygon id="SVGID_1_" points="65.376,50.236 65.355,6.193 50.925,6.193 50.925,50.236 58.495,50.236 58.495,57.807 
+				88.086,57.807 88.086,50.236 66.064,50.236 			"/>
+		</defs>
+		<clipPath id="SVGID_2_">
+			<use xlink:href="#SVGID_1_"  overflow="visible"/>
+		</clipPath>
+		
+			<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="-169.8691" y1="264.7549" x2="-169.182" y2="264.7549" gradientTransform="matrix(284 0 0 -284 48234.0156 75222.4922)">
+			<stop  offset="0" style="stop-color:#FFFFFF"/>
+			<stop  offset="0" style="stop-color:#9A3594"/>
+			<stop  offset="0.5152" style="stop-color:#7854A7"/>
+			<stop  offset="0.9879" style="stop-color:#5872B9"/>
+			<stop  offset="1" style="stop-color:#5872B9"/>
+		</linearGradient>
+		<rect x="50.925" y="6.193" clip-path="url(#SVGID_2_)" fill="url(#SVGID_3_)" width="37.161" height="51.613"/>
 	</g>
-	<rect x="77.993" y="14.07" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.819" height="2.824"/>
-	<rect x="77.993" y="11.245" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.819" height="2.825"/>
 	<g>
-		<rect x="64.681" y="70.456" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.825"/>
-		<rect x="64.681" y="67.632" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.819" height="2.824"/>
-		<rect x="64.681" y="64.808" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.819" height="2.824"/>
-		<rect x="61.862" y="56.333" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.818" height="2.825"/>
-		<rect x="61.862" y="59.158" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.818" height="2.824"/>
-		<rect x="61.862" y="73.281" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.818" height="2.824"/>
-		<rect x="61.862" y="76.105" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.818" height="2.771"/>
-		<rect x="61.862" y="78.877" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.818" height="2.825"/>
-		<rect x="64.681" y="73.281" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.824"/>
-		<rect x="59.095" y="76.105" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.768" height="2.771"/>
-		<rect x="59.095" y="78.877" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.768" height="2.825"/>
-		<rect x="59.095" y="56.333" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.768" height="2.825"/>
-		<rect x="59.095" y="53.562" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.768" height="2.771"/>
-		<rect x="56.276" y="53.562" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.818" height="2.771"/>
-		<rect x="56.276" y="50.736" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.818" height="2.825"/>
-		<rect x="53.457" y="47.912" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.819" height="2.824"/>
-		<rect x="50.638" y="47.912" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.819" height="2.824"/>
-		<rect x="47.819" y="47.912" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.818" height="2.824"/>
-		<rect x="56.276" y="76.105" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.818" height="2.771"/>
-		<rect x="56.276" y="78.877" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.818" height="2.825"/>
-		<rect x="53.457" y="78.877" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.819" height="2.825"/>
-		<rect x="47.819" y="81.702" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.818" height="2.824"/>
-		<rect x="50.638" y="81.702" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.824"/>
-		<rect x="53.457" y="81.702" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.824"/>
-		<rect x="45" y="81.702" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.819" height="2.824"/>
-		<rect x="47.819" y="45.088" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.818" height="2.824"/>
-		<rect x="45" y="45.088" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.819" height="2.824"/>
-		<rect x="67.5" y="70.456" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.825"/>
-		<rect x="67.5" y="67.632" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.819" height="2.824"/>
-		<rect x="70.319" y="70.456" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.818" height="2.825"/>
-		<rect x="73.138" y="70.456" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.825"/>
-		<rect x="75.957" y="70.456" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.825"/>
-		<rect x="78.776" y="70.456" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.818" height="2.825"/>
-		<rect x="75.957" y="67.632" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.819" height="2.824"/>
-		<rect x="78.776" y="67.632" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.818" height="2.824"/>
-		<rect x="81.595" y="67.632" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.768" height="2.824"/>
-		<rect x="84.362" y="67.632" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.818" height="2.824"/>
-		<rect x="64.681" y="59.158" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.824"/>
-		<rect x="67.5" y="59.158" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.824"/>
-		<rect x="70.319" y="59.158" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.818" height="2.824"/>
-		<rect x="73.138" y="61.982" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.825"/>
-		<rect x="75.957" y="61.982" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.825"/>
-		<rect x="78.776" y="61.982" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.818" height="2.825"/>
-		<rect x="75.957" y="59.158" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.819" height="2.824"/>
-		<rect x="75.957" y="56.333" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.819" height="2.825"/>
-		<rect x="84.362" y="64.808" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.818" height="2.824"/>
-		<rect x="84.362" y="61.982" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.818" height="2.825"/>
-		<rect x="84.362" y="59.158" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.818" height="2.824"/>
-		<rect x="81.595" y="56.333" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.768" height="2.825"/>
-		<rect x="81.595" y="53.562" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.768" height="2.771"/>
-		<rect x="78.776" y="50.736" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.818" height="2.825"/>
-		<rect x="75.957" y="53.562" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.819" height="2.771"/>
-		<rect x="75.957" y="50.736" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.819" height="2.825"/>
-		<rect x="75.957" y="47.912" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.819" height="2.824"/>
-		<rect x="73.138" y="47.912" fill-rule="evenodd" clip-rule="evenodd" fill="#F24EF2" width="2.819" height="2.824"/>
-		<rect x="70.319" y="47.912" fill-rule="evenodd" clip-rule="evenodd" fill="#F24EF2" width="2.818" height="2.824"/>
-		<rect x="70.319" y="45.088" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.818" height="2.824"/>
-		<rect x="78.776" y="47.912" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.818" height="2.824"/>
-		<rect x="75.957" y="45.088" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.824"/>
-		<rect x="73.138" y="45.088" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.819" height="2.824"/>
-		<rect x="53.457" y="50.736" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.819" height="2.825"/>
-		<rect x="47.819" y="61.982" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.818" height="2.825"/>
-		<rect x="53.457" y="61.982" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.819" height="2.825"/>
-		<rect x="50.638" y="61.982" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.819" height="2.825"/>
-		<rect x="50.638" y="64.808" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.824"/>
-		<rect x="47.819" y="42.264" fill-rule="evenodd" clip-rule="evenodd" width="2.818" height="2.824"/>
-		<rect x="45" y="42.264" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="50.638" y="42.264" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="50.638" y="45.088" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="53.457" y="45.088" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="56.276" y="47.912" fill-rule="evenodd" clip-rule="evenodd" width="2.818" height="2.824"/>
-		<rect x="59.095" y="50.736" fill-rule="evenodd" clip-rule="evenodd" width="2.768" height="2.825"/>
-		<rect x="61.862" y="53.562" fill-rule="evenodd" clip-rule="evenodd" width="2.818" height="2.771"/>
-		<rect x="64.681" y="56.333" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.825"/>
-		<rect x="67.5" y="56.333" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.825"/>
-		<rect x="70.319" y="56.333" fill-rule="evenodd" clip-rule="evenodd" width="2.818" height="2.825"/>
-		<rect x="73.138" y="56.333" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.825"/>
-		<rect x="73.138" y="59.158" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="73.138" y="53.562" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.771"/>
-		<rect x="73.138" y="50.736" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.825"/>
-		<rect x="70.319" y="50.736" fill-rule="evenodd" clip-rule="evenodd" width="2.818" height="2.825"/>
-		<rect x="67.5" y="47.912" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="67.5" y="45.088" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="70.319" y="42.264" fill-rule="evenodd" clip-rule="evenodd" width="2.818" height="2.824"/>
-		<rect x="73.138" y="42.264" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="75.957" y="42.264" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="78.776" y="45.088" fill-rule="evenodd" clip-rule="evenodd" width="2.818" height="2.824"/>
-		<rect x="81.595" y="47.912" fill-rule="evenodd" clip-rule="evenodd" width="2.768" height="2.824"/>
-		<rect x="81.595" y="50.736" fill-rule="evenodd" clip-rule="evenodd" width="2.768" height="2.825"/>
-		<rect x="84.362" y="53.562" fill-rule="evenodd" clip-rule="evenodd" width="2.818" height="2.771"/>
-		<rect x="84.362" y="56.333" fill-rule="evenodd" clip-rule="evenodd" width="2.818" height="2.825"/>
-		<rect x="87.181" y="59.158" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="87.181" y="61.982" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.825"/>
-		<rect x="87.181" y="64.808" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="87.181" y="67.632" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="84.362" y="70.456" fill-rule="evenodd" clip-rule="evenodd" width="2.818" height="2.825"/>
-		<rect x="81.595" y="70.456" fill-rule="evenodd" clip-rule="evenodd" width="2.768" height="2.825"/>
-		<rect x="78.776" y="73.281" fill-rule="evenodd" clip-rule="evenodd" width="2.818" height="2.824"/>
-		<rect x="75.957" y="73.281" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="70.319" y="73.281" fill-rule="evenodd" clip-rule="evenodd" width="2.818" height="2.824"/>
-		<rect x="73.138" y="73.281" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="67.5" y="73.281" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="64.681" y="76.105" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.771"/>
-		<rect x="64.681" y="78.877" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.825"/>
-		<rect x="61.862" y="81.702" fill-rule="evenodd" clip-rule="evenodd" width="2.818" height="2.824"/>
-		<rect x="59.095" y="81.702" fill-rule="evenodd" clip-rule="evenodd" width="2.768" height="2.824"/>
-		<rect x="56.276" y="81.702" fill-rule="evenodd" clip-rule="evenodd" width="2.818" height="2.824"/>
-		<rect x="53.457" y="84.526" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.825"/>
-		<rect x="50.638" y="84.526" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.825"/>
-		<rect x="47.819" y="84.526" fill-rule="evenodd" clip-rule="evenodd" width="2.818" height="2.825"/>
-		<rect x="45" y="84.526" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.825"/>
-		<rect x="64.681" y="59.158" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="64.681" y="61.982" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.819" height="2.825"/>
-		<rect x="45" y="73.281" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.824"/>
-		<rect x="47.819" y="73.281" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.818" height="2.824"/>
-		<rect x="50.638" y="70.456" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.825"/>
-		<rect x="50.638" y="56.333" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.819" height="2.825"/>
-		<rect x="50.638" y="53.562" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.819" height="2.771"/>
-		<rect x="56.276" y="67.632" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.818" height="2.824"/>
-		<rect x="53.457" y="87.352" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.819" height="2.824"/>
-		<rect x="50.638" y="87.352" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.819" height="2.824"/>
-		<rect x="47.819" y="87.352" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.818" height="2.824"/>
-		<rect x="45" y="87.352" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.819" height="2.824"/>
-		<rect x="53.457" y="90.176" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="50.638" y="90.176" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="47.819" y="90.176" fill-rule="evenodd" clip-rule="evenodd" width="2.818" height="2.824"/>
-		<rect x="45" y="90.176" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="56.276" y="84.526" fill-rule="evenodd" clip-rule="evenodd" width="2.818" height="2.825"/>
-		<rect x="56.276" y="87.352" fill-rule="evenodd" clip-rule="evenodd" width="2.818" height="2.824"/>
-		<rect x="56.276" y="90.176" fill-rule="evenodd" clip-rule="evenodd" width="2.818" height="2.824"/>
-		<rect x="78.776" y="53.562" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.771"/>
-		<rect x="78.776" y="56.333" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.825"/>
-		<rect x="78.776" y="59.158" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.824"/>
-		<rect x="81.595" y="59.158" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.768" height="2.824"/>
-		<rect x="81.595" y="61.982" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.768" height="2.825"/>
-		<rect x="81.595" y="64.808" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.768" height="2.824"/>
-		<rect x="78.776" y="64.808" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.824"/>
-		<rect x="75.957" y="64.808" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="73.138" y="64.808" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="70.319" y="64.808" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.824"/>
-		<rect x="67.5" y="64.808" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="70.319" y="61.982" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.825"/>
-		<rect x="67.5" y="61.982" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.825"/>
-		<rect x="73.138" y="67.632" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="70.319" y="67.632" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.824"/>
-		<rect x="61.862" y="61.982" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.825"/>
-		<rect x="61.862" y="64.808" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.824"/>
-		<rect x="61.862" y="67.632" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.824"/>
-		<rect x="61.862" y="70.456" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.825"/>
-		<rect x="59.095" y="61.982" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.768" height="2.825"/>
-		<rect x="59.095" y="64.808" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.768" height="2.824"/>
-		<rect x="59.095" y="67.632" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.768" height="2.824"/>
-		<rect x="59.095" y="70.456" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.768" height="2.825"/>
-		<rect x="59.095" y="59.158" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.768" height="2.824"/>
-		<rect x="59.095" y="73.281" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.768" height="2.824"/>
-		<rect x="56.276" y="61.982" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.825"/>
-		<rect x="56.276" y="64.808" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.824"/>
-		<rect x="56.276" y="70.456" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.825"/>
-		<rect x="56.276" y="59.158" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.824"/>
-		<rect x="56.276" y="73.281" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.824"/>
-		<rect x="56.276" y="56.333" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.825"/>
-		<rect x="53.457" y="59.158" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="53.457" y="56.333" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.825"/>
-		<rect x="53.457" y="53.562" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.771"/>
-		<rect x="50.638" y="59.158" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="47.819" y="59.158" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.824"/>
-		<rect x="47.819" y="56.333" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.825"/>
-		<rect x="47.819" y="53.562" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.771"/>
-		<rect x="47.819" y="50.736" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.825"/>
-		<rect x="50.638" y="50.736" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.825"/>
-		<rect x="45" y="59.158" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="45" y="56.333" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.825"/>
-		<rect x="45" y="53.562" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.771"/>
-		<rect x="45" y="50.736" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.825"/>
-		<rect x="45" y="47.912" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="45" y="61.982" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.825"/>
-		<rect x="45" y="64.808" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="47.819" y="64.808" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.824"/>
-		<rect x="53.457" y="64.808" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="45" y="67.632" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="47.819" y="67.632" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.824"/>
-		<rect x="53.457" y="67.632" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="50.638" y="67.632" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="45" y="70.456" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.825"/>
-		<rect x="47.819" y="70.456" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.825"/>
-		<rect x="53.457" y="70.456" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.825"/>
-		<rect x="53.457" y="73.281" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="53.457" y="76.105" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.771"/>
-		<rect x="50.638" y="73.281" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="50.638" y="76.105" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.771"/>
-		<rect x="50.638" y="78.877" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.825"/>
-		<rect x="47.819" y="76.105" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.771"/>
-		<rect x="47.819" y="78.877" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.825"/>
-		<rect x="45" y="76.105" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.771"/>
-		<rect x="45" y="78.877" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.825"/>
-		<rect x="22.5" y="70.456" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.825"/>
-		<rect x="22.5" y="67.632" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.819" height="2.824"/>
-		<rect x="22.5" y="64.808" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.819" height="2.824"/>
-		<rect x="25.319" y="56.333" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.818" height="2.825"/>
-		<rect x="25.319" y="59.158" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.818" height="2.824"/>
-		<rect x="25.319" y="73.281" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.818" height="2.824"/>
-		<rect x="25.319" y="76.105" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.818" height="2.771"/>
-		<rect x="25.319" y="78.877" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.818" height="2.825"/>
-		<rect x="22.5" y="73.281" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.824"/>
-		<rect x="28.138" y="76.105" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.819" height="2.771"/>
-		<rect x="28.138" y="78.877" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.825"/>
-		<rect x="28.138" y="56.333" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.825"/>
-		<rect x="28.138" y="53.562" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.819" height="2.771"/>
-		<rect x="30.957" y="53.562" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.819" height="2.771"/>
-		<rect x="30.957" y="50.736" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.819" height="2.825"/>
-		<rect x="33.776" y="47.912" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.767" height="2.824"/>
-		<rect x="36.543" y="47.912" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.819" height="2.824"/>
-		<rect x="39.362" y="47.912" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.818" height="2.824"/>
-		<rect x="30.957" y="76.105" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.819" height="2.771"/>
-		<rect x="30.957" y="78.877" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.825"/>
-		<rect x="33.776" y="78.877" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.767" height="2.825"/>
-		<rect x="39.362" y="81.702" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.818" height="2.824"/>
-		<rect x="36.543" y="81.702" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.824"/>
-		<rect x="33.776" y="81.702" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.767" height="2.824"/>
-		<rect x="42.181" y="81.702" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.819" height="2.824"/>
-		<rect x="39.362" y="45.088" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.818" height="2.824"/>
-		<rect x="42.181" y="45.088" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.819" height="2.824"/>
-		<rect x="19.681" y="70.456" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.825"/>
-		<rect x="19.681" y="67.632" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.819" height="2.824"/>
-		<rect x="16.862" y="70.456" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.818" height="2.825"/>
-		<rect x="14.043" y="70.456" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.825"/>
-		<rect x="11.276" y="70.456" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.767" height="2.825"/>
-		<rect x="8.457" y="70.456" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.825"/>
-		<rect x="11.276" y="67.632" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.767" height="2.824"/>
-		<rect x="8.457" y="67.632" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.819" height="2.824"/>
-		<rect x="5.638" y="67.632" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.824"/>
-		<rect x="2.819" y="67.632" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.818" height="2.824"/>
-		<rect x="22.5" y="59.158" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.824"/>
-		<rect x="19.681" y="59.158" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.824"/>
-		<rect x="16.862" y="59.158" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.818" height="2.824"/>
-		<rect x="14.043" y="61.982" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.825"/>
-		<rect x="11.276" y="61.982" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.767" height="2.825"/>
-		<rect x="8.457" y="61.982" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.819" height="2.825"/>
-		<rect x="11.276" y="59.158" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.767" height="2.824"/>
-		<rect x="11.276" y="56.333" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.767" height="2.825"/>
-		<rect x="2.819" y="64.808" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.818" height="2.824"/>
-		<rect x="2.819" y="61.982" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.818" height="2.825"/>
-		<rect x="2.819" y="59.158" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.818" height="2.824"/>
-		<rect x="5.638" y="56.333" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.825"/>
-		<rect x="5.638" y="53.562" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.771"/>
-		<rect x="8.457" y="50.736" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.825"/>
-		<rect x="11.276" y="53.562" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.767" height="2.771"/>
-		<rect x="11.276" y="50.736" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.767" height="2.825"/>
-		<rect x="11.276" y="47.912" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.767" height="2.824"/>
-		<rect x="14.043" y="47.912" fill-rule="evenodd" clip-rule="evenodd" fill="#F24EF2" width="2.819" height="2.824"/>
-		<rect x="16.862" y="47.912" fill-rule="evenodd" clip-rule="evenodd" fill="#F24EF2" width="2.818" height="2.824"/>
-		<rect x="16.862" y="45.088" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.818" height="2.824"/>
-		<rect x="8.457" y="47.912" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.824"/>
-		<rect x="11.276" y="45.088" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.767" height="2.824"/>
-		<rect x="14.043" y="45.088" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.819" height="2.824"/>
-		<rect x="33.776" y="50.736" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.767" height="2.825"/>
-		<rect x="39.362" y="61.982" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.818" height="2.825"/>
-		<rect x="33.776" y="61.982" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.767" height="2.825"/>
-		<rect x="36.543" y="61.982" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.819" height="2.825"/>
-		<rect x="36.543" y="64.808" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.824"/>
-		<rect x="39.362" y="42.264" fill-rule="evenodd" clip-rule="evenodd" width="2.818" height="2.824"/>
-		<rect x="42.181" y="42.264" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="36.543" y="42.264" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="36.543" y="45.088" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="33.776" y="45.088" fill-rule="evenodd" clip-rule="evenodd" width="2.767" height="2.824"/>
-		<rect x="30.957" y="47.912" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="28.138" y="50.736" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.825"/>
-		<rect x="25.319" y="53.562" fill-rule="evenodd" clip-rule="evenodd" width="2.818" height="2.771"/>
-		<rect x="22.5" y="56.333" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.825"/>
-		<rect x="19.681" y="56.333" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.825"/>
-		<rect x="16.862" y="56.333" fill-rule="evenodd" clip-rule="evenodd" width="2.818" height="2.825"/>
-		<rect x="14.043" y="56.333" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.825"/>
-		<rect x="14.043" y="59.158" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="14.043" y="53.562" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.771"/>
-		<rect x="14.043" y="50.736" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.825"/>
-		<rect x="16.862" y="50.736" fill-rule="evenodd" clip-rule="evenodd" width="2.818" height="2.825"/>
-		<rect x="19.681" y="47.912" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="19.681" y="45.088" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="16.862" y="42.264" fill-rule="evenodd" clip-rule="evenodd" width="2.818" height="2.824"/>
-		<rect x="14.043" y="42.264" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="11.276" y="42.264" fill-rule="evenodd" clip-rule="evenodd" width="2.767" height="2.824"/>
-		<rect x="8.457" y="45.088" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="5.638" y="47.912" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="5.638" y="50.736" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.825"/>
-		<rect x="2.819" y="53.562" fill-rule="evenodd" clip-rule="evenodd" width="2.818" height="2.771"/>
-		<rect x="2.819" y="56.333" fill-rule="evenodd" clip-rule="evenodd" width="2.818" height="2.825"/>
-		<rect y="59.158" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect y="61.982" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.825"/>
-		<rect y="64.808" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect y="67.632" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="2.819" y="70.456" fill-rule="evenodd" clip-rule="evenodd" width="2.818" height="2.825"/>
-		<rect x="5.638" y="70.456" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.825"/>
-		<rect x="8.457" y="73.281" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="11.276" y="73.281" fill-rule="evenodd" clip-rule="evenodd" width="2.767" height="2.824"/>
-		<rect x="16.862" y="73.281" fill-rule="evenodd" clip-rule="evenodd" width="2.818" height="2.824"/>
-		<rect x="14.043" y="73.281" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="19.681" y="73.281" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="22.5" y="76.105" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.771"/>
-		<rect x="22.5" y="78.877" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.825"/>
-		<rect x="25.319" y="81.702" fill-rule="evenodd" clip-rule="evenodd" width="2.818" height="2.824"/>
-		<rect x="28.138" y="81.702" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="30.957" y="81.702" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="33.776" y="84.526" fill-rule="evenodd" clip-rule="evenodd" width="2.767" height="2.825"/>
-		<rect x="36.543" y="84.526" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.825"/>
-		<rect x="39.362" y="84.526" fill-rule="evenodd" clip-rule="evenodd" width="2.818" height="2.825"/>
-		<rect x="42.181" y="84.526" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.825"/>
-		<rect x="22.5" y="59.158" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="22.5" y="61.982" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.819" height="2.825"/>
-		<rect x="42.181" y="73.281" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.824"/>
-		<rect x="39.362" y="73.281" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.818" height="2.824"/>
-		<rect x="36.543" y="70.456" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.825"/>
-		<rect x="36.543" y="56.333" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.819" height="2.825"/>
-		<rect x="36.543" y="53.562" fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" width="2.819" height="2.771"/>
-		<rect x="30.957" y="67.632" fill-rule="evenodd" clip-rule="evenodd" fill="#7A007A" width="2.819" height="2.824"/>
-		<rect x="33.776" y="87.352" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.767" height="2.824"/>
-		<rect x="36.543" y="87.352" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.819" height="2.824"/>
-		<rect x="39.362" y="87.352" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.818" height="2.824"/>
-		<rect x="42.181" y="87.352" fill-rule="evenodd" clip-rule="evenodd" fill="#990099" width="2.819" height="2.824"/>
-		<rect x="33.776" y="90.176" fill-rule="evenodd" clip-rule="evenodd" width="2.767" height="2.824"/>
-		<rect x="36.543" y="90.176" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="39.362" y="90.176" fill-rule="evenodd" clip-rule="evenodd" width="2.818" height="2.824"/>
-		<rect x="42.181" y="90.176" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="30.957" y="84.526" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.825"/>
-		<rect x="30.957" y="87.352" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="30.957" y="90.176" fill-rule="evenodd" clip-rule="evenodd" width="2.819" height="2.824"/>
-		<rect x="8.457" y="53.562" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.771"/>
-		<rect x="8.457" y="56.333" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.825"/>
-		<rect x="8.457" y="59.158" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="5.638" y="59.158" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="5.638" y="61.982" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.825"/>
-		<rect x="5.638" y="64.808" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="8.457" y="64.808" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="11.276" y="64.808" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.767" height="2.824"/>
-		<rect x="14.043" y="64.808" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="16.862" y="64.808" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.824"/>
-		<rect x="19.681" y="64.808" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="16.862" y="61.982" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.825"/>
-		<rect x="19.681" y="61.982" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.825"/>
-		<rect x="14.043" y="67.632" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="16.862" y="67.632" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.824"/>
-		<rect x="25.319" y="61.982" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.825"/>
-		<rect x="25.319" y="64.808" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.824"/>
-		<rect x="25.319" y="67.632" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.824"/>
-		<rect x="25.319" y="70.456" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.825"/>
-		<rect x="28.138" y="61.982" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.825"/>
-		<rect x="28.138" y="64.808" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="28.138" y="67.632" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="28.138" y="70.456" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.825"/>
-		<rect x="28.138" y="59.158" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="28.138" y="73.281" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="30.957" y="61.982" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.825"/>
-		<rect x="30.957" y="64.808" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="30.957" y="70.456" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.825"/>
-		<rect x="30.957" y="59.158" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="30.957" y="73.281" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="30.957" y="56.333" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.825"/>
-		<rect x="33.776" y="59.158" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.767" height="2.824"/>
-		<rect x="33.776" y="56.333" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.767" height="2.825"/>
-		<rect x="33.776" y="53.562" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.767" height="2.771"/>
-		<rect x="36.543" y="59.158" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="39.362" y="59.158" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.824"/>
-		<rect x="39.362" y="56.333" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.825"/>
-		<rect x="39.362" y="53.562" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.771"/>
-		<rect x="39.362" y="50.736" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.825"/>
-		<rect x="36.543" y="50.736" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.825"/>
-		<rect x="42.181" y="59.158" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="42.181" y="56.333" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.825"/>
-		<rect x="42.181" y="53.562" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.771"/>
-		<rect x="42.181" y="50.736" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.825"/>
-		<rect x="42.181" y="47.912" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="42.181" y="61.982" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.825"/>
-		<rect x="42.181" y="64.808" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="39.362" y="64.808" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.824"/>
-		<rect x="33.776" y="64.808" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.767" height="2.824"/>
-		<rect x="42.181" y="67.632" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="39.362" y="67.632" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.824"/>
-		<rect x="33.776" y="67.632" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.767" height="2.824"/>
-		<rect x="36.543" y="67.632" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="42.181" y="70.456" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.825"/>
-		<rect x="39.362" y="70.456" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.825"/>
-		<rect x="33.776" y="70.456" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.767" height="2.825"/>
-		<rect x="33.776" y="73.281" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.767" height="2.824"/>
-		<rect x="33.776" y="76.105" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.767" height="2.771"/>
-		<rect x="36.543" y="73.281" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.824"/>
-		<rect x="36.543" y="76.105" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.771"/>
-		<rect x="36.543" y="78.877" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.825"/>
-		<rect x="39.362" y="76.105" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.771"/>
-		<rect x="39.362" y="78.877" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.818" height="2.825"/>
-		<rect x="42.181" y="76.105" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.771"/>
-		<rect x="42.181" y="78.877" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="2.819" height="2.825"/>
+		<defs>
+			<rect id="SVGID_4_" x="88.086" y="6.193" width="7.57" height="44.043"/>
+		</defs>
+		<clipPath id="SVGID_5_">
+			<use xlink:href="#SVGID_4_"  overflow="visible"/>
+		</clipPath>
+		
+			<linearGradient id="SVGID_6_" gradientUnits="userSpaceOnUse" x1="-169.8735" y1="264.749" x2="-169.1773" y2="264.749" gradientTransform="matrix(284.0002 0 0 -284.0002 48233.8594 75216.9453)">
+			<stop  offset="0" style="stop-color:#FFFFFF"/>
+			<stop  offset="0" style="stop-color:#9A3594"/>
+			<stop  offset="0.5152" style="stop-color:#7854A7"/>
+			<stop  offset="0.9879" style="stop-color:#5872B9"/>
+			<stop  offset="1" style="stop-color:#5872B9"/>
+		</linearGradient>
+		<rect x="88.086" y="6.193" clip-path="url(#SVGID_5_)" fill="url(#SVGID_6_)" width="7.57" height="44.043"/>
 	</g>
-	<polygon fill-rule="evenodd" clip-rule="evenodd" fill="#C406C4" points="14.826,2.824 14.821,2.824 12.009,2.824 9.188,2.824 
-		9.188,5.649 6.369,5.649 6.369,8.422 12.007,8.422 12.007,33.789 9.188,33.789 9.188,36.614 14.826,36.614 14.826,33.789 
-		14.826,33.789 14.826,8.422 14.826,8.422 14.826,5.624 14.826,5.624 	"/>
+	<g>
+		<defs>
+			<polygon id="SVGID_7_" points="125.248,13.075 147.27,13.075 147.27,6.193 110.796,6.193 110.796,57.807 110.836,57.807 
+				111.484,57.807 125.248,57.807 125.248,42.666 147.27,42.666 147.27,35.785 125.248,35.785 			"/>
+		</defs>
+		<clipPath id="SVGID_8_">
+			<use xlink:href="#SVGID_7_"  overflow="visible"/>
+		</clipPath>
+		
+			<linearGradient id="SVGID_9_" gradientUnits="userSpaceOnUse" x1="-169.8696" y1="264.7549" x2="-169.1812" y2="264.7549" gradientTransform="matrix(284 0 0 -284 48233.9844 75222.5078)">
+			<stop  offset="0" style="stop-color:#FFFFFF"/>
+			<stop  offset="0" style="stop-color:#9A3594"/>
+			<stop  offset="0.5152" style="stop-color:#7854A7"/>
+			<stop  offset="0.9879" style="stop-color:#5872B9"/>
+			<stop  offset="1" style="stop-color:#5872B9"/>
+		</linearGradient>
+		<rect x="110.796" y="6.193" clip-path="url(#SVGID_8_)" fill="url(#SVGID_9_)" width="36.474" height="51.613"/>
+	</g>
+	<g>
+		<defs>
+			<polygon id="SVGID_10_" points="147.27,34.09 147.27,34.757 147.27,35.785 154.838,35.785 154.838,34.757 154.838,34.09 
+				154.838,13.075 147.27,13.075 			"/>
+		</defs>
+		<clipPath id="SVGID_11_">
+			<use xlink:href="#SVGID_10_"  overflow="visible"/>
+		</clipPath>
+		
+			<linearGradient id="SVGID_12_" gradientUnits="userSpaceOnUse" x1="-169.8657" y1="264.7432" x2="-169.1822" y2="264.7432" gradientTransform="matrix(284.0002 0 0 -284.0002 48233.8594 75211.4453)">
+			<stop  offset="0" style="stop-color:#FFFFFF"/>
+			<stop  offset="0" style="stop-color:#9A3594"/>
+			<stop  offset="0.5152" style="stop-color:#7854A7"/>
+			<stop  offset="0.9879" style="stop-color:#5872B9"/>
+			<stop  offset="1" style="stop-color:#5872B9"/>
+		</linearGradient>
+		<rect x="147.27" y="13.075" clip-path="url(#SVGID_11_)" fill="url(#SVGID_12_)" width="7.568" height="22.71"/>
+	</g>
+	<g>
+		<defs>
+			<rect id="SVGID_13_" x="175.482" y="6.193" width="14.452" height="36.473"/>
+		</defs>
+		<clipPath id="SVGID_14_">
+			<use xlink:href="#SVGID_13_"  overflow="visible"/>
+		</clipPath>
+		
+			<linearGradient id="SVGID_15_" gradientUnits="userSpaceOnUse" x1="-169.8853" y1="264.7441" x2="-169.1899" y2="264.7441" gradientTransform="matrix(283.9998 0 0 -283.9998 48242.1406 75211.5547)">
+			<stop  offset="0" style="stop-color:#FFFFFF"/>
+			<stop  offset="0" style="stop-color:#9A3594"/>
+			<stop  offset="0.5152" style="stop-color:#7854A7"/>
+			<stop  offset="0.9879" style="stop-color:#5872B9"/>
+			<stop  offset="1" style="stop-color:#5872B9"/>
+		</linearGradient>
+		<rect x="175.482" y="6.193" clip-path="url(#SVGID_14_)" fill="url(#SVGID_15_)" width="14.452" height="36.473"/>
+	</g>
+	<g>
+		<defs>
+			<rect id="SVGID_16_" x="175.482" y="50.236" width="14.452" height="7.57"/>
+		</defs>
+		<clipPath id="SVGID_17_">
+			<use xlink:href="#SVGID_16_"  overflow="visible"/>
+		</clipPath>
+		
+			<linearGradient id="SVGID_18_" gradientUnits="userSpaceOnUse" x1="-169.8853" y1="264.791" x2="-169.1899" y2="264.791" gradientTransform="matrix(283.9998 0 0 -283.9998 48242.1406 75254.5547)">
+			<stop  offset="0" style="stop-color:#FFFFFF"/>
+			<stop  offset="0" style="stop-color:#9A3594"/>
+			<stop  offset="0.5152" style="stop-color:#7854A7"/>
+			<stop  offset="0.9879" style="stop-color:#5872B9"/>
+			<stop  offset="1" style="stop-color:#5872B9"/>
+		</linearGradient>
+		<rect x="175.482" y="50.236" clip-path="url(#SVGID_17_)" fill="url(#SVGID_18_)" width="14.452" height="7.57"/>
+	</g>
+	<g>
+		<defs>
+			<polygon id="SVGID_19_" points="6.193,13.764 14.451,13.764 14.451,6.193 14.492,6.193 28.215,6.193 28.215,50.925 
+				35.785,50.925 35.785,57.807 6.882,57.807 6.882,50.925 6.923,50.925 14.451,50.925 14.451,28.215 6.193,28.215 			"/>
+		</defs>
+		<clipPath id="SVGID_20_">
+			<use xlink:href="#SVGID_19_"  overflow="visible"/>
+		</clipPath>
+		
+			<linearGradient id="SVGID_21_" gradientUnits="userSpaceOnUse" x1="-169.8638" y1="264.6982" x2="-169.1753" y2="264.6982" gradientTransform="matrix(230.4151 0 0 -230.4151 39142.5938 61022.3867)">
+			<stop  offset="0" style="stop-color:#FFFFFF"/>
+			<stop  offset="0" style="stop-color:#9A3594"/>
+			<stop  offset="0.5152" style="stop-color:#7854A7"/>
+			<stop  offset="0.9879" style="stop-color:#5872B9"/>
+			<stop  offset="1" style="stop-color:#5872B9"/>
+		</linearGradient>
+		<rect x="6.193" y="6.193" clip-path="url(#SVGID_20_)" fill="url(#SVGID_21_)" width="29.592" height="51.613"/>
+	</g>
+	<path fill="#FFFFFF" d="M68.13,48.172H67.44V5.459V5.438v-1.31h-1.6h-0.04h-14.81H50.95h-2.09v1.31v0.021V49.99v0.019v2.292h2.09
+		h0.041h5.439v5.113v0.021v2.436h1.945h0.041h29.659h0.042h2.033v-2.436v-0.021v-5.113h5.352h0.04h2.179v-2.292V49.99V5.459V5.438
+		v-1.31h-2.179h-0.04h-7.385h-0.042h-2.053v1.31v0.021v42.713H68.17H68.13z M88.086,50.236v7.57H58.495v-7.57h-7.57V6.193h14.43
+		l0.021,44.043h0.688H88.086z M88.086,6.193h7.57v44.043h-7.57V6.193z"/>
+	<path fill="#FFFFFF" d="M149.334,5.459V5.438v-1.31h-1.818h-0.039h-37.086h-0.04h-1.62v1.31v0.021v51.955v0.021v2.436h1.62h0.04
+		h14.812h0.039h2.071v-2.436v-0.021V44.73h20.164h0.039h1.818v-2.146v-0.021V37.53v-0.022v-0.346h5.568h0.039h1.962V35.16v-0.021
+		V12.884v-0.02v-1.854h-1.962h-0.039h-5.568V5.459z M154.838,13.075V34.09v0.667v1.028h-7.568v6.881h-22.021v15.141h-13.764h-0.648
+		h-0.04V6.193h36.474v6.882H154.838z"/>
+	<path fill="#FFFFFF" d="M147.27,34.088V13.076h-22.021v22.709h22.021v-1.028V34.088z M145.204,32.692v0.019v1.01h-17.892V15.14
+		h17.892V32.692z"/>
+	<path fill="#FFFFFF" d="M175.297,59.871h14.811h0.041H192v-2.436v-0.021v-7.405V49.99v-1.818h-1.852h-0.041h-14.811h-0.04h-1.838
+		v1.818v0.019v7.405v0.021v2.436h1.838H175.297z M175.482,50.236h14.452v7.57h-14.452V50.236z"/>
+	<path fill="#FFFFFF" d="M175.297,44.73h14.811h0.041H192v-2.146v-0.021V5.459V5.438v-1.31h-1.852h-0.041h-14.811h-0.04h-1.838v1.31
+		v0.021v37.104v0.021v2.146h1.838H175.297z M175.482,6.193h14.452v36.473h-14.452V6.193z"/>
+	<path fill="#FFFFFF" d="M4.129,30.28h4.129h4.129v4.477v0.021v14.082H11.74h-0.041h-5.12H6.538h-1.72v1.38v0.021v7.55v0.02v2.041
+		h1.72h0.042h8.561h0.041h14.412h0.04h6.497h0.042h1.678V57.83v-0.02v-7.55v-0.021v-1.38h-1.678h-0.042h-5.85V5.53V5.509v-1.38H28.6
+		h-0.042h-14.41h-0.041h-1.721v1.38V5.53v6.169H11.74h-0.041h-5.12H6.538h-1.72H4.129v1.379v6.191V30.28z M6.193,13.764h0.73H7.57
+		h6.194h0.687v-7.57h0.042h0.647h13.076v44.731h7.57v5.873v0.667v0.342h-5.506h-0.647H15.828H15.18H6.882v-6.882h0.041H7.57h6.881
+		V28.215H6.882H6.256H6.193"/>
+	<path d="M32.344,46.795V2.065H10.322v7.57H4.129H2.064v22.709h0.688h1.377h6.192v14.451H9.634H2.752v15.141h37.162V46.795H32.344z
+		 M37.849,50.239v0.021v7.551v0.02v2.041h-1.678h-0.042h-6.497h-0.04H15.18H15.14H6.579H6.538h-1.72V57.83v-0.02V50.26v-0.021
+		v-1.378h1.72h0.042h5.12h0.041h0.647V34.777v-0.021V30.28H8.258H6.579H6.538H4.129V11.699h8.258v-7.57h16.171H28.6h1.679v1.38v0.02
+		v43.333h5.85h0.042h1.678V50.239z"/>
 </g>
 </svg>
