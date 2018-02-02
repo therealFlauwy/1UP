@@ -59,7 +59,7 @@
 								</div>
 								<div class="button-upvote 1UP_votes" ><span class="icon icon-1up"></span><span class="votes_amount"><%= posts[0].get('from_length')%></span></div>
 							</div>
-	          <div class="post_author"><a href="https://utopian.io/<%= posts[0].get('author')%>" target="_blank"><%= posts[0].get('author')%> <%= /*posts[0].get('reputation')*/%></a></div>
+	          <div class="post_author"><a href="https://utopian.io/@<%= posts[0].get('author')%>" target="_blank"><%= posts[0].get('author')%> <%= /*posts[0].get('reputation')*/%></a></div>
 	          <a href="https://utopian.io/utopian-io/@<%= posts[0].get('author')%>/<%=posts[0].get('permlink') %>" class="post_title" title="<%= posts[0].get('title')%>" target="_blank"><%= posts[0].get('title')%></a> <!-- TODO: Add link to post -->
 	        </div>
 	        <%}%>
@@ -80,7 +80,7 @@
 						 	</div>
 							<div class="button-upvote 1UP_votes" ><span class="icon icon-1up"></span><span class="votes_amount"><%= posts[index].get('from_length')%></span></div>
 						</div>
-	        <div class="post_author"><a href="https://utopian.io/<%= posts[index].get('author')%>" target="_blank"><%= posts[index].get('author')%></a> <%= /*posts[index].get('reputation')*/%></div>
+	        <div class="post_author"><a href="https://utopian.io/@<%= posts[index].get('author')%>" target="_blank"><%= posts[index].get('author')%></a> <%= /*posts[index].get('reputation')*/%></div>
 	        <a href="https://utopian.io/utopian-io/@<%= posts[index].get('author')%>/<%=posts[0].get('permlink') %>" class="post_title" title="<%= posts[index].get('title')%>" target="_blank"><%= posts[index].get('title')%></a> <!-- TODO: Add link to post -->
 				</div>
 	      <% }}); %>
