@@ -82,6 +82,7 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
           query.equalTo("voted",true);
           query.limit(10);
           query.greaterThan('createdAt',new Date(new Date()-2*24*3600000));
+          query.lessThan('createdAt',new Date(new Date()-24*3600000));
                  query.find({
                   success: function(posts) {
                     if(posts!==undefined&&posts.length!==0)
@@ -104,7 +105,6 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
             query.descending("from_length");
             query.equalTo("voted",true);
             query.limit(10);
-            //query.equalTo("voted_utopian",false);
                    query.find({
                     success: function(posts) {
                       if(posts!==undefined&&posts.length!==0)

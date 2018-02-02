@@ -26,7 +26,7 @@ Parse.Cloud.job("botVote", function(request, response) {
     steem.api.getAccounts([BOT], function(err, result) {
     var vp=getVotingPower(result["0"]);
     console.log('voting power',vp);
-    if(vp!==100){
+    if(vp==100){
       query.descending("from_length");
       query.equalTo("voted",false);
       query.equalTo("voted_utopian",false);
@@ -35,7 +35,7 @@ Parse.Cloud.job("botVote", function(request, response) {
           if(post!==undefined&&post.length!==0)
           {
              console.log('Voting for', post.get('title'),' of @',post.get('author'));
-             steem.broadcast.vote(WIF, BOT, post.get('author'), post.get('permlink'), 1000, function(err, result) {
+             steem.broadcast.vote(WIF, BOT, post.get('author'), post.get('permlink'), 10000, function(err, result) {
   	            console.log(err, result);
                 post.set('voted',true);
                 post.save(null,{useMasterKey:true});
@@ -195,7 +195,9 @@ Parse.Cloud.beforeSave('Posts', function (request, response) {
                     post[0].set('voted_utopian', false);
                     post[0].set('url',post[0].get('url'));
                     post[0].set('title',post[0].get('title'));
+                    post[0].set('image',post[0].get('image'));
                     post[0].set('author',post[0].get('author'));
+                    post[0].set('permlink',post[0].get('permlink'));
                     post[0].set('reputation',post[0].get('reputation'));
                   request.object=post[0];
                   post[0].destroy({useMasterKey:true});

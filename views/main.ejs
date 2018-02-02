@@ -1,3 +1,202 @@
+<<<<<<< HEAD
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <title>Utopian 1UP</title>
+		<meta name="theme-color" content="#993493">
+    <link href="/public/assets/css/style.css" rel="stylesheet">
+    <link href="/public/assets/fonts/icon-font.css" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="header">
+				<div class="wrapper">
+					<a href="/now"><img class="logo" src="/public/assets/images/logo.svg" alt="1UP logo" title="1UP"></a>
+					<span class="menu-main-button">
+						<span class="bar bar-1"></span>
+						<span class="bar bar-2"></span>
+						<span class="bar bar-3"></span>
+					</span>
+	        <ul class="menu-main">
+	        	<li><a href="https://steemit.com/utopian-io/@flauwy/steemy-ep-46-how-to-create-and-follow-a-curation-trail-with-steemauto" target="_blank" class="item">How to vote?</a></li>
+	          <li><a href="https://steemit.com/curation/@flauwy/utopian-1up-a-lucrative-steem-trail-for-the-best-daily-utopian-contributions" target="_blank" class="item">About</a></li>
+	          <li><a href="https://github.com/therealFlauwy/1UP" target="_blank" class="item icon-github" title="1UP on Github"></a></li>
+	        </ul>
+				</div>
+      </div>
+			<div class="top">
+        <div class="wrapper">
+					<div class="top_left">
+	          <div class="menu">
+	            <ul class="menu-charts">
+	              <li><a href="/now" class="item">Now</a></li>
+	              <li><a href="/today" class="item">Today</a></li>
+	              <li><a href="/yesterday" class="item">Yesterday</a></li>
+	              <li><a href="/alltime" class="item">Alltime</a></li>
+	            </ul>
+	          </div>
+						<% if(active===0){ %>
+						<div class="voting_period_wrapper">
+	            <p class="h2">Voting period ends in:</p>
+	            <div class="voting_period">
+								<span class="skeleton">
+									00<span class='unit'>h</span> 00<span class='unit'>m</span> 00<span class='unit'>s</span>
+								</span>
+							</div> <% if(posts.length!==0){ %>
+	            <div class="goes_to">1UP goes to <a href="https://utopian.io/<%= posts[0].get('author')%>" class="goes_to_user" target="_blank" title="Utopian profile">@<%= posts[0].get('author')%></a></div><%}%>
+	          </div> <%}%>
+	        </div>
+	        <% if(posts.length!==0){ %>
+	        <div class="post_default top_post">
+	          <span class="nb_post">1</span>
+		          <div class="post_img" style="background-image: url(<%= posts[0].get('image')%>)">
+								<div class="post_links">
+									<a href="https://steemit.com/utopian-io/@<%= posts[0].get('author')%>/<%=posts[0].get('permlink') %>" class="post_link link-steemit icon-steemit" target="_blank" title="Open on Steemit"></a>
+									<a href="https://utopian.io/utopian-io/@<%= posts[0].get('author')%>/<%=posts[0].get('permlink') %>" class="post_link link-utopian icon-utopian" target="_blank" title="Open on Utopian"></a>
+									<a href="https://busy.org/utopian-io/@<%= posts[0].get('author')%>/<%=posts[0].get('permlink') %>" class="post_link link-busy icon-busy" target="_blank" title="Open on Busy"></a>
+								</div>
+								<div class="button-upvote 1UP_votes" ><span class="icon icon-1up"></span><span class="votes_amount"><%= posts[0].get('from_length')%></span></div>
+							</div>
+	          <div class="post_author"><a href="https://utopian.io/@<%= posts[0].get('author')%>" target="_blank"><%= posts[0].get('author')%> <%= /*posts[0].get('reputation')*/%></a></div>
+	          <a href="https://utopian.io/utopian-io/@<%= posts[0].get('author')%>/<%=posts[0].get('permlink') %>" class="post_title" title="<%= posts[0].get('title')%>" target="_blank"><%= posts[0].get('title')%></a> <!-- TODO: Add link to post -->
+	        </div>
+	        <%}%>
+        </div>
+      </div>
+
+      <div class='other_posts'>
+       	<% posts.forEach(function(post, index) { if(index!==0){%>
+				<div class="post_default post">
+
+         	<span class="nb_post"><%=index+1%></span>
+					 	<div class="post_img" style="background-image: url(<%= posts[index].get('image')%>)">
+							<div class="post_links">
+								<!-- TODO: These links dont work -->
+								<a href="https://utopian.io/utopian-io/@<%= post.get('author')%>/<%=post.get('permlink') %>" class="post_link link-utopian icon-utopian" target="_blank" title="Open on Utopian"></a>
+                <a href="https://steemit.com/utopian-io/@<%= post.get('author')%>/<%=post.get('permlink') %>" class="post_link link-steemit icon-steemit" target="_blank" title="Open on Steemit"></a>
+								<a href="https://busy.org/utopian-io/@<%= post.get('author')%>/<%=post.get('permlink') %>" class="post_link link-busy icon-busy" target="_blank" title="Open on Busy"></a>
+						 	</div>
+							<div class="button-upvote 1UP_votes" ><span class="icon icon-1up"></span><span class="votes_amount"><%= posts[index].get('from_length')%></span></div>
+						</div>
+	        <div class="post_author"><a href="https://utopian.io/@<%= posts[index].get('author')%>" target="_blank"><%= posts[index].get('author')%></a> <%= /*posts[index].get('reputation')*/%></div>
+	        <a href="https://utopian.io/utopian-io/@<%= posts[index].get('author')%>/<%=posts[0].get('permlink') %>" class="post_title" title="<%= posts[index].get('title')%>" target="_blank"><%= posts[index].get('title')%></a> <!-- TODO: Add link to post -->
+				</div>
+	      <% }}); %>
+
+				<% if(posts.length<=0){%>
+ 				 <div class="empty-state">
+ 					 <br>
+ 					 <p class="h2">We don’t have anything<br> to show yet</p>
+ 					 <br>
+ 					 <p>Switch to "Now" and vote to change that.</p>
+ 				 </div>
+ 			 <% } %>
+
+      </div>
+
+
+			<footer id="footer" class="align-center">
+				<p>Created with <span class="heart">♥</span> for Steem and Utopian</p>
+				<p>Idea by <a href="https://steemit.com/@flauwy" target="_blank">@flauwy</a>, development by <a href="https://steemit.com/@stoodkev" target="_blank">@stoodkev</a>, design by <a href="https://steemit.com/@andrejcibik" target="_blank">@andrejcibik</a>.</p>
+      </footer>
+
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="//cdn.steemjs.com/lib/latest/steem.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/parse/1.11.0/parse.min.js"></script>
+    <script>
+    $('.menu ul li a').eq(<%=active%>).addClass('active');
+
+      steem.config.set('websocket','wss://steemd.privex.io');
+
+      console.log(<%=active%>);
+      if(<%=active%>==0)
+      {
+        steem.api.getAccounts(['steem-plus'], function(err, result) {
+        console.log(err, result);
+        var vp=getVotingPower(result["0"]);
+        var timeBeforeFull=getTimeBeforeFull(vp);
+        startTicker(timeBeforeFull);
+        console.log(vp,timeBeforeFull);
+        });
+
+      }
+
+    function getVotingPower(acc) {
+      var secondsago = (new Date - new Date(acc.last_vote_time + "Z")) / 1000;
+      vpow = acc.voting_power + (10000 * secondsago / 432000);
+      vpow = Math.min(vpow / 100, 100).toFixed(2);
+      return vpow;
+    }
+
+    function getTimeBeforeFull(vp)
+    {
+      var gap=100-vp;
+      return gap*60*60*1.2;
+
+    }
+    function startTicker(timeBeforeFull)
+    {
+      var time=timeBeforeFull;
+      $('.voting_period').html(sToTime(time));
+      var interval=setInterval(function(){
+        time--;
+        if(time>=0){
+          $('.voting_period').html(sToTime(time));
+        }
+        else
+          clearInterval(interval);
+
+      }, 1000);
+    }
+
+    function sToTime(duration) {
+    var  seconds = parseInt((duration%60))
+        , minutes = parseInt((duration/60)%60)
+        , hours = parseInt((duration/(60*60))%24);
+
+    hours = (hours < 10) ? "0" + hours : hours;
+    minutes = (minutes < 10) ? "0" + minutes : minutes;
+    seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+    return hours + "<span class='unit'>h</span> " + minutes + "<span class='unit'>m</span> " + seconds +"<span class='unit'>s</span>";
+}
+
+	/* Mobile menu openning */
+	$( document ).ready(function() {
+		var menuMainButton = $('.menu-main-button');
+		menuMainButton.click(function(){
+			if ($('body').hasClass('open-menu'))
+				$('body').removeClass('open-menu');
+			else {
+				$('body').addClass('open-menu');
+			}
+		});
+	});
+
+/*$( document ).ready(function() {
+    $('.posts li').each(function(i){
+      steem.config.set('websocket','wss://steemd.privex.io');
+      steem.api.getContentAsync($('.url').eq(i).attr('href').split('@')[1].split('/')[0], $('.url').eq(i).attr('href').split('/')[$('.url').eq(i).attr('href').split('/').length-1]).then(result=> {
+        if(result.active_votes.find(function (element) {
+            return element.voter == 'utopian-io'||element.voter == 'utopian-1up';
+        })!==undefined)
+      {
+          console.log('Voted already');
+          $('.posts li').eq(i).hide();
+      }
+      $('.info').eq(i).html('Upvotes: '+result.active_votes.length+'. Pending payout: '+result.pending_payout_value);
+    });
+  });
+});*/
+    </script>
+  </body>
+</html>
+=======
 <!DOCTYPE html>
 
 <html lang="en">
@@ -199,3 +398,4 @@
     </script>
   </body>
 </html>
+>>>>>>> origin/master
