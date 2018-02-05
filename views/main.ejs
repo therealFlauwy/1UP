@@ -49,22 +49,22 @@
 								</span>
 							</div>
               <% if(posts.length!==0){ %>
-	            <div class="goes_to">1UP goes to <a href="https://utopian.io/<%= posts[0].get('author')%>" class="goes_to_user" target="_blank" title="Utopian profile">@<%= posts[0].get('author')%> !</a></div><%}%>
+	            <div class="goes_to">1UP goes to <a href="https://utopian.io/@<%= posts[0].get('author')%>" class="goes_to_user" target="_blank" title="Utopian profile">@<%= posts[0].get('author')%> !</a></div><%}%>
 	          </div> <%}
             else if(active===1){ %>
 						<div class="voting_period_wrapper">
               <% if(posts.length!==0){ %>
-	            <div class="goes_to">Today's star is <a href="https://utopian.io/<%= posts[0].get('author')%>" class="goes_to_user" target="_blank" title="Utopian profile">@<%= posts[0].get('author')%> !</a></div><%}%>
+	            <div class="goes_to">Today's star is <a href="https://utopian.io/@<%= posts[0].get('author')%>" class="goes_to_user" target="_blank" title="Utopian profile">@<%= posts[0].get('author')%> !</a></div><%}%>
 	          </div> <%}
             else if(active===2){ %>
 						<div class="voting_period_wrapper">
               <% if(posts.length!==0){ %>
-	            <div class="goes_to">Yesterday was <a href="https://utopian.io/<%= posts[0].get('author')%>" class="goes_to_user" target="_blank" title="Utopian profile">@<%= posts[0].get('author')%> 's day!</a></div><%}%>
+	            <div class="goes_to">Yesterday was <a href="https://utopian.io/@<%= posts[0].get('author')%>" class="goes_to_user" target="_blank" title="Utopian profile">@<%= posts[0].get('author')%> 's day!</a></div><%}%>
 	          </div> <%}
             else if(active===3){ %>
 						<div class="voting_period_wrapper">
               <% if(posts.length!==0){ %>
-	            <div class="goes_to">No one can beat <a href="https://utopian.io/<%= posts[0].get('author')%>" class="goes_to_user" target="_blank" title="Utopian profile">@<%= posts[0].get('author')%> !</a></div><%}%>
+	            <div class="goes_to">No one can beat <a href="https://utopian.io/@<%= posts[0].get('author')%>" class="goes_to_user" target="_blank" title="Utopian profile">@<%= posts[0].get('author')%> !</a></div><%}%>
 	          </div> <%}%>
 	        </div>
 	        <% if(posts.length!==0){ %>
