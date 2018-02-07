@@ -1,6 +1,6 @@
 var steem = require('steem');
 const MAX_VOTE_PER_DAY=10;
-const BOT='steem-plus';
+const BOT='utopian-1up';
 steem.api.setOptions({ url: 'https://api.steemit.com' });
 let sc2=require('sc2-sdk');
 
