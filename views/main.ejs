@@ -134,7 +134,7 @@
       console.log(<%=active%>);
       if(<%=active%>==0)
       {
-        steem.api.getAccounts(['utopian-1up'], function(err, result) {
+        steem.api.getAccounts(["<%=bot%>"], function(err, result) {
         console.log(err, result);
         var vp=getVotingPower(result["0"]);
         var timeBeforeFull=getTimeBeforeFull(vp);
