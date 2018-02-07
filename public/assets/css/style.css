@@ -262,6 +262,12 @@ body {
   overflow-x: hidden;
 }
 
+@media screen and (max-width: 1440px) {
+  body {
+    background: #F9F9F9 url("../images/bg-1360.png") bottom center no-repeat fixed;
+  }
+}
+
 @media screen and (max-width: 1024px) {
   body {
     background-image: none;
@@ -714,7 +720,7 @@ hr {
 }
 
 .voting_period_wrapper .h2 {
-  padding-top: 40px;
+  padding-top: 30px;
 }
 
 .voting_period {
@@ -734,7 +740,8 @@ hr {
 }
 
 .goes_to {
-  margin-top: 30px;
+  font-size: 18px;
+  margin-top: 40px;
 }
 
 .goes_to .goes_to_user {
@@ -761,7 +768,6 @@ hr {
 .other_posts .empty-state {
   width: 100%;
   padding-bottom: 80px;
-  background: url("../images/empty-state-arrow.png") top center no-repeat;
   text-align: center;
 }
 
@@ -778,7 +784,6 @@ hr {
     padding-right: 0px;
   }
   .other_posts .empty-state {
-    background: none;
     padding: 0 20px;
     padding-bottom: 40px;
   }
@@ -962,7 +967,7 @@ hr {
 /* Just top post */
 .top_post {
   min-height: 315px;
-  min-width: 48%;
+  width: 48%;
   margin-top: -20px;
   margin-bottom: -20px;
   border: 0;
@@ -979,6 +984,12 @@ hr {
   text-overflow: ellipsis;
 }
 
+@media screen and (max-width: 1440px) {
+  .top_post {
+    width: 40%;
+  }
+}
+
 @media screen and (min-width: 1024px) {
   .top_post .nb_post {
     width: 35px;
@@ -990,6 +1001,7 @@ hr {
 
 @media screen and (max-width: 1024px) {
   .top_post {
+    width: 50%;
     margin-top: 20px;
   }
   .top_post .post_title {
@@ -1004,7 +1016,7 @@ hr {
 
 @media screen and (max-width: 640px) {
   .top_post {
-    max-width: 100%;
+    width: 100%;
     margin: 0;
   }
   .top_post .nb_post {
@@ -1014,22 +1026,22 @@ hr {
     padding: 0 10px;
   }
   .voting_period_wrapper .h2 {
-    padding-top: 10px;
-    font-size: 15px;
+    font-size: 18px;
   }
   .voting_period_wrapper .voting_period {
     font-size: 19px;
     padding-top: 5px;
   }
   .voting_period_wrapper .goes_to {
-    margin-top: 15px;
-    margin-bottom: 30px;
+    font-size: 16px;
+    margin-top: 40px;
+    margin-bottom: 60px;
   }
 }
 
 #footer {
-  padding: 20px;
-  padding-bottom: 40px;
+  padding: 30px;
+  padding-bottom: 50px;
   text-align: center;
   color: rgba(0, 0, 0, 0.6);
   font-size: 14px;

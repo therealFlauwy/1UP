@@ -97,7 +97,7 @@
 	text-align: center
 
 	.h2
-		padding-top: 40px
+		padding-top: 30px
 
 .voting_period
 	display: block
@@ -113,7 +113,8 @@
 		padding-left: 5px
 
 .goes_to
-	margin-top: 30px
+	font-size: 18px
+	margin-top: 40px
 
 	.goes_to_user
 		color: #fff
@@ -132,7 +133,6 @@
 	.empty-state
 		width: 100%
 		padding-bottom: 80px
-		background: url('../images/empty-state-arrow.png') top center no-repeat
 		text-align: center
 
 @media screen and (max-width: 1024px)
@@ -148,7 +148,6 @@
 		padding-right: 0px
 
 		.empty-state
-			background: none
 			padding: 0 20px
 			padding-bottom: 40px
 
@@ -303,7 +302,7 @@
 
 .top_post
 	min-height: 315px
-	min-width: 48%
+	width: 48%
 	margin-top: -20px
 	margin-bottom: -20px
 	border: 0
@@ -318,6 +317,10 @@
 		white-space: nowrap
 		text-overflow: ellipsis
 
+@media screen and (max-width: 1440px)
+	.top_post
+		width: 40%
+
 @media screen and (min-width: 1024px)
 
 	.top_post
@@ -331,6 +334,7 @@
 @media screen and (max-width: 1024px)
 
 	.top_post
+		width: 50%
 		margin-top: 20px
 
 		.post_title
@@ -344,7 +348,7 @@
 @media screen and (max-width: 640px)
 
 	.top_post
-		max-width: 100%
+		width: 100%
 		margin: 0
 
 		.nb_post
@@ -354,13 +358,13 @@
 		padding: 0 10px
 
 		.h2
-			padding-top: 10px
-			font-size: 15px
+			font-size: 18px
 
 		.voting_period
 			font-size: 19px
 			padding-top: 5px
 
 		.goes_to
-			margin-top: 15px
-			margin-bottom: 30px
+			font-size: 16px
+			margin-top: 40px
+			margin-bottom: 60px
