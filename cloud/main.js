@@ -30,10 +30,20 @@ Parse.Cloud.job("botVote", function(request, response) {
       query.descending("from_length");
       query.equalTo("voted",false);
       query.equalTo("voted_utopian",false);
-      query.first({
-        success: function(post) {
-          if(post!==undefined&&post.length!==0)
+      query.find({
+        success: function(posts) {
+          if(posts!==undefined&&posts.length!==0)
           {
+            posts=posts.sort(function(a,b){
+              if(a.get('from_length')>b.get('from_length'))
+                return -1;
+              else if(b.get('from_length')>a.get('from_length'))
+                return 1;
+              else{
+                return a.get('createdAt')-b.get('createdAt');
+              }
+            });
+            const post=posts[0];
              console.log('Voting for', post.get('title'),' of @',post.get('author'));
              steem.broadcast.vote(WIF, BOT, post.get('author'), post.get('permlink'), 10000, function(err, result) {
   	            console.log(err, result);

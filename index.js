@@ -45,7 +45,7 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
                     else if(b.get('from_length')>a.get('from_length'))
                       return 1;
                     else{
-                      return b.get('createdAt')-a.get('createdAt');
+                      return a.get('createdAt')-b.get('createdAt');
                     }
                   });
                     res.render('main.ejs', {bot:process.env.BOT,posts: posts,active:0});
