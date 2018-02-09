@@ -1,4 +1,5 @@
 var steem = require('steem');
+var fs = require('fs');
 const MAX_VOTE_PER_DAY=10;
 const BOT=process.env.BOT;
 steem.api.setOptions({ url: 'https://api.steemit.com' });
@@ -39,8 +40,13 @@ Parse.Cloud.job("botVote", function(request, response) {
   	            console.log(err, result);
                 post.set('voted',true);
                 post.save(null,{useMasterKey:true});
-                response.success('Vote done');
               });
+             var permlink = new Date().toISOString().replace(/[^a-zA-Z0-9]+/g, '').toLowerCase();
+             var body = fs.readFileSync(path.resolve(__dirname, 'comment.md'));
+            steem.broadcast.comment(WIF, post.get('author'), post.get('permlink'), BOT, permlink, "", body, {"app":"1up"}, function(err, result) {
+              console.log(err, result);
+              response.success('Vote and comment done');
+            });
           }
           else
             response.error('No post to vote!');
