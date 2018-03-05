@@ -135,14 +135,19 @@ Parse.Cloud.beforeSave('Votes', function (request, response) {
   // Selfvote
   if(author===request.object.get('from'))
     response.error('You cannot vote for yourself!');
-
   const content= steem.api.getContentAsync(author, perm);
   content.then(result=> {
-    if(result.active_votes.find(function (element) {return element.voter == BOT;})!==undefined)
-      response.error('Too late! This post was already voted by the trail!');
-    if(result.active_votes.find(function (element) {return element.voter == 'utopian-io';})!==undefined)
-      response.error('Too late! This post was already voted by Utopian!');
+    if(result.active_votes
+      .find(function (element) {
+        return element.voter == BOT;})!==undefined)
+          response.error('Too late! This post was already voted by the trail!');
+    if(result.active_votes
+      .find(function (element) {
+        return element.voter == 'utopian-io';})!==undefined)
+          response.error('Too late! This post was already voted by Utopian!');
 
+    if(JSON.parse(result.json_metadata).type.includes('task'))
+      response.error('Sorry! We do not accept task requests on Utopian 1UP!');
   // Check vote more than once for same user
     var query = new Parse.Query(aVote);
     query.equalTo('from',request.object.get('from'));
