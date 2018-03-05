@@ -31,6 +31,7 @@ Parse.Cloud.job("botVote", function(request, response) {
       query.descending("from_length");
       query.equalTo("voted",false);
       query.equalTo("voted_utopian",false);
+      query.greaterThan('creationDate',new Date(new Date()-7*24*3600000));
       query.find({
         success: function(posts) {
           if(posts!==undefined&&posts.length!==0)
@@ -45,6 +46,7 @@ Parse.Cloud.job("botVote", function(request, response) {
               }
             });
             const post=posts[0];
+            console.log(post.get('title'));
              console.log('Voting for', post.get('title'),' of @',post.get('author'));
              steem.broadcast.vote(WIF, BOT, post.get('author'), post.get('permlink'), 10000, function(err, result) {
   	            console.log(err, result);
@@ -59,7 +61,11 @@ Parse.Cloud.job("botVote", function(request, response) {
             });
           }
           else
+          {
+            console.log('No post to vote!');
             response.error('No post to vote!');
+          }
+
         }
         ,error:function(err){console.log(err); response.error('Something went wrong!');}
             });
@@ -78,6 +84,7 @@ Parse.Cloud.define("checkVote", function(request, response) {
   var post_list=[];
   query.descending("from_length");
   query.equalTo("voted",false);
+  query.greaterThan('createdAt',new Date(new Date()-7*24*3600000));
          query.find({
           success: function(posts) {
             if(posts!==undefined&&posts.length!==0)
@@ -85,6 +92,11 @@ Parse.Cloud.define("checkVote", function(request, response) {
                for ( const [i, post] of posts.entries()){
                   const content= steem.api.getContentAsync(post.get('url').split('@')[1].split('/')[0], post.get('url').split('/')[post.get('url').split('/').length-1]);
                    content.then(result=> {
+                    if(post.get('creationDate')===undefined)
+                    {
+                      posts[i].set('creationDate',{ "__type": "Date", "iso":result.created});
+                      posts[i].save(null,{useMasterKey:true});
+                    }
                     if(result.active_votes.find(function (element) {
                         return element.voter == BOT;
                     })!==undefined)
@@ -138,7 +150,7 @@ Parse.Cloud.beforeSave('Votes', function (request, response) {
     query.find( {
           useMasterKey: true,
           success: function (votes) {
-            console.log(votes);
+            //console.log(votes);
             if(votes.length!==0)
             {
               for (vote of votes){
@@ -184,6 +196,7 @@ Parse.Cloud.beforeSave('Posts', function (request, response) {
                    request.object.set('title', result.title);
                    request.object.set('author', result.author);
                    request.object.set('permlink', result.permlink);
+                   request.object.set('creationDate', result.created);
                    request.object.set('reputation',steem.formatter.reputation(result.author_reputation));
                    request.object.set('voted', false);
                    request.object.set('voted_utopian', false);
@@ -211,6 +224,7 @@ Parse.Cloud.beforeSave('Posts', function (request, response) {
                     post[0].set('voted_utopian', false);
                     post[0].set('url',post[0].get('url'));
                     post[0].set('title',post[0].get('title'));
+                    post[0].set('creationDate',post[0].get('creationDate'));
                     post[0].set('image',post[0].get('image'));
                     post[0].set('author',post[0].get('author'));
                     post[0].set('permlink',post[0].get('permlink'));
