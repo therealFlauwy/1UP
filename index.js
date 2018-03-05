@@ -33,7 +33,7 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
 
       query.descending("from_length");
       query.equalTo("voted",false);
-      //query.greaterThan('creationDate',new Date(new Date()-7*24*3600000));
+      query.greaterThan('creationDate',new Date(new Date()-7*24*3600000));
       query.equalTo("voted_utopian",false);
       query.find({
               success: function(posts) {
