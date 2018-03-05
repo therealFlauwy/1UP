@@ -33,13 +33,22 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
 
       query.descending("from_length");
       query.equalTo("voted",false);
+      query.greaterThan('creationDate',new Date(new Date()-7*24*3600000));
       query.equalTo("voted_utopian",false);
-      query.limit(10);
       query.find({
               success: function(posts) {
                 if(posts!==undefined&&posts.length!==0)
                 {
                   console.log('a',posts.length);
+                  posts=posts.sort(function(a,b){
+                    if(a.get('from_length')>b.get('from_length'))
+                      return -1;
+                    else if(b.get('from_length')>a.get('from_length'))
+                      return 1;
+                    else{
+                      return a.get('createdAt')-b.get('createdAt');
+                    }
+                  });
                     res.render('main.ejs', {bot:process.env.BOT,posts: posts,active:0});
                 }
                 else
