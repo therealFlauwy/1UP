@@ -50,15 +50,17 @@ Parse.Cloud.job("botVote", function(request, response) {
              console.log('Voting for', post.get('title'),' of @',post.get('author'));
              steem.broadcast.vote(WIF, BOT, post.get('author'), post.get('permlink'), 10000, function(err, result) {
   	            console.log(err, result);
-                post.set('voted',true);
-                post.save(null,{useMasterKey:true});
+                var permlink = new Date().toISOString().replace(/[^a-zA-Z0-9]+/g, '').toLowerCase();
+                var body = fs.readFileSync(path.resolve(__dirname, 'commentTemplate.md'));
+                console.log('Will broadcast Comment');
+               steem.broadcast.comment(WIF, post.get('author'), post.get('permlink'), BOT, permlink, "", body, {"app":"1up"}, function(err, result) {
+                 console.log(err, result);
+                 response.success('Vote and comment done');
+                  post.set('voted',true);
+                  post.save(null,{useMasterKey:true});
+               });
               });
-             var permlink = new Date().toISOString().replace(/[^a-zA-Z0-9]+/g, '').toLowerCase();
-             var body = fs.readFileSync(path.resolve(__dirname, 'commentTemplate.md'));
-            steem.broadcast.comment(WIF, post.get('author'), post.get('permlink'), BOT, permlink, "", body, {"app":"1up"}, function(err, result) {
-              console.log(err, result);
-              response.success('Vote and comment done');
-            });
+
           }
           else
           {
@@ -201,7 +203,7 @@ Parse.Cloud.beforeSave('Posts', function (request, response) {
                    request.object.set('title', result.title);
                    request.object.set('author', result.author);
                    request.object.set('permlink', result.permlink);
-                   request.object.set('creationDate', result.created);
+                   request.object.set('creationDate', new Date(result.created));
                    request.object.set('reputation',steem.formatter.reputation(result.author_reputation));
                    request.object.set('voted', false);
                    request.object.set('voted_utopian', false);

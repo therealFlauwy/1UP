@@ -5,19 +5,26 @@ var ParseServer = require('parse-server').ParseServer;
 var path = require('path');
 var favicon = require('serve-favicon')
 require('dotenv').config();
-var databaseUri = process.env.DATABASE_URI || process.env.MONGODB_URI;
+let sc2 = require('sc2-sdk');
+let config = require("./config");
+
+let steem = sc2.Initialize({
+    app: config.app_id,
+    callbackURL: config.redirect_uri,
+    scope: config.scopes
+});
+var databaseUri = config.db;
 
 if (!databaseUri) {
   console.log('DATABASE_URI not specified, falling back to localhost.');
 }
-var serverURL=process.env.SERVER_URL||'http://localhost:1337';
+var serverURL=config.serverURL;
 var api = new ParseServer({
-  databaseURI: process.env.MONGODB_URI || 'mongodb://localhost:27017/dev',
-  cloud: process.env.CLOUD_CODE_MAIN || __dirname + '/cloud/main.js',
-  appId: process.env.APP_ID || 'myAppId',
-  masterKey: process.env.MASTER_KEY || '',
+  databaseURI: config.databaseURI,
+  cloud: config.cloud,
+  appId: config.appId,
+  masterKey: config.masterKey,
   serverURL: serverURL+'/parse',
-
 });
 
 var app = express();
@@ -129,6 +136,27 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
                   });
             });
 
+            app.get('/login', function(req, res) {
+              if (!req.query.access_token) {
+                      let uri = steem.getLoginURL();
+                      console.log(uri);
+                      res.redirect(uri);
+                  } else {
+                      steem.setAccessToken(req.query.access_token);
+                      steem.me(function (err, response) {
+                          response.account.json_metadata = JSON.parse(response.account.json_metadata);
+                          response.access_token = req.query.access_token;
+                          req.session.steem = response;
+                          res.redirect("/")
+                      })
+                  }
+            });
+
+            app.get('/logout', function(req, res) {
+              req.session.destroy();
+              res.redirect("/");
+            });
+
 
 // Serve the Parse API on the /parse URL prefix
 var mountPath = '/parse';
@@ -142,7 +170,7 @@ app.get('/', function(req, res) {
 // There will be a test page available on the /test path of your server url
 // Remove this before launching your app
 
-var port = process.env.PORT || 1337;
+var port = config.port;
 var httpServer = require('http').createServer(app);
 httpServer.listen(port, function() {
     console.log('Utopian 1UP running on port ' + port + '.');
