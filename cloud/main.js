@@ -27,7 +27,7 @@ Parse.Cloud.job("botVote", function(request, response) {
     steem.api.getAccounts([BOT], function(err, result) {
     var vp=getVotingPower(result["0"]);
     console.log('voting power',vp);
-    if(vp==100){
+    if(vp!==100){
       query.descending("from_length");
       query.equalTo("voted",false);
       query.equalTo("voted_utopian",false);
@@ -50,16 +50,17 @@ Parse.Cloud.job("botVote", function(request, response) {
              console.log('Voting for', post.get('title'),' of @',post.get('author'));
              steem.broadcast.vote(WIF, BOT, post.get('author'), post.get('permlink'), 10000, function(err, result) {
   	            console.log(err, result);
-                post.set('voted',true);
-                post.save(null,{useMasterKey:true});
+                var permlink = new Date().toISOString().replace(/[^a-zA-Z0-9]+/g, '').toLowerCase();
+                var body = fs.readFileSync(path.resolve(__dirname, 'commentTemplate.md'));
+                console.log('Will broadcast Comment');
+               steem.broadcast.comment(WIF, post.get('author'), post.get('permlink'), BOT, permlink, "", body, {"app":"1up"}, function(err, result) {
+                 console.log(err, result);
+                 response.success('Vote and comment done');
+                  post.set('voted',true);
+                  post.save(null,{useMasterKey:true});
+               });
               });
-             var permlink = new Date().toISOString().replace(/[^a-zA-Z0-9]+/g, '').toLowerCase();
-             var body = fs.readFileSync(path.resolve(__dirname, 'commentTemplate.md'));
-             console.log('Will broadcast Comment');
-            steem.broadcast.comment(WIF, post.get('author'), post.get('permlink'), BOT, permlink, "", body, {"app":"1up"}, function(err, result) {
-              console.log(err, result);
-              response.success('Vote and comment done');
-            });
+
           }
           else
           {
