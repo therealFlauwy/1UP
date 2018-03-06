@@ -9,7 +9,7 @@ let config = {
     cloud: process.env.CLOUD_CODE_MAIN || __dirname + '/cloud/main.js',
     appId: process.env.APP_ID || 'myAppId',
     masterKey: process.env.MASTER_KEY || '',
-    serverURL: serverURL+'/parse',
+    serverURL: this.serverURL+'/parse',
   },
   port:process.env.PORT || 1337,
 };
