@@ -13,20 +13,13 @@ let steem = sc2.Initialize({
     callbackURL: config.redirect_uri,
     scope: config.scopes
 });
-var databaseUri = process.env.DATABASE_URI || process.env.MONGODB_URI;
+var databaseUri = config.db;
 
 if (!databaseUri) {
   console.log('DATABASE_URI not specified, falling back to localhost.');
 }
-var serverURL=process.env.SERVER_URL||'http://localhost:1337';
-var api = new ParseServer({
-  databaseURI: process.env.MONGODB_URI || 'mongodb://localhost:27017/dev',
-  cloud: process.env.CLOUD_CODE_MAIN || __dirname + '/cloud/main.js',
-  appId: process.env.APP_ID || 'myAppId',
-  masterKey: process.env.MASTER_KEY || '',
-  serverURL: serverURL+'/parse',
-
-});
+var serverURL=config.serverURL;
+var api = new ParseServer(config.parseServer);
 
 var app = express();
 
@@ -170,7 +163,7 @@ app.get('/', function(req, res) {
 // There will be a test page available on the /test path of your server url
 // Remove this before launching your app
 
-var port = process.env.PORT || 1337;
+var port = config.port;
 var httpServer = require('http').createServer(app);
 httpServer.listen(port, function() {
     console.log('Utopian 1UP running on port ' + port + '.');
