@@ -55,6 +55,7 @@ Parse.Cloud.job("botVote", function(request, response) {
               });
              var permlink = new Date().toISOString().replace(/[^a-zA-Z0-9]+/g, '').toLowerCase();
              var body = fs.readFileSync(path.resolve(__dirname, 'commentTemplate.md'));
+             console.log('Will broadcast Comment');
             steem.broadcast.comment(WIF, post.get('author'), post.get('permlink'), BOT, permlink, "", body, {"app":"1up"}, function(err, result) {
               console.log(err, result);
               response.success('Vote and comment done');
