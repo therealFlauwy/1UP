@@ -19,7 +19,13 @@ if (!databaseUri) {
   console.log('DATABASE_URI not specified, falling back to localhost.');
 }
 var serverURL=config.serverURL;
-var api = new ParseServer(config.parseServer);
+var api = new ParseServer({
+  databaseURI: config.databaseURI,
+  cloud: config.cloud,
+  appId: config.appId,
+  masterKey: config.masterKey,
+  serverURL: serverURL+'/parse',
+});
 
 var app = express();
 
