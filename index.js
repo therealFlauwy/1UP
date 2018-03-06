@@ -139,6 +139,7 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
             app.get('/login', function(req, res) {
               if (!req.query.access_token) {
                       let uri = steem.getLoginURL();
+                      console.log(uri);
                       res.redirect(uri);
                   } else {
                       steem.setAccessToken(req.query.access_token);
