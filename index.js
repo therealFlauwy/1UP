@@ -6,7 +6,7 @@ var path = require('path');
 var favicon = require('serve-favicon')
 require('dotenv').config();
 let sc2 = require('sc2-sdk');
-let config = require("config");
+let config = require("./config");
 
 let steem = sc2.Initialize({
     app: config.app_id,
