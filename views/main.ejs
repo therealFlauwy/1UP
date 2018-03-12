@@ -23,6 +23,11 @@
 						<span class="bar bar-3"></span>
 					</span>
 	        <ul class="menu-main">
+            <% if(loggedIn==false){ %>
+            <li><a href="/login" target="_blank" class="item">Login</a></li>
+            <%} else { %>
+              <li><a href="/logout" target="_blank" class="item">Logout</a></li>
+              <% } %>
 	        	<li><a href="https://steemit.com/utopian-io/@flauwy/steemy-ep-46-how-to-create-and-follow-a-curation-trail-with-steemauto" target="_blank" class="item">How to vote?</a></li>
 	          <li><a href="https://steemit.com/curation/@flauwy/utopian-1up-a-lucrative-steem-trail-for-the-best-daily-utopian-contributions" target="_blank" class="item">About</a></li>
 	          <li><a href="https://github.com/therealFlauwy/1UP" target="_blank" class="item icon-github" title="1UP on Github"></a></li>
