@@ -7,6 +7,8 @@ var favicon = require('serve-favicon')
 require('dotenv').config();
 let sc2 = require('sc2-sdk');
 let config = require("./config");
+let cookieParser = require('cookie-parser');
+var session = require('express-session');
 
 let steem = sc2.Initialize({
     app: config.app_id,
@@ -28,7 +30,13 @@ var api = new ParseServer({
 });
 
 var app = express();
-
+app.use(session({
+  secret: 'secret',
+  resave: true,
+  saveUninitialized : true,
+  cookie: { maxAge: 6*3600*1000 }
+}));
+app.use(cookieParser());
 app.use('/public', express.static(path.join(__dirname, '/public')));
 //app.use(favicon(__dirname + '/public/images/favicon.ico'));
 
@@ -37,7 +45,8 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
       var post=null;
       var aPost = Parse.Object.extend("Posts");
       var query = new Parse.Query(aPost);
-
+      isLoggedIn(req).then(function(loggedIn){
+      //console.log('logged in?',loggedIn,req.session.logged_in);
       query.descending("from_length");
       query.equalTo("voted",false);
       query.greaterThan('creationDate',new Date(new Date()-7*24*3600000));
@@ -46,7 +55,6 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
               success: function(posts) {
                 if(posts!==undefined&&posts.length!==0)
                 {
-                  console.log('a',posts.length);
                   posts=posts.sort(function(a,b){
                     if(a.get('from_length')>b.get('from_length'))
                       return -1;
@@ -56,21 +64,25 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
                       return a.get('createdAt')-b.get('createdAt');
                     }
                   });
-                    res.render('main.ejs', {bot:process.env.BOT,posts: posts,active:0});
+                    res.render('main.ejs', {bot:process.env.BOT,posts: posts,active:0,loggedIn:loggedIn});
                 }
                 else
                 {
                   console.log('Nothing to show');
-                  res.render('main.ejs', {bot:process.env.BOT,posts: [],active:0});
+                  res.render('main.ejs', {bot:process.env.BOT,posts: [],active:0,loggedIn:loggedIn});
                 }
               },error:function(error){console.log(error);}
             });
+          });
       });
 
       app.get('/today', function(req, res) {
+
         var post=null;
         var aPost = Parse.Object.extend("Posts");
         var query = new Parse.Query(aPost);
+
+        isLoggedIn(req).then(function(loggedIn){
         query.descending("from_length");
         query.equalTo("voted",true);
         query.limit(10);
@@ -79,21 +91,24 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
                 success: function(posts) {
                   if(posts!==undefined&&posts.length!==0)
                   {
-                      res.render('main.ejs', {bot:process.env.BOT,posts: posts,active:1});
+                      res.render('main.ejs', {bot:process.env.BOT,posts: posts,active:1,loggedIn:loggedIn});
                   }
                   else
                   {
                     console.log('Nothing to show');
-                    res.render('main.ejs', {bot:process.env.BOT,posts: [],active:1});
+                    res.render('main.ejs', {bot:process.env.BOT,posts: [],active:1,loggedIn:loggedIn});
                   }
                 },error:function(error){console.log(error);}
               });
+            });
         });
 
         app.get('/yesterday', function(req, res) {
           var post=null;
           var aPost = Parse.Object.extend("Posts");
           var query = new Parse.Query(aPost);
+
+          isLoggedIn(req).then(function(loggedIn){
           query.descending("from_length");
           query.equalTo("voted",true);
           query.limit(10);
@@ -103,21 +118,24 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
                   success: function(posts) {
                     if(posts!==undefined&&posts.length!==0)
                     {
-                        res.render('main.ejs', {bot:process.env.BOT,posts: posts,active:2});
+                        res.render('main.ejs', {bot:process.env.BOT,posts: posts,active:2,loggedIn:loggedIn});
                     }
                     else
                     {
                       console.log('Nothing to show');
-                      res.render('main.ejs', {bot:process.env.BOT,posts: [],active:2});
+                      res.render('main.ejs', {bot:process.env.BOT,posts: [],active:2,loggedIn:loggedIn});
                     }
                   },error:function(error){console.log(error);}
                 });
+              });
           });
 
           app.get('/alltime', function(req, res) {
             var post=null;
             var aPost = Parse.Object.extend("Posts");
             var query = new Parse.Query(aPost);
+
+            isLoggedIn(req).then(function(loggedIn){
             query.descending("from_length");
             query.equalTo("voted",true);
             query.limit(10);
@@ -125,15 +143,16 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
                     success: function(posts) {
                       if(posts!==undefined&&posts.length!==0)
                       {
-                          res.render('main.ejs', {bot:process.env.BOT,posts: posts,active:3});
+                          res.render('main.ejs', {bot:process.env.BOT,posts: posts,active:3,loggedIn:loggedIn});
                       }
                       else
                       {
                         console.log('Nothing to show');
-                        res.render('main.ejs', {bot:process.env.BOT,posts: [],active:3});
+                        res.render('main.ejs', {bot:process.env.BOT,posts: [],active:3,loggedIn:loggedIn});
                       }
                     },error:function(error){console.log(error);}
                   });
+                });
             });
 
             app.get('/login', function(req, res) {
@@ -142,19 +161,15 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
                       console.log(uri);
                       res.redirect(uri);
                   } else {
-                      steem.setAccessToken(req.query.access_token);
-                      steem.me(function (err, response) {
-                          response.account.json_metadata = JSON.parse(response.account.json_metadata);
-                          response.access_token = req.query.access_token;
-                          req.session.steem = response;
-                          res.redirect("/")
-                      })
+                        res.cookie( 'access_token', req.query.access_token, {expire : new Date() + 24*7*3600*1000});
+                        res.redirect("/now");
                   }
             });
 
             app.get('/logout', function(req, res) {
+            res.clearCookie('access_token');
               req.session.destroy();
-              res.redirect("/");
+              res.redirect("/now");
             });
 
 
@@ -166,6 +181,29 @@ app.use(mountPath, api);
 app.get('/', function(req, res) {
   res.redirect('/now');
 });
+
+function isLoggedIn(req) {
+  return new Promise(function (fulfill, reject){
+    if(req.session.logged_in===true)
+      fulfill(true);
+    else if(req.cookies.access_token!==undefined)
+    {
+      steem.setAccessToken(req.cookies.access_token);
+      steem.me(function (err, response) {
+        if(err==null){
+          req.session.name=response.name;
+          req.session.account=response.account;
+          req.session.logged_in=true;
+          fulfill(true);
+        }
+        else fulfill(false);
+      });
+    }
+    else{
+      fulfill(false);
+    }
+  });
+}
 
 // There will be a test page available on the /test path of your server url
 // Remove this before launching your app

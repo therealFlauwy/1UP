@@ -1,6 +1,6 @@
 let config = {
   app_id: "app-1up",
-  redirect_uri: "http://utopian-1up.com/login",
+  redirect_uri: "http://localhost:1337/login",
   scopes: ["login","vote"],
   db:process.env.DATABASE_URI || process.env.MONGODB_URI,
   serverURL:process.env.SERVER_URL||'http://localhost:1337',
