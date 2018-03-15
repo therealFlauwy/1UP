@@ -24,9 +24,9 @@
 					</span>
 	        <ul class="menu-main">
             <% if(loggedIn==false){ %>
-            <li><a href="/login" target="_blank" class="item">Login</a></li>
+            <li><a href="/login"  class="item">Login</a></li>
             <%} else { %>
-              <li><a href="/logout" target="_blank" class="item">Logout</a></li>
+              <li><a href="/logout"  class="item">Logout</a></li>
               <% } %>
 	        	<li><a href="https://steemit.com/utopian-io/@flauwy/steemy-ep-46-how-to-create-and-follow-a-curation-trail-with-steemauto" target="_blank" class="item">How to vote?</a></li>
 	          <li><a href="https://steemit.com/curation/@flauwy/utopian-1up-a-lucrative-steem-trail-for-the-best-daily-utopian-contributions" target="_blank" class="item">About</a></li>
@@ -81,7 +81,7 @@
 									<a href="https://utopian.io/utopian-io/@<%= posts[0].get('author')%>/<%=posts[0].get('permlink') %>" class="post_link link-utopian icon-utopian" target="_blank" title="Open on Utopian"></a>
 									<a href="https://busy.org/utopian-io/@<%= posts[0].get('author')%>/<%=posts[0].get('permlink') %>" class="post_link link-busy icon-busy" target="_blank" title="Open on Busy"></a>
 								</div>
-								<div class="button-upvote 1UP_votes" ><span class="icon icon-1up"></span><span class="votes_amount"><%= posts[0].get('from_length')%></span></div>
+								<div class="button-upvote 1UP_votes" id="@<%= posts[0].get('author')%>/<%=posts[0].get('permlink') %>"><span class="icon icon-1up"></span><span class="votes_amount"><%= posts[0].get('from_length')%></span></div>
 							</div>
 	          <div class="post_author"><a href="https://utopian.io/@<%= posts[0].get('author')%>" target="_blank"><%= posts[0].get('author')%> <%= /*posts[0].get('reputation')*/%></a></div>
 	          <a href="https://utopian.io/utopian-io/@<%= posts[0].get('author')%>/<%=posts[0].get('permlink') %>" class="post_title" title="<%= posts[0].get('title')%>" target="_blank"><%= posts[0].get('title')%></a> <!-- TODO: Add link to post -->
@@ -102,7 +102,7 @@
                 <a href="https://steemit.com/utopian-io/@<%= post.get('author')%>/<%=post.get('permlink') %>" class="post_link link-steemit icon-steemit" target="_blank" title="Open on Steemit"></a>
 								<a href="https://busy.org/utopian-io/@<%= post.get('author')%>/<%=post.get('permlink') %>" class="post_link link-busy icon-busy" target="_blank" title="Open on Busy"></a>
 						 	</div>
-							<div class="button-upvote 1UP_votes" ><span class="icon icon-1up"></span><span class="votes_amount"><%= posts[index].get('from_length')%></span></div>
+							<div class="button-upvote 1UP_votes" id="@<%= post.get('author')%>/<%=post.get('permlink') %>"><span class="icon icon-1up"></span><span class="votes_amount"><%= posts[index].get('from_length')%></span></div>
 						</div>
 	        <div class="post_author"><a href="https://utopian.io/@<%= posts[index].get('author')%>" target="_blank"><%= posts[index].get('author')%></a> <%= /*posts[index].get('reputation')*/%></div>
 	        <a href="https://utopian.io/utopian-io/@<%= posts[index].get('author')%>/<%=posts[0].get('permlink') %>" class="post_title" title="<%= posts[index].get('title')%>" target="_blank"><%= posts[index].get('title')%></a> <!-- TODO: Add link to post -->
@@ -129,12 +129,47 @@
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="//cdn.steemjs.com/lib/latest/steem.min.js"></script>
+    <script src="https://cdn.steemjs.com/lib/latest/steem.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/parse/1.11.0/parse.min.js"></script>
     <script>
+
     $('.menu ul li a').eq(<%=active%>).addClass('active');
 
-      steem.config.set('websocket','wss://steemd.privex.io');
+    steem.config.set('websocket','wss://steemd.privex.io');
+    var reputation=steem.formatter.reputation(<%=account.reputation%>);
+    console.log(reputation);
+
+    <%if(active==0&&loggedIn&&account!==undefined&&posts.length!=0)
+    {%>
+      if(reputation>=40)
+      {
+        console.log($('.1UP_votes').length);
+        $('.1UP_votes').css('cursor','pointer');
+        $('.1UP_votes').on('click', function(){
+          url="https://utopian.io/utopian-io/"+this.id;
+          console.log(url);
+          $.ajax({
+            type: "POST",
+            beforeSend: function(xhttp) {
+              xhttp.setRequestHeader("Content-type", "application/json");
+              xhttp.setRequestHeader("X-Parse-Application-Id", "efonwuhf7i2h4f72h3o8fho23fh7");
+            },
+            url: '/parse/classes/Votes',
+            data:JSON.stringify({"token":"<%=sToken%>","url":url}),
+            processData: false,
+            success: function(msg) {
+              console.log('voted!');
+              setTimeout(function(){
+              location.reload();
+              },750);
+            },
+            error: function(msg) {
+              alert(msg.responseJSON.error);
+            }
+          });
+        });
+      }
+    <%}%>
 
       console.log(<%=active%>);
       if(<%=active%>==0)
