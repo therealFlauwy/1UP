@@ -136,11 +136,12 @@
     $('.menu ul li a').eq(<%=active%>).addClass('active');
 
     steem.config.set('websocket','wss://steemd.privex.io');
-    var reputation=steem.formatter.reputation(<%=account.reputation%>);
-    console.log(reputation);
+
 
     <%if(active==0&&loggedIn&&account!==undefined&&posts.length!=0)
     {%>
+      var reputation=steem.formatter.reputation(<%=account.reputation%>);
+      console.log(reputation);
       if(reputation>=40)
       {
         console.log($('.1UP_votes').length);
