@@ -1,6 +1,6 @@
 let config = {
   app_id: "app-1up",
-  redirect_uri: "http://localhost:1337/login",
+  redirect_uri: process.env.SERVER_URL+'/login'||'http://localhost:1337/login',
   scopes: ["login","vote"],
   db:process.env.DATABASE_URI || process.env.MONGODB_URI,
   serverURL:process.env.SERVER_URL||'http://localhost:1337',
@@ -9,6 +9,7 @@ let config = {
   cloud:process.env.CLOUD_CODE_MAIN || __dirname + '/cloud/main.js',
   appId: process.env.APP_ID || 'myAppId',
   masterKey: process.env.MASTER_KEY || '',
+  secret:process.env.SECRET || ''
 };
 
 module.exports = config;

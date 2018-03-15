@@ -31,7 +31,7 @@ var api = new ParseServer({
 
 var app = express();
 app.use(session({
-  secret: 'secret',
+  secret: config.secret,
   resave: true,
   saveUninitialized : true,
   cookie: { maxAge: 6*3600*1000 }
@@ -64,7 +64,8 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
                       return a.get('createdAt')-b.get('createdAt');
                     }
                   });
-                    res.render('main.ejs', {bot:process.env.BOT,posts: posts,active:0,loggedIn:loggedIn});
+                    console.log(req.session.account);
+                    res.render('main.ejs', {bot:process.env.BOT,posts: posts,active:0,loggedIn:loggedIn,account:req.session.account,sToken:req.cookies.access_token});
                 }
                 else
                 {
