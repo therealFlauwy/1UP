@@ -106,13 +106,13 @@ Parse.Cloud.define("checkVote", function(request, response) {
                         posts[i].set('voted',true);
                         posts[i].save(null,{useMasterKey:true});
                     }
-                    /*if(!post.get('voted_utopian')&&result.active_votes.find(function (element) {
+                    if(!post.get('voted_utopian')&&result.active_votes.find(function (element) {
                         return element.voter == 'utopian-io';
                     })!==undefined)
                     {
                         posts[i].set('voted_utopian',true);
                         posts[i].save(null,{useMasterKey:true});
-                    }*/
+                    }
                   });
                 }
               }
@@ -143,10 +143,10 @@ Parse.Cloud.beforeSave('Votes', function (request, response) {
       .find(function (element) {
         return element.voter == BOT;})!==undefined)
           response.error('Too late! This post was already voted by the trail!');
-    if(result.active_votes
+    /*if(result.active_votes
       .find(function (element) {
         return element.voter == 'utopian-io';})!==undefined)
-          response.error('Too late! This post was already voted by Utopian!');
+          response.error('Too late! This post was already voted by Utopian!');*/
 
     if(JSON.parse(result.json_metadata).type.includes('task'))
       response.error('Sorry! We do not accept task requests on Utopian 1UP!');
