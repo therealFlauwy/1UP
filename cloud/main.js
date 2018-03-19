@@ -143,10 +143,10 @@ Parse.Cloud.beforeSave('Votes', function (request, response) {
       .find(function (element) {
         return element.voter == BOT;})!==undefined)
           response.error('Too late! This post was already voted by the trail!');
-    /*if(result.active_votes
+    if(result.active_votes
       .find(function (element) {
         return element.voter == 'utopian-io';})!==undefined)
-          response.error('Too late! This post was already voted by Utopian!');*/
+          response.error('Too late! This post was already voted by Utopian!');
 
     if(JSON.parse(result.json_metadata).type.includes('task'))
       response.error('Sorry! We do not accept task requests on Utopian 1UP!');
