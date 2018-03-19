@@ -106,13 +106,13 @@ Parse.Cloud.define("checkVote", function(request, response) {
                         posts[i].set('voted',true);
                         posts[i].save(null,{useMasterKey:true});
                     }
-                    if(!post.get('voted_utopian')&&result.active_votes.find(function (element) {
+                    /*if(!post.get('voted_utopian')&&result.active_votes.find(function (element) {
                         return element.voter == 'utopian-io';
                     })!==undefined)
                     {
                         posts[i].set('voted_utopian',true);
                         posts[i].save(null,{useMasterKey:true});
-                    }
+                    }*/
                   });
                 }
               }
