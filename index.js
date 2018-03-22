@@ -9,7 +9,7 @@ let sc2 = require('sc2-sdk');
 let config = require("./config");
 let cookieParser = require('cookie-parser');
 var session = require('express-session');
-
+var steemjs = require('steem');
 let steem = sc2.Initialize({
     app: config.app_id,
     callbackURL: config.redirect_uri,
@@ -41,41 +41,55 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
 //app.use(favicon(__dirname + '/public/images/favicon.ico'));
 
 
-    app.get('/now', function(req, res) {
-      var post=null;
-      var aPost = Parse.Object.extend("Posts");
-      var query = new Parse.Query(aPost);
-      isLoggedIn(req).then(function(loggedIn){
-      //console.log('logged in?',loggedIn,req.session.logged_in);
-      query.descending("from_length");
-      query.equalTo("voted",false);
-      query.greaterThan('creationDate',new Date(new Date()-7*24*3600000));
-      query.equalTo("voted_utopian",false);
-      query.find({
-              success: function(posts) {
-                if(posts!==undefined&&posts.length!==0)
-                {
-                  posts=posts.sort(function(a,b){
-                    if(a.get('from_length')>b.get('from_length'))
-                      return -1;
-                    else if(b.get('from_length')>a.get('from_length'))
-                      return 1;
-                    else{
-                      return a.get('createdAt')-b.get('createdAt');
-                    }
-                  });
-                    console.log(req.session.account);
-                    res.render('main.ejs', {bot:process.env.BOT,posts: posts,active:0,loggedIn:loggedIn,account:req.session.account,sToken:req.cookies.access_token});
-                }
-                else
-                {
-                  console.log('Nothing to show');
-                  res.render('main.ejs', {bot:process.env.BOT,posts: [],active:0,loggedIn:loggedIn});
-                }
-              },error:function(error){console.log(error);}
-            });
-          });
+  app.get('/new', function(req, res) {
+    isLoggedIn(req).then(function(loggedIn){
+      steemjs.api.getDiscussionsByTrending({"tag": "utopian-io", "limit": 100,"start_author":"stoodkev","start_permlink":"refractoring-1up-button-behavior"},function(err,results){
+          var posts=[];
+          for(result of results)
+          {
+              if(JSON.parse(result.json_metadata).moderator!==undefined&&JSON.parse(result.json_metadata).moderator.flagged)
+                console.log('pas bon');
+
+            }
       });
+    });
+  });
+
+  app.get('/now', function(req, res) {
+    var post=null;
+    var aPost = Parse.Object.extend("Posts");
+    var query = new Parse.Query(aPost);
+    isLoggedIn(req).then(function(loggedIn){
+    //console.log('logged in?',loggedIn,req.session.logged_in);
+    query.descending("from_length");
+    query.equalTo("voted",false);
+    query.greaterThan('creationDate',new Date(new Date()-7*24*3600000));
+    query.equalTo("voted_utopian",false);
+    query.find({
+            success: function(posts) {
+              if(posts!==undefined&&posts.length!==0)
+              {
+                posts=posts.sort(function(a,b){
+                  if(a.get('from_length')>b.get('from_length'))
+                    return -1;
+                  else if(b.get('from_length')>a.get('from_length'))
+                    return 1;
+                  else{
+                    return a.get('createdAt')-b.get('createdAt');
+                  }
+                });
+                  console.log(req.session.account);
+                  res.render('main.ejs', {bot:process.env.BOT,posts: posts,active:0,loggedIn:loggedIn,account:req.session.account,sToken:req.cookies.access_token});
+              }
+              else
+              {
+                console.log('Nothing to show');
+                res.render('main.ejs', {bot:process.env.BOT,posts: [],active:0,loggedIn:loggedIn});
+              }
+            },error:function(error){console.log(error);}
+          });
+        });
+    });
 
       app.get('/today', function(req, res) {
 
