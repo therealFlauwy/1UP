@@ -41,19 +41,6 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
 //app.use(favicon(__dirname + '/public/images/favicon.ico'));
 
 
-  app.get('/new', function(req, res) {
-    isLoggedIn(req).then(function(loggedIn){
-      steemjs.api.getDiscussionsByTrending({"tag": "utopian-io", "limit": 100,"start_author":"stoodkev","start_permlink":"refractoring-1up-button-behavior"},function(err,results){
-          var posts=[];
-          for(result of results)
-          {
-              if(JSON.parse(result.json_metadata).moderator!==undefined&&JSON.parse(result.json_metadata).moderator.flagged)
-                console.log('pas bon');
-
-            }
-      });
-    });
-  });
 
   app.get('/now', function(req, res) {
     var post=null;
