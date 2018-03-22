@@ -18,6 +18,74 @@ function getVotingPower(acc) {
   return vpow;
 }
 
+Parse.Cloud.job("updateUtopianPosts", function(request, response) {
+  console.log("start");
+  var lastPermlink=null;
+  var uPost = Parse.Object.extend("UtopianPosts");
+  var query = new Parse.Query(uPost);
+  var post_list=[];
+  query.descending("creationDate");
+  query.limit(1);
+  query.find({
+    success: function(post) {
+      if(post[0]!==undefined)
+        lastPermlink=post[0].get("permlink");
+      console.log("Last permlink",lastPermlink);
+      updateUtopianPosts(null,null,lastPermlink);
+  },
+    error: function(error){}
+  });
+
+});
+
+function updateUtopianPosts(perm,auth,lastPermlink)
+{
+  var new_perm=null;
+  var new_auth=null;
+  var uPost =  Parse.Object.extend("UtopianPosts");
+  var done= false;
+  if(perm==null)
+    query={"tag": "utopian-io", "limit": 100};
+  else {
+    query={"tag": "utopian-io", "limit": 100,"start_permlink":perm,"start_author":auth};
+  }
+  steem.api.getDiscussionsByCreated(query,function(err,results){
+    var posts=[];
+    console.log(results.length);
+    for(result of results)
+    {
+      console.log(result.permlink==lastPermlink,new Date(result.created)<new Date(new Date()-7*24*3600000),(JSON.parse(result.json_metadata).moderator!==undefined&&JSON.parse(result.json_metadata).moderator.flagged));
+      if(result.permlink==lastPermlink||new Date(result.created)<new Date(new Date()-7*24*3600000))
+      {
+        console.log("done");
+        done=true;
+        break;
+      }
+      if(!done&&result.active_votes.find(function(e){return e.voter=="utopian-io"})===undefined&&(JSON.parse(result.json_metadata).moderator===undefined||!JSON.parse(result.json_metadata).moderator.flagged)&&result.beneficiaries.find(function(e){return e.account="utopian.pay";})!==undefined)
+        {
+          var newPost = new uPost();
+          newPost.set('title', result.title);
+          newPost.set('author', result.author);
+          newPost.set('permlink', result.permlink);
+          newPost.set('creationDate', new Date(result.created));
+          newPost.set('reputation',steem.formatter.reputation(result.author_reputation));
+          newPost.set('voted', false);
+          newPost.set('voted_utopian', false);
+          newPost.set('from_length', 1);
+          if(JSON.parse(result.json_metadata).image!==undefined)
+          newPost.set('image', JSON.parse(result.json_metadata).image[0]);
+          else
+          newPost.set('image', '/public/assets/images/no-image.png');
+          newPost.save({useMasterKey:true});
+        }
+        new_perm=result.permlink;
+        new_auth=result.author;
+    }
+    if(!done)
+      updateUtopianPosts(new_perm,new_auth,lastPermlink);
+  });
+}
+
 Parse.Cloud.job("botVote", function(request, response) {
   const WIF=process.env.WIF;
   var aPost = Parse.Object.extend("Posts");
