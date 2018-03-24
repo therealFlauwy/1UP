@@ -16,7 +16,7 @@ let steem = sc2.Initialize({
     scope: config.scopes
 });
 var databaseUri = config.db;
-
+console.log(config.redirect_uri);
 if (!databaseUri) {
   console.log('DATABASE_URI not specified, falling back to localhost.');
 }
@@ -40,43 +40,67 @@ app.use(cookieParser());
 app.use('/public', express.static(path.join(__dirname, '/public')));
 //app.use(favicon(__dirname + '/public/images/favicon.ico'));
 
+app.get('/new', function(req, res) {
+  var post=null;
+  var uPost = Parse.Object.extend("UtopianPosts");
+  var query = new Parse.Query(uPost);
 
-
-  app.get('/now', function(req, res) {
-    var post=null;
-    var aPost = Parse.Object.extend("Posts");
-    var query = new Parse.Query(aPost);
-    isLoggedIn(req).then(function(loggedIn){
-    //console.log('logged in?',loggedIn,req.session.logged_in);
-    query.descending("from_length");
-    query.equalTo("voted",false);
-    query.greaterThan('creationDate',new Date(new Date()-7*24*3600000));
-    query.equalTo("voted_utopian",false);
-    query.find({
-            success: function(posts) {
-              if(posts!==undefined&&posts.length!==0)
-              {
-                posts=posts.sort(function(a,b){
-                  if(a.get('from_length')>b.get('from_length'))
-                    return -1;
-                  else if(b.get('from_length')>a.get('from_length'))
-                    return 1;
-                  else{
-                    return a.get('createdAt')-b.get('createdAt');
-                  }
-                });
-                  console.log(req.session.account);
-                  res.render('main.ejs', {bot:process.env.BOT,posts: posts,active:0,loggedIn:loggedIn,account:req.session.account,sToken:req.cookies.access_token});
-              }
-              else
-              {
-                console.log('Nothing to show');
-                res.render('main.ejs', {bot:process.env.BOT,posts: [],active:0,loggedIn:loggedIn});
-              }
-            },error:function(error){console.log(error);}
-          });
+  isLoggedIn(req).then(function(loggedIn){
+  //console.log('logged in?',loggedIn,req.session.logged_in);
+  query.limit(1000);
+  query.find({
+          success: function(posts) {
+            if(posts!==undefined&&posts.length!==0)
+            {
+                posts=shuffle(posts);
+                console.log(req.session.account);
+                res.render('main.ejs', {bot:process.env.BOT,posts: posts,active:4,loggedIn:loggedIn,account:req.session.account,sToken:req.cookies.access_token});
+            }
+            else
+            {
+              console.log('Nothing to show');
+              res.render('main.ejs', {bot:process.env.BOT,posts: [],active:4,loggedIn:loggedIn});
+            }
+          },error:function(error){console.log(error);}
         });
-    });
+      });
+  });
+
+app.get('/now', function(req, res) {
+  var post=null;
+  var aPost = Parse.Object.extend("Posts");
+  var query = new Parse.Query(aPost);
+  isLoggedIn(req).then(function(loggedIn){
+  //console.log('logged in?',loggedIn,req.session.logged_in);
+  query.descending("from_length");
+  query.equalTo("voted",false);
+  query.greaterThan('creationDate',new Date(new Date()-7*24*3600000));
+  query.equalTo("voted_utopian",false);
+  query.find({
+          success: function(posts) {
+            if(posts!==undefined&&posts.length!==0)
+            {
+              posts=posts.sort(function(a,b){
+                if(a.get('from_length')>b.get('from_length'))
+                  return -1;
+                else if(b.get('from_length')>a.get('from_length'))
+                  return 1;
+                else{
+                  return a.get('createdAt')-b.get('createdAt');
+                }
+              });
+                console.log(req.session.account);
+                res.render('main.ejs', {bot:process.env.BOT,posts: posts,active:0,loggedIn:loggedIn,account:req.session.account,sToken:req.cookies.access_token});
+            }
+            else
+            {
+              console.log('Nothing to show');
+              res.render('main.ejs', {bot:process.env.BOT,posts: [],active:0,loggedIn:loggedIn});
+            }
+          },error:function(error){console.log(error);}
+        });
+      });
+  });
 
       app.get('/today', function(req, res) {
 
@@ -218,3 +242,22 @@ httpServer.listen(port, function() {
 
 // This will enable the Live Query real-time server
 ParseServer.createLiveQueryServer(httpServer);
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}

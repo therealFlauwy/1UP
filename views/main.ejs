@@ -39,10 +39,11 @@
 					<div class="top_left">
 	          <div class="menu">
 	            <ul class="menu-charts">
-	              <li><a href="/now" class="item">Now</a></li>
+  	            <li><a href="/now" class="item">Now</a></li>
 	              <li><a href="/today" class="item">Today</a></li>
 	              <li><a href="/yesterday" class="item">Yesterday</a></li>
 	              <li><a href="/alltime" class="item">Alltime</a></li>
+  	            <li><a href="/new" class="item">New</a></li>
 	            </ul>
 	          </div>
 						<% if(active===0){ %>
@@ -72,7 +73,7 @@
 	            <div class="goes_to">No one can beat <a href="https://utopian.io/@<%= posts[0].get('author')%>" class="goes_to_user" target="_blank" title="Utopian profile">@<%= posts[0].get('author')%> !</a></div><%}%>
 	          </div> <%}%>
 	        </div>
-	        <% if(posts.length!==0){ %>
+	        <% if(posts.length!==0&&active!=4){ %>
 	        <div class="post_default top_post">
 	          <span class="nb_post">1</span>
 		          <div class="post_img" style="background-image: url(<%= posts[0].get('image')%>)">
@@ -91,7 +92,7 @@
       </div>
 
       <div class='other_posts'>
-       	<% posts.forEach(function(post, index) { if(index!==0){%>
+       	<% posts.forEach(function(post, index) { if(index!==0||active==4){%>
 				<div class="post_default post">
 
          	<span class="nb_post"><%=index+1%></span>
@@ -138,7 +139,7 @@
     steem.config.set('websocket','wss://steemd.privex.io');
 
 
-    <%if(active==0&&loggedIn&&account!==undefined&&posts.length!=0)
+    <%if(posts.length!==0&&(active==0||active==4)&&loggedIn&&account!==undefined&&posts.length!=0)
     {%>
       var reputation=steem.formatter.reputation(<%=account.reputation%>);
       console.log(reputation);
