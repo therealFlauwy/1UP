@@ -69,9 +69,8 @@ function updateUtopianPosts(perm,auth,lastPermlink)
           newPost.set('permlink', result.permlink);
           newPost.set('creationDate', new Date(result.created));
           newPost.set('reputation',steem.formatter.reputation(result.author_reputation));
-          newPost.set('voted', false);
-          newPost.set('voted_utopian', false);
-          newPost.set('from_length', 1);
+          newPost.set('type', result.type);
+          newPost.set('from_length', 0);
           if(JSON.parse(result.json_metadata).image!==undefined)
           newPost.set('image', JSON.parse(result.json_metadata).image[0]);
           else
@@ -235,7 +234,18 @@ Parse.Cloud.beforeSave('Votes', function (request, response) {
               if(votes.length>=MAX_VOTE_PER_DAY)
                   response.error('You can only vote '+MAX_VOTE_PER_DAY+' times per day. Please try again tomorrow!');
             }
-            response.success();
+            var uPost=Parse.Object.extend("UtopianPosts");
+            var query2= new Parse.Query(uPost);
+            console.log(result.permlink);
+            query2.equalTo("permlink",result.permlink);
+            query2.find( {
+                  useMasterKey: true,
+                  success: function (uPost) {
+                    console.log("length",uPost.length);
+                    if(uPost.length>0)
+                      uPost[0].destroy({useMasterKey:true});
+                    response.success();
+                  }});
           }
           ,error:function(err){console.log(err);}
         });
