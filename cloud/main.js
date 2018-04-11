@@ -38,6 +38,35 @@ Parse.Cloud.job("updateUtopianPosts", function(request, response) {
 
 });
 
+Parse.Cloud.job("destroyOldUtopianPosts", function(request, response) {
+  console.log("start");
+  var lastPermlink=null;
+  var uPost = Parse.Object.extend("UtopianPosts");
+  var query = new Parse.Query(uPost);
+  var post_list=[];
+  query.ascending("creationDate");
+  query.limit(1000);
+  query.find({
+    success: function(posts) {
+    for (post of posts){
+      if(post!==undefined){
+        console.log(new Date(post.get("creationDate")),new Date(new Date()-7*24*3600000));
+        if(new Date(post.get("creationDate"))<new Date(new Date()-7*24*3600000)){
+          post.destroy({useMasterKey:true});
+          console.log("Should destroy");
+        }
+        else {
+          break;
+        }
+      }
+    }
+    response.success();
+  },
+    error: function(error){}
+  });
+
+});
+
 function updateUtopianPosts(perm,auth,lastPermlink)
 {
   var new_perm=null;
@@ -202,8 +231,6 @@ Parse.Cloud.beforeSave('Votes', function (request, response) {
     request.object.unset('token');
     request.object.set('from',me.name);
   // Selfvote
-  if(author===request.object.get('from'))
-    response.error('You cannot vote for yourself!');
   const content= steem.api.getContentAsync(author, perm);
   content.then(result=> {
     if(result.active_votes

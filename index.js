@@ -47,6 +47,7 @@ app.get('/new', function(req, res) {
 
   isLoggedIn(req).then(function(loggedIn){
   //console.log('logged in?',loggedIn,req.session.logged_in);
+  query.descending("creationDate");
   query.limit(1000);
   query.find({
           success: function(posts) {
