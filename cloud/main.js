@@ -92,19 +92,21 @@ function updateUtopianPosts(perm,auth,lastPermlink)
       }
       if(!done&&result.active_votes.find(function(e){return e.voter=="utopian-io"})===undefined&&(JSON.parse(result.json_metadata).moderator===undefined||!JSON.parse(result.json_metadata).moderator.flagged)&&result.beneficiaries.find(function(e){return e.account="utopian.pay";})!==undefined)
         {
+          console.log(result,result.type);
           var newPost = new uPost();
           newPost.set('title', result.title);
           newPost.set('author', result.author);
           newPost.set('permlink', result.permlink);
           newPost.set('creationDate', new Date(result.created));
           newPost.set('reputation',steem.formatter.reputation(result.author_reputation));
-          newPost.set('type', result.type);
+          newPost.set('type', JSON.parse(result.json_metadata).type);
           newPost.set('from_length', 0);
           if(JSON.parse(result.json_metadata).image!==undefined)
           newPost.set('image', JSON.parse(result.json_metadata).image[0]);
           else
           newPost.set('image', '/public/assets/images/no-image.png');
-          newPost.save({useMasterKey:true});
+          if(JSON.parse(result.json_metadata).type!==undefined)
+            newPost.save({useMasterKey:true});
         }
         new_perm=result.permlink;
         new_auth=result.author;

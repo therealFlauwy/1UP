@@ -45,19 +45,6 @@
 	              <li><a href="/alltime" class="item">Alltime</a></li>
   	            <li><a href="/new" class="item">New</a></li>
 	            </ul>
-              <ul class="sub-menu-charts">
-  	            <li><a href="/new?cat=development" class="item">Development</a></li>
-	              <li><a href="/new?cat=bug-hunting" class="item">Bug Hunting</a></li>
-	              <li><a href="/new?cat=documentation" class="item">Documentation</a></li>
-	              <li><a href="/new?cat=analysis" class="item">Analysis</a></li>
-  	            <li><a href="/new?cat=suggestion" class="item">Suggestion</a></li>
-    	          <li><a href="/new?cat=graphics" class="item">Graphics</a></li>
-  	            <li><a href="/new?cat=visibility" class="item">Visibility</a></li>
-  	            <li><a href="/new?cat=tutorial" class="item">Tutorial</a></li>
-  	            <li><a href="/new?cat=video-tutorial" class="item">Video Tuto</a></li>
-    	          <li><a href="/new?cat=copywriting" class="item">Copywriting</a></li>
-    	          <li><a href="/new?cat=blog-post" class="item">Blog Post></li>
-	            </ul>
 	          </div>
 						<% if(active===0){ %>
 						<div class="voting_period_wrapper">
@@ -102,6 +89,21 @@
 	        </div>
 	        <%}%>
         </div>
+        <% if(active===4){ %>
+        <ul class="sub-menu-charts">
+          <li><a href="/new" class="item">All</a></li>
+          <li><a href="/new?cat=development" class="item">Development</a></li>
+          <li><a href="/new?cat=bug-hunting" class="item">Bug Hunting</a></li>
+          <li><a href="/new?cat=documentation" class="item">Documentation</a></li>
+          <li><a href="/new?cat=analysis" class="item">Analysis</a></li>
+          <li><a href="/new?cat=ideas" class="item">Suggestion</a></li>
+          <li><a href="/new?cat=graphics" class="item">Graphics</a></li>
+          <li><a href="/new?cat=visibility" class="item">Visibility</a></li>
+          <li><a href="/new?cat=tutorials" class="item">Tutorial</a></li>
+          <li><a href="/new?cat=video-tutorials" class="item">Video Tuto</a></li>
+          <li><a href="/new?cat=copywriting" class="item">Copywriting</a></li>
+        </ul>
+        <%} %>
       </div>
 
       <div class='other_posts'>
@@ -186,7 +188,7 @@
       }
     <%}%>
 
-      console.log(<%=active%>);
+      console.log("ACTIVE",<%=active%>);
       if(<%=active%>==0)
       {
         steem.api.getAccounts(["<%=bot%>"], function(err, result) {
@@ -197,6 +199,16 @@
         console.log(vp,timeBeforeFull);
         });
 
+      }
+
+      if(<%=active%>==4)
+      {
+        if("<%=type%>"=="0")
+        {
+          $('.sub-menu-charts li a').eq(0).addClass('active');
+        }
+        else
+          $('.sub-menu-charts li a[href="/new?cat=<%=type%>"]').addClass('active');
       }
 
     function getVotingPower(acc) {
@@ -251,21 +263,7 @@
 		});
 	});
 
-/*$( document ).ready(function() {
-    $('.posts li').each(function(i){
-      steem.config.set('websocket','wss://steemd.privex.io');
-      steem.api.getContentAsync($('.url').eq(i).attr('href').split('@')[1].split('/')[0], $('.url').eq(i).attr('href').split('/')[$('.url').eq(i).attr('href').split('/').length-1]).then(result=> {
-        if(result.active_votes.find(function (element) {
-            return element.voter == 'utopian-io'||element.voter == 'utopian-1up';
-        })!==undefined)
-      {
-          console.log('Voted already');
-          $('.posts li').eq(i).hide();
-      }
-      $('.info').eq(i).html('Upvotes: '+result.active_votes.length+'. Pending payout: '+result.pending_payout_value);
-    });
-  });
-});*/
+
     </script>
   </body>
 </html>

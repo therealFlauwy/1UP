@@ -658,6 +658,22 @@ hr {
   }
 }
 
+.sub-menu-charts {
+  width: 100%;
+  position: relative;
+  right: 0;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  flex-flow: wrap;
+  -webkit-justify-content: ;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin: 0;
+  padding-right: 20px;
+  list-style: none;
+}
+
 .menu-charts {
   position: relative;
   left: 0;
@@ -672,26 +688,27 @@ hr {
   list-style: none;
 }
 
-.menu-charts li .item {
+.menu-charts li .item, .sub-menu-charts li .item {
   position: relative;
   display: inline-block;
   padding: 0 15px;
   line-height: 60px;
   text-align: center;
+  white-space: nowrap;
   color: rgba(255, 255, 255, 0.5);
   font-size: 14px;
   transition: all .3s;
 }
 
-.menu-charts li .item:hover {
+.menu-charts li .item:hover, .sub-menu-charts li .item:hover {
   background: rgba(255, 255, 255, 0.1);
 }
 
-.menu-charts li .item.active {
+.menu-charts li .item.active,.sub-menu-charts li .item.active {
   color: #fff;
 }
 
-.menu-charts li .item.active::after {
+.menu-charts li .item.active::after,.sub-menu-charts li .item.active::after {
   content: '';
   position: absolute;
   bottom: 13px;
@@ -705,10 +722,10 @@ hr {
 }
 
 @media screen and (max-width: 1024px) {
-  .menu-charts {
+  .menu-charts, .sub-menu-charts {
     padding: 0 10px;
   }
-  .menu-charts li .item {
+  .menu-charts li .item, .sub-menu-charts li .item {
     font-size: 13px;
   }
 }
