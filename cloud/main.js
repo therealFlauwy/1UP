@@ -38,6 +38,35 @@ Parse.Cloud.job("updateUtopianPosts", function(request, response) {
 
 });
 
+Parse.Cloud.job("destroyOldUtopianPosts", function(request, response) {
+  console.log("start");
+  var lastPermlink=null;
+  var uPost = Parse.Object.extend("UtopianPosts");
+  var query = new Parse.Query(uPost);
+  var post_list=[];
+  query.ascending("creationDate");
+  query.limit(1000);
+  query.find({
+    success: function(posts) {
+    for (post of posts){
+      if(post!==undefined){
+        console.log(new Date(post.get("creationDate")),new Date(new Date()-7*24*3600000));
+        if(new Date(post.get("creationDate"))<new Date(new Date()-7*24*3600000)){
+          post.destroy({useMasterKey:true});
+          console.log("Should destroy");
+        }
+        else {
+          break;
+        }
+      }
+    }
+    response.success();
+  },
+    error: function(error){}
+  });
+
+});
+
 function updateUtopianPosts(perm,auth,lastPermlink)
 {
   var new_perm=null;
@@ -63,19 +92,21 @@ function updateUtopianPosts(perm,auth,lastPermlink)
       }
       if(!done&&result.active_votes.find(function(e){return e.voter=="utopian-io"})===undefined&&(JSON.parse(result.json_metadata).moderator===undefined||!JSON.parse(result.json_metadata).moderator.flagged)&&result.beneficiaries.find(function(e){return e.account="utopian.pay";})!==undefined)
         {
+          console.log(result,result.type);
           var newPost = new uPost();
           newPost.set('title', result.title);
           newPost.set('author', result.author);
           newPost.set('permlink', result.permlink);
           newPost.set('creationDate', new Date(result.created));
           newPost.set('reputation',steem.formatter.reputation(result.author_reputation));
-          newPost.set('type', result.type);
+          newPost.set('type', JSON.parse(result.json_metadata).type);
           newPost.set('from_length', 0);
           if(JSON.parse(result.json_metadata).image!==undefined)
           newPost.set('image', JSON.parse(result.json_metadata).image[0]);
           else
           newPost.set('image', '/public/assets/images/no-image.png');
-          newPost.save({useMasterKey:true});
+          if(JSON.parse(result.json_metadata).type!==undefined)
+            newPost.save({useMasterKey:true});
         }
         new_perm=result.permlink;
         new_auth=result.author;
@@ -202,8 +233,6 @@ Parse.Cloud.beforeSave('Votes', function (request, response) {
     request.object.unset('token');
     request.object.set('from',me.name);
   // Selfvote
-  if(author===request.object.get('from'))
-    response.error('You cannot vote for yourself!');
   const content= steem.api.getContentAsync(author, perm);
   content.then(result=> {
     if(result.active_votes

@@ -46,20 +46,25 @@ app.get('/new', function(req, res) {
   var query = new Parse.Query(uPost);
 
   isLoggedIn(req).then(function(loggedIn){
-  //console.log('logged in?',loggedIn,req.session.logged_in);
+  console.log('logged in?',req.query.cat);
+  query.descending("creationDate");
   query.limit(1000);
+  if(req.query.cat!==undefined)
+    query.equalTo("type",req.query.cat);
+  else
+    req.query.cat=0;
   query.find({
           success: function(posts) {
             if(posts!==undefined&&posts.length!==0)
             {
                 posts=shuffle(posts);
                 console.log(req.session.account);
-                res.render('main.ejs', {bot:process.env.BOT,posts: posts,active:4,loggedIn:loggedIn,account:req.session.account,sToken:req.cookies.access_token});
+                res.render('main.ejs', {bot:process.env.BOT,posts: posts,active:4,loggedIn:loggedIn,account:req.session.account,sToken:req.cookies.access_token,type:req.query.cat});
             }
             else
             {
               console.log('Nothing to show');
-              res.render('main.ejs', {bot:process.env.BOT,posts: [],active:4,loggedIn:loggedIn});
+              res.render('main.ejs', {bot:process.env.BOT,posts: [],active:4,loggedIn:loggedIn, type:req.query.cat});
             }
           },error:function(error){console.log(error);}
         });
@@ -90,12 +95,12 @@ app.get('/now', function(req, res) {
                 }
               });
                 console.log(req.session.account);
-                res.render('main.ejs', {bot:process.env.BOT,posts: posts,active:0,loggedIn:loggedIn,account:req.session.account,sToken:req.cookies.access_token});
+                res.render('main.ejs', {bot:process.env.BOT,posts: posts,active:0,loggedIn:loggedIn,account:req.session.account,sToken:req.cookies.access_token,type:0});
             }
             else
             {
               console.log('Nothing to show');
-              res.render('main.ejs', {bot:process.env.BOT,posts: [],active:0,loggedIn:loggedIn});
+              res.render('main.ejs', {bot:process.env.BOT,posts: [],active:0,loggedIn:loggedIn,type:0});
             }
           },error:function(error){console.log(error);}
         });
@@ -117,12 +122,12 @@ app.get('/now', function(req, res) {
                 success: function(posts) {
                   if(posts!==undefined&&posts.length!==0)
                   {
-                      res.render('main.ejs', {bot:process.env.BOT,posts: posts,active:1,loggedIn:loggedIn});
+                      res.render('main.ejs', {bot:process.env.BOT,posts: posts,active:1,loggedIn:loggedIn,type:0});
                   }
                   else
                   {
                     console.log('Nothing to show');
-                    res.render('main.ejs', {bot:process.env.BOT,posts: [],active:1,loggedIn:loggedIn});
+                    res.render('main.ejs', {bot:process.env.BOT,posts: [],active:1,loggedIn:loggedIn,type:0});
                   }
                 },error:function(error){console.log(error);}
               });
@@ -144,12 +149,12 @@ app.get('/now', function(req, res) {
                   success: function(posts) {
                     if(posts!==undefined&&posts.length!==0)
                     {
-                        res.render('main.ejs', {bot:process.env.BOT,posts: posts,active:2,loggedIn:loggedIn});
+                        res.render('main.ejs', {bot:process.env.BOT,posts: posts,active:2,loggedIn:loggedIn,type:0});
                     }
                     else
                     {
                       console.log('Nothing to show');
-                      res.render('main.ejs', {bot:process.env.BOT,posts: [],active:2,loggedIn:loggedIn});
+                      res.render('main.ejs', {bot:process.env.BOT,posts: [],active:2,loggedIn:loggedIn,type:0});
                     }
                   },error:function(error){console.log(error);}
                 });
@@ -169,12 +174,12 @@ app.get('/now', function(req, res) {
                     success: function(posts) {
                       if(posts!==undefined&&posts.length!==0)
                       {
-                          res.render('main.ejs', {bot:process.env.BOT,posts: posts,active:3,loggedIn:loggedIn});
+                          res.render('main.ejs', {bot:process.env.BOT,posts: posts,active:3,loggedIn:loggedIn,type:0});
                       }
                       else
                       {
                         console.log('Nothing to show');
-                        res.render('main.ejs', {bot:process.env.BOT,posts: [],active:3,loggedIn:loggedIn});
+                        res.render('main.ejs', {bot:process.env.BOT,posts: [],active:3,loggedIn:loggedIn,type:0});
                       }
                     },error:function(error){console.log(error);}
                   });
