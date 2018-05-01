@@ -233,6 +233,9 @@ Parse.Cloud.beforeSave('Votes', function (request, response) {
     request.object.unset('token');
     request.object.set('from',me.name);
   // Selfvote
+    if(me.name==author)
+      response.error('You cannot vote for yourself!');
+
   const content= steem.api.getContentAsync(author, perm);
   content.then(result=> {
     if(result.active_votes
