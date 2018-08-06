@@ -1063,3 +1063,33 @@ hr {
   color: rgba(0, 0, 0, 0.6);
   font-size: 14px;
 }
+
+.create_community{
+  margin: auto;
+  width: 60%;
+  border: solid black 1px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.create_community div{
+  margin: auto;
+  width: 60%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.create_community input, .create_community select{
+  display: block;
+  margin: auto;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.create_community h2{
+  margin-bottom: 20px;
+}
+
+.blacklist,#blacklist{
+  display: none;
+}

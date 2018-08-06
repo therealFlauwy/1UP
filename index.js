@@ -16,11 +16,11 @@ let steem = sc2.Initialize({
     scope: config.scopes
 });
 var databaseUri = config.db;
-console.log(config.redirect_uri);
 if (!databaseUri) {
   console.log('DATABASE_URI not specified, falling back to localhost.');
 }
 var serverURL=config.serverURL;
+console.log(config);
 var api = new ParseServer({
   databaseURI: config.databaseURI,
   cloud: config.cloud,
@@ -38,7 +38,6 @@ app.use(session({
 }));
 app.use(cookieParser());
 app.use('/public', express.static(path.join(__dirname, '/public')));
-//app.use(favicon(__dirname + '/public/images/favicon.ico'));
 
 app.get('/', function(req, res) {
   var community = Parse.Object.extend("Communities");
@@ -54,7 +53,28 @@ app.get('/', function(req, res) {
   });
 });
 
+app.get('/create', function(req, res) {
+  isLoggedIn(req).then(function(loggedIn){
+    res.render('create.ejs', {loggedIn:loggedIn,account:req.session.account,sToken:req.cookies.access_token});
+  });
+});
 
+app.get('/login', function(req, res) {
+  if (!req.query.access_token) {
+          let uri = steem.getLoginURL();
+          console.log(uri);
+          res.redirect(uri);
+      } else {
+            res.cookie( 'access_token', req.query.access_token, {expire : new Date() + 24*7*3600*1000});
+            res.redirect("/");
+      }
+});
+
+app.get('/logout', function(req, res) {
+res.clearCookie('access_token');
+  req.session.destroy();
+  res.redirect("/");
+});
 /*app.get('/new', function(req, res) {
   var post=null;
   var uPost = Parse.Object.extend("UtopianPosts");
@@ -200,25 +220,9 @@ app.get('/now', function(req, res) {
                   });
                 });
             });
-
-            app.get('/login', function(req, res) {
-              if (!req.query.access_token) {
-                      let uri = steem.getLoginURL();
-                      console.log(uri);
-                      res.redirect(uri);
-                  } else {
-                        res.cookie( 'access_token', req.query.access_token, {expire : new Date() + 24*7*3600*1000});
-                        res.redirect("/now");
-                  }
-            });
-
-            app.get('/logout', function(req, res) {
-            res.clearCookie('access_token');
-              req.session.destroy();
-              res.redirect("/now");
-            });
-
 */
+
+
 // Serve the Parse API on the /parse URL prefix
 var mountPath = '/parse';
 app.use(mountPath, api);
@@ -254,27 +258,23 @@ function isLoggedIn(req) {
 var port = config.port;
 var httpServer = require('http').createServer(app);
 httpServer.listen(port, function() {
-    console.log('Utopian 1UP running on port ' + port + '.');
+    console.log('1UP running on port ' + port + '.');
 });
 
 // This will enable the Live Query real-time server
-ParseServer.createLiveQueryServer(httpServer);
+// ParseServer.createLiveQueryServer(httpServer);
 
 function shuffle(array) {
   var currentIndex = array.length, temporaryValue, randomIndex;
-
-  // While there remain elements to shuffle...
+  // While there are still elements to shuffle...
   while (0 !== currentIndex) {
-
     // Pick a remaining element...
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex -= 1;
-
     // And swap it with the current element.
     temporaryValue = array[currentIndex];
     array[currentIndex] = array[randomIndex];
     array[randomIndex] = temporaryValue;
   }
-
   return array;
 }

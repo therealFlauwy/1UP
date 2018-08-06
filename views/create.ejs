@@ -36,18 +36,36 @@
 				</div>
       </div>
 
-      <div class='other_posts'>
-       	<% communities.forEach(function(community, index) { %>
-				<div class="post_default post">
-         	<span class="nb_post"><%=index+1%></span>
-					 	<div class="post_img" style="background-image: url(<%= community.get('image')%>)">
-						</div>
-	        <div class="post_author"><a href="/<%= community.get('name')%>" target="_blank"><%=community.get('name')%></a></div>
-	        <span  class="post_title"  target="_blank"><%= community.get('description')%></span> <!-- TODO: Add link to post -->
-				</div>
-	      <% }); %>
-
-
+      <div class='create_community'>
+        <div>
+          <h2>Create a new community</h2>
+          <h3>Name *</h3>
+          <input type="text" id="name" placeholder="Name"/>
+          <h3>Short description *</h3>
+          <input type="text" id="description" placeholder="Brief description">
+          <h3>Image Url *</h3>
+          <input type="text" id="image" placeholder="Image Url">
+          <h3>Administrators</h3>
+          <input type="text" id="admins" placeholder="Set administrators">
+          <h3>Moderators</h3>
+          <input type="text" id="moderators" placeholder="Set moderators">
+          <h3>Post selection *</h3>
+          <select id="type_community">
+            <option name="whitelist">Whitelist only</option>
+            <option name="open">Open</option>
+          </select>
+          <h3>Tags *</h3>
+          <input type="text" id="tags" placeholder="List of tags eligible">
+          <h3 class="whitelist">Whitelist</h3>
+          <input type="text" id="whitelist" class="whitelist" placeholder="Whitelisted users">
+          <h3 class="blacklist">Blacklist</h3>
+          <input type="text" class="blacklist" id="blacklist" placeholder="Blacklisted users">
+          <h3>Vote at Voting Power percentage *</h3>
+          <input type="number" id="vote_when" placeholder="100"/>
+          <h3>Maximum number of daily upvotes per user *</h3>
+          <input type="number" id="max_upvote" placeholder="1"/>
+          <button id="create_community">Create!</button>
+        </div>
       </div>
 
 
@@ -66,6 +84,38 @@
 
 	/* Mobile menu openning */
 	$( document ).ready(function() {
+
+    $("#type_community").change(function(){
+        $(".whitelist").toggle($("#type_community option[name='whitelist']").prop("selected")==true);
+        $(".blacklist").toggle($("#type_community option[name='open']").prop("selected")==true);
+
+    });
+
+    $("#create").click(function(){
+      if($("#name").val()!=""
+        &&$("#description").val()!=""
+        &&$("#image").val()!=""
+        &&$("#tags").val()!=""
+        &&$("#max_upvote").val()!=""
+        &&$("#vote_when").val()!="")
+        {
+          var obj={
+            name:$("#name").val(),
+            description:$("#description").val(),
+            image:$("#image").val(),
+            tags:$("#tags").val(),
+            max_upvote:$("#max_upvote").val(),
+            vote_when:$("#vote_when").val(),
+            type_community:$("#type_community option:selected").val(),
+            administrators:$("#admins").val(),
+            moderators:$("#moderators").val(),
+            whitelist:$("#whitelist").val(),
+            blacklist:$("#blacklist").val()
+          };
+          window.location.href="/createCommunity/"+JSON.stringify(obj);
+        }
+    });
+
 		var menuMainButton = $('.menu-main-button');
 		menuMainButton.click(function(){
 			if ($('body').hasClass('open-menu'))
