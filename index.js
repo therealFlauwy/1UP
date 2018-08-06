@@ -40,7 +40,22 @@ app.use(cookieParser());
 app.use('/public', express.static(path.join(__dirname, '/public')));
 //app.use(favicon(__dirname + '/public/images/favicon.ico'));
 
-app.get('/new', function(req, res) {
+app.get('/', function(req, res) {
+  var community = Parse.Object.extend("Communities");
+  var query = new Parse.Query(community);
+  isLoggedIn(req).then(function(loggedIn){
+    query.limit(1000);
+    query.find({
+      success: function(communities) {
+        console.log(communities);
+          res.render('main.ejs', {communities: communities,loggedIn:loggedIn,account:req.session.account,sToken:req.cookies.access_token});
+      },error:function(error){console.log(error);}
+    });
+  });
+});
+
+
+/*app.get('/new', function(req, res) {
   var post=null;
   var uPost = Parse.Object.extend("UtopianPosts");
   var query = new Parse.Query(uPost);
@@ -203,15 +218,12 @@ app.get('/now', function(req, res) {
               res.redirect("/now");
             });
 
-
+*/
 // Serve the Parse API on the /parse URL prefix
 var mountPath = '/parse';
 app.use(mountPath, api);
 
 // Parse Server plays nicely with the rest of your web routes
-app.get('/', function(req, res) {
-  res.redirect('/now');
-});
 
 function isLoggedIn(req) {
   return new Promise(function (fulfill, reject){
