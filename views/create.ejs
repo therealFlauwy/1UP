@@ -110,7 +110,8 @@
             administrators:$("#admins").val(),
             moderators:$("#moderators").val(),
             whitelist:$("#whitelist").val(),
-            blacklist:$("#blacklist").val()
+            blacklist:$("#blacklist").val(),
+            owner:<%=account %>
           };
           window.location.href="/createCommunity/"+JSON.stringify(obj);
         }

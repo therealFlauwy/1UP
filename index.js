@@ -59,6 +59,10 @@ app.get('/create', function(req, res) {
   });
 });
 
+app.get('/createCommunity', function(req, res) {
+  console.log(req.url);
+});
+
 app.get('/login', function(req, res) {
   if (!req.query.access_token) {
           let uri = steem.getLoginURL();
