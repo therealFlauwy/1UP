@@ -15,12 +15,13 @@ let steem = sc2.Initialize({
     callbackURL: config.redirect_uri,
     scope: config.scopes
 });
+
+//Configure Parse.js parameters
 var databaseUri = config.db;
 if (!databaseUri) {
   console.log('DATABASE_URI not specified, falling back to localhost.');
 }
 var serverURL=config.serverURL;
-console.log(config);
 var api = new ParseServer({
   databaseURI: config.databaseURI,
   cloud: config.cloud,
@@ -29,7 +30,10 @@ var api = new ParseServer({
   serverURL: serverURL+'/parse',
 });
 
+//Use Express Framework
 var app = express();
+
+//Create sessions and cookies to keep login information from SteemConnect
 app.use(session({
   secret: config.secret,
   resave: true,
@@ -37,8 +41,11 @@ app.use(session({
   cookie: { maxAge: 6*3600*1000 }
 }));
 app.use(cookieParser());
+
+//Define public folder
 app.use('/public', express.static(path.join(__dirname, '/public')));
 
+// Default page shows the list of communities
 app.get('/', function(req, res) {
   var community = Parse.Object.extend("Communities");
   var query = new Parse.Query(community);
@@ -53,16 +60,19 @@ app.get('/', function(req, res) {
   });
 });
 
+//Launch the community creation page
 app.get('/create', function(req, res) {
   isLoggedIn(req).then(function(loggedIn){
     res.render('create.ejs', {loggedIn:loggedIn,account:req.session.account,sToken:req.cookies.access_token});
   });
 });
 
+//TODO: handle creation new community
 app.get('/createCommunity', function(req, res) {
   console.log(req.params.community);
 });
 
+//Login via Steemconnect
 app.get('/login', function(req, res) {
   if (!req.query.access_token) {
           let uri = steem.getLoginURL();
@@ -74,6 +84,7 @@ app.get('/login', function(req, res) {
       }
 });
 
+// Logout from Steemconnect
 app.get('/logout', function(req, res) {
 res.clearCookie('access_token');
   req.session.destroy();

@@ -22,6 +22,7 @@
 						<span class="bar bar-2"></span>
 						<span class="bar bar-3"></span>
 					</span>
+          <!-- Main header !-->
 	        <ul class="menu-main">
             <% if(loggedIn==false){ %>
             <li><a href="/login"  class="item">Login</a></li>
@@ -35,7 +36,7 @@
 	        </ul>
 				</div>
       </div>
-
+      <!-- Display list of communities !-->
       <div class='other_posts'>
        	<% communities.forEach(function(community, index) { %>
 				<div class="post_default post">
@@ -46,18 +47,12 @@
 	        <span  class="post_title"  target="_blank"><%= community.get('description')%></span> <!-- TODO: Add link to post -->
 				</div>
 	      <% }); %>
-
-
       </div>
-
-
 			<footer id="footer" class="align-center">
 				<p>Created with <span class="heart">♥</span> for Steem and Utopian</p>
 				<p>Idea by <a href="https://steemit.com/@flauwy" target="_blank">@flauwy</a>, development by <a href="https://steemit.com/@stoodkev" target="_blank">@stoodkev</a>, design by <a href="https://steemit.com/@andrejcibik" target="_blank">@andrejcibik</a>.</p>
       </footer>
-
     </div>
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.steemjs.com/lib/latest/steem.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/parse/1.11.0/parse.min.js"></script>
@@ -75,8 +70,6 @@
 			}
 		});
 	});
-
-
     </script>
   </body>
 </html>
