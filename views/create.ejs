@@ -91,7 +91,7 @@
 
     });
 
-    $("#create").click(function(){
+    $("#create_community").click(function(){
       if($("#name").val()!=""
         &&$("#description").val()!=""
         &&$("#image").val()!=""
@@ -111,9 +111,9 @@
             moderators:$("#moderators").val(),
             whitelist:$("#whitelist").val(),
             blacklist:$("#blacklist").val(),
-            owner:<%=account %>
+            owner:"<%=account.name %>"
           };
-          window.location.href="/createCommunity/"+JSON.stringify(obj);
+          window.location.href="/createCommunity?community="+JSON.stringify(obj);
         }
     });
 

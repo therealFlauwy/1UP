@@ -1,4 +1,4 @@
-/*var steem = require('steem');
+var steem = require('steem');
 var fs = require('fs');
 const MAX_VOTE_PER_DAY=10;
 const BOT=process.env.BOT;
@@ -356,4 +356,3 @@ Parse.Cloud.beforeSave('Posts', function (request, response) {
         }
   else response.success();
   });
-*/

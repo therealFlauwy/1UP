@@ -60,7 +60,7 @@ app.get('/create', function(req, res) {
 });
 
 app.get('/createCommunity', function(req, res) {
-  console.log(req.url);
+  console.log(req.params.community);
 });
 
 app.get('/login', function(req, res) {
