@@ -1,131 +1,134 @@
 <html lang="en">
-  <head>
-    <title>1UP</title>
-    <meta name="theme-color" content="#993493">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <link href="/public/assets/css/style.css" rel="stylesheet">
-    <link href="/public/assets/fonts/icon-font.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700" rel="stylesheet">
-    <!-- FavIcon -->
-    <link rel="shortcut icon" type="image/x-icon" href="public/assets/images/favicon.png?v=1" />
-    <link rel="apple-touch-icon" href="public/assets/images/favicon-touch.png?v=2"/>
-  </head>
-  <body>
-    <div class="container">
-      <div class="header">
-				<div class="wrapper">
-					<a href="/"><img class="logo" src="/public/assets/images/logo.svg" alt="1UP logo" title="1UP"></a>
-					<span class="menu-main-button">
-						<span class="bar bar-1"></span>
-						<span class="bar bar-2"></span>
-						<span class="bar bar-3"></span>
-					</span>
-	        <ul class="menu-main">
-            <% if(loggedIn==false){ %>
-            <li><a href="/login"  class="item">Login</a></li>
-            <%} else { %>
-              <li><a href="/create"  class="item">Create Community</a></li>
-              <li><a href="/logout"  class="item">Logout</a></li>
-              <% } %>
-	        	<li><a href="https://steemit.com/utopian-io/@flauwy/steemy-ep-46-how-to-create-and-follow-a-curation-trail-with-steemauto" target="_blank" class="item">How to vote?</a></li>
-	          <li><a href="https://steemit.com/curation/@flauwy/utopian-1up-a-lucrative-steem-trail-for-the-best-daily-utopian-contributions" target="_blank" class="item">About</a></li>
-	          <li><a href="https://github.com/therealFlauwy/1UP" target="_blank" class="item icon-github" title="1UP on Github"></a></li>
-	        </ul>
-				</div>
-      </div>
-      <!-- HTML for community creation !-->
-      <div class='create_community'>
-        <div>
-          <h2>Create a new community</h2>
-          <h3>Name *</h3>
-          <input type="text" id="name" placeholder="Name"/>
-          <h3>Short description *</h3>
-          <input type="text" id="description" placeholder="Brief description">
-          <h3>Image Url *</h3>
-          <input type="text" id="image" placeholder="Image Url">
-          <h3>Administrators</h3>
-          <input type="text" id="admins" placeholder="Set administrators">
-          <h3>Moderators</h3>
-          <input type="text" id="moderators" placeholder="Set moderators">
-          <h3>Post selection *</h3>
-          <select id="type_community">
-            <option name="whitelist">Whitelist only</option>
-            <option name="open">Open</option>
-          </select>
-          <h3>Tags *</h3>
-          <input type="text" id="tags" placeholder="List of tags eligible">
-          <h3 class="whitelist">Whitelist</h3>
-          <input type="text" id="whitelist" class="whitelist" placeholder="Whitelisted users">
-          <h3 class="blacklist">Blacklist</h3>
-          <input type="text" class="blacklist" id="blacklist" placeholder="Blacklisted users">
-          <h3>Vote at Voting Power percentage *</h3>
-          <input type="number" id="vote_when" placeholder="100"/>
-          <h3>Maximum number of daily upvotes per user *</h3>
-          <input type="number" id="max_upvote" placeholder="1"/>
-          <button id="create_community">Create!</button>
+    <head>
+        <title>1UP</title>
+        <meta name="theme-color" content="#993493">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+        <link href="/public/assets/css/style.css" rel="stylesheet">
+        <link href="/public/assets/fonts/icon-font.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700" rel="stylesheet">
+        <!-- FavIcon -->
+        <link rel="shortcut icon" type="image/x-icon" href="public/assets/images/favicon.png?v=1"
+        />
+        <link rel="apple-touch-icon" href="public/assets/images/favicon-touch.png?v=2" />
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="header">
+                <div class="wrapper">
+                    <a href="/"><img class="logo" src="/public/assets/images/logo.svg" alt="1UP logo" title="1UP"></a>
+                    <span class="menu-main-button">
+    						<span class="bar bar-1"></span>
+                    <span class="bar bar-2"></span>
+                    <span class="bar bar-3"></span>
+                    </span>
+                    <ul class="menu-main">
+                        <% if(!loggedIn){ %>
+                        <li><a href="/login" class="item">Login</a></li>
+                        <%} else { %>
+                        <li><a href="/create" class="item">Create Community</a></li>
+                        <li><a href="/logout" class="item">Logout</a></li>
+                        <% } %>
+                        <li><a href="https://steemit.com/utopian-io/@flauwy/steemy-ep-46-how-to-create-and-follow-a-curation-trail-with-steemauto"
+                                target="_blank" class="item">How to vote?</a></li>
+                        <li><a href="https://steemit.com/curation/@flauwy/utopian-1up-a-lucrative-steem-trail-for-the-best-daily-utopian-contributions"
+                                target="_blank" class="item">About</a></li>
+                        <li><a href="https://github.com/therealFlauwy/1UP" target="_blank"
+                                        class="item icon-github" title="1UP on Github"></a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- HTML for community creation !-->
+            <div class='create_community'>
+                <div>
+                    <h2>Create a new community</h2>
+                    <h3>Name *</h3>
+                    <input type="text" id="name" placeholder="Name" />
+                    <h3>Short description *</h3>
+                    <input type="text" id="description" placeholder="Brief description">
+                    <h3>Image Url *</h3>
+                    <input type="text" id="image" placeholder="Image Url">
+                    <h3>Administrators</h3>
+                    <input type="text" id="admins" placeholder="Set administrators">
+                    <h3>Moderators</h3>
+                    <input type="text" id="moderators" placeholder="Set moderators">
+                    <h3>Post selection *</h3>
+                    <select id="type_community">
+                <option name="whitelist">Whitelist only</option>
+                <option name="open">Open</option>
+              </select>
+                    <h3>Tags *</h3>
+                    <input type="text" id="tags" placeholder="List of tags eligible">
+                    <h3 class="whitelist">Whitelist</h3>
+                    <input type="text" id="whitelist" class="whitelist" placeholder="Whitelisted users">
+                    <h3 class="blacklist">Blacklist</h3>
+                    <input type="text" class="blacklist" id="blacklist" placeholder="Blacklisted users">
+                    <h3>Vote at Voting Power percentage *</h3>
+                    <input type="number" id="vote_when" placeholder="100" />
+                    <h3>Maximum number of daily upvotes per user *</h3>
+                    <input type="number" id="max_upvote" placeholder="1" />
+                    <button id="create_community">Create!</button>
+                </div>
+            </div>
+            <footer id="footer" class="align-center">
+                <p>Created with <span class="heart">♥</span> for Steem and Utopian</p>
+                <p>Idea by <a href="https://steemit.com/@flauwy" target="_blank">@flauwy</a>,
+                    development by <a href="https://steemit.com/@stoodkev" target="_blank">@stoodkev</a>,
+                    design by <a href="https://steemit.com/@andrejcibik" target="_blank">@andrejcibik</a>.</p>
+            </footer>
         </div>
-      </div>
 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://cdn.steemjs.com/lib/latest/steem.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/parse/1.11.0/parse.min.js"></script>
+        <script>
+            /* Mobile menu openning */
+        $(document).ready(function() {
+            //Show whitelist or blacklist according to the type of community
+            $("#type_community").change(function() {
+                $(".whitelist").toggle($(
+                    "#type_community option[name='whitelist']"
+                ).prop("selected") == true);
+                $(".blacklist").toggle($(
+                    "#type_community option[name='open']"
+                ).prop("selected") == true);
+            });
 
-			<footer id="footer" class="align-center">
-				<p>Created with <span class="heart">♥</span> for Steem and Utopian</p>
-				<p>Idea by <a href="https://steemit.com/@flauwy" target="_blank">@flauwy</a>, development by <a href="https://steemit.com/@stoodkev" target="_blank">@stoodkev</a>, design by <a href="https://steemit.com/@andrejcibik" target="_blank">@andrejcibik</a>.</p>
-      </footer>
+            //If all fields are completed, send back the information to create the community
+            $("#create_community").click(function() {
+                if ($("#name").val() != "" &&
+                    $("#description").val() != "" &&
+                    $("#image").val() != "" &&
+                    $("#tags").val() != "" &&
+                    $("#max_upvote").val() != "" &&
+                    $("#vote_when").val() != "") {
+                    const obj = {
+                        name: $("#name").val(),
+                        description: $("#description").val(),
+                        image: $("#image").val(),
+                        tags: $("#tags").val(),
+                        max_upvote: $("#max_upvote").val(),
+                        vote_when: $("#vote_when").val(),
+                        type_community: $(
+                            "#type_community option:selected"
+                        ).val(),
+                        administrators: $("#admins").val(),
+                        moderators: $("#moderators").val(),
+                        whitelist: $("#whitelist").val(),
+                        blacklist: $("#blacklist").val(),
+                        owner: "<%=account.name %>"
+                    };
+                    window.location.href =
+                        "/createCommunity?community=" + JSON.stringify(
+                            obj);
+                }
+            });
 
-    </div>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdn.steemjs.com/lib/latest/steem.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/parse/1.11.0/parse.min.js"></script>
-    <script>
-
-
-	/* Mobile menu openning */
-	$( document ).ready(function() {
-
-    //Show whitelist or blacklist according to the type of community
-    $("#type_community").change(function(){
-        $(".whitelist").toggle($("#type_community option[name='whitelist']").prop("selected")==true);
-        $(".blacklist").toggle($("#type_community option[name='open']").prop("selected")==true);
-
-    });
-
-    //If all fields are completed, send back the information to create the community
-    $("#create_community").click(function(){
-      if($("#name").val()!=""
-        &&$("#description").val()!=""
-        &&$("#image").val()!=""
-        &&$("#tags").val()!=""
-        &&$("#max_upvote").val()!=""
-        &&$("#vote_when").val()!="")
-        {
-          var obj={
-            name:$("#name").val(),
-            description:$("#description").val(),
-            image:$("#image").val(),
-            tags:$("#tags").val(),
-            max_upvote:$("#max_upvote").val(),
-            vote_when:$("#vote_when").val(),
-            type_community:$("#type_community option:selected").val(),
-            administrators:$("#admins").val(),
-            moderators:$("#moderators").val(),
-            whitelist:$("#whitelist").val(),
-            blacklist:$("#blacklist").val(),
-            owner:"<%=account.name %>"
-          };
-          window.location.href="/createCommunity?community="+JSON.stringify(obj);
-        }
-    });
-
-		var menuMainButton = $('.menu-main-button');
-		menuMainButton.click(function(){
-			if ($('body').hasClass('open-menu'))
-				$('body').removeClass('open-menu');
-			else {
-				$('body').addClass('open-menu');
-			}
-		});
-	});
-    </script>
-  </body>
+            const menuMainButton = $('.menu-main-button');
+            menuMainButton.click(function() {
+                $('body').toggleClass('open-menu');
+            });
+        });
+        </script>
+    </body>
 </html>
