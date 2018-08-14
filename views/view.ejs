@@ -1,0 +1,55 @@
+<html lang="en">
+  <%- include include/head.ejs %>
+    <body>
+        <div class="container">
+            <%- include include/header.ejs %>
+<!-- HTML for erros !-->
+            <div class='outline'>
+                <div>
+                  <h2><%= community.get("name") %></h2>
+                  <div id="view_img" style="background-image: url(<%= community.get("image") %>">
+                  </div>
+                  <h3>Short description</h3>
+                  <p><%= community.get("description") %></p>
+                  <h3>Administrators</h3>
+                  <p><%= community.get("administrators") %></p>
+                  <h3>Moderators</h3>
+                  <p><%= community.get("moderators") %></p>
+                  <h3>Post selection</h3>
+                  <p><%= community.get("type_community") %></p>
+                  <h3>Tags</h3>
+                  <p><%= community.get("tags") %></p>
+                  <h3 class="whitelist">Whitelist</h3>
+                  <p><%= community.get("whitelist") %></p>
+                  <h3 class="blacklist">Blacklist</h3>
+                  <p><%= community.get("blacklist") %></p>
+                  <h3>Vote at Voting Power percentage</h3>
+                  <p><%= community.get("vote_when") %></p>
+                  <h3>Maximum number of daily upvotes per user</h3>
+                  <p><%= community.get("max_upvote") %></p>
+              </div>
+          </div>
+          <%- include include/footer.ejs %>
+          </div>
+
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+          <script src="https://cdn.steemjs.com/lib/latest/steem.min.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/parse/1.11.0/parse.min.js"></script>
+          <script>
+
+          /* Mobile menu openning */
+          $(document).ready(function() {
+          //Show whitelist or blacklist according to the type of community
+          $("#type_community").change(function() {
+              $(".whitelist").toggle($(
+                 "#type_community option[name='whitelist']"
+              ).prop("selected") == true);
+              $(".blacklist").toggle($(
+                 "#type_community option[name='open']"
+              ).prop("selected") == true);
+          });
+        });
+
+          </script>
+      </body>
+</html>
