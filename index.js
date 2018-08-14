@@ -7,6 +7,7 @@ const favicon = require("serve-favicon")
 require("dotenv").config();
 const sc2 = require("sc2-sdk");
 const config = require("./config");
+const messages = require("./messages");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const steemjs = require("steem");
@@ -125,9 +126,10 @@ app.get("/edit/:error_message", function(req, res) {
 
 app.get("/error/:error_message", function(req, res) {
     isLoggedIn(req).then(function(loggedIn) {
+      console.log(messages,messages[req.params.error_message],req.params.error_message);
         res.render("error.ejs", {
             loggedIn: loggedIn,
-            error_message: req.params.error_message
+            error_message: messages[req.params.error_message]
         });
     });
 });
