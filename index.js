@@ -58,7 +58,6 @@ app.get("/", function(req, res) {
         query.limit(1000);
         query.find({
             success: function(communities) {
-                console.log(communities);
                 res.render("main.ejs", {
                     communities: communities,
                     loggedIn: loggedIn,
@@ -67,7 +66,6 @@ app.get("/", function(req, res) {
                 });
             },
             error: function(error) {
-                console.log(error);
             }
         });
     });
@@ -76,17 +74,20 @@ app.get("/", function(req, res) {
 //Launch the community creation page
 app.get("/create", function(req, res) {
     isLoggedIn(req).then(function(loggedIn) {
+      if(loggedIn)
         res.render("create.ejs", {
             loggedIn: loggedIn,
             account: req.session.account,
             sToken: req.cookies.access_token
         });
+      else {
+        res.redirect("error/login");
+      }
     });
 });
 
 //TODO: handle creation new community
 app.post("/createCommunity", function(req, res) {
-    console.log(req.body);
     var Communities = Parse.Object.extend("Communities");
     var community = new Communities();
 
@@ -105,28 +106,45 @@ app.post("/createCommunity", function(req, res) {
 
     community.save(null, {
         success: function(community) {
-        console.log("success");
             res.sendStatus(200);
         },
         error: function(community, error) {
-        console.log("error");
             res.sendStatus(408);
         }
     });
 });
 
-app.get("/edit/:error_message", function(req, res) {
-    isLoggedIn(req).then(function(loggedIn) {
-        res.render("error.ejs", {
-            loggedIn: loggedIn,
-            error_message: req.params.error_message
-        });
-    });
+app.get("/view/:name", function(req, res) {
+  isLoggedIn(req).then(function(loggedIn) {
+    const community = Parse.Object.extend("Communities");
+    const query = new Parse.Query(community);
+    query.equalTo("name",req.params.name);
+    query.limit(1);
+    query.find({
+        success: function(communities) {
+            if(communities.length==0)
+              res.redirect("/error/no_community");
+            else{
+              console.log(communities[0]);
+              res.render("view.ejs",{
+                loggedIn:loggedIn,
+                community:communities[0]
+              })
+            }
+        },
+        error:function(){
+          res.redirect("/error/wrong");
+        }
+      });
+  });
+});
+
+app.get("/edit/:name", function(req, res) {
+  //TODO : Edit Page
 });
 
 app.get("/error/:error_message", function(req, res) {
     isLoggedIn(req).then(function(loggedIn) {
-      console.log(messages,messages[req.params.error_message],req.params.error_message);
         res.render("error.ejs", {
             loggedIn: loggedIn,
             error_message: messages[req.params.error_message]
