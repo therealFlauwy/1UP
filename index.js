@@ -10,6 +10,7 @@ const config = require("./config");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const steemjs = require("steem");
+const bodyParser = require("body-parser");
 const steem = sc2.Initialize({
     app: config.app_id,
     callbackURL: config.redirect_uri,
@@ -32,6 +33,7 @@ const api = new ParseServer({
 
 //Use Express Framework
 const app = express();
+app.use(bodyParser.json());
 
 //Create sessions and cookies to keep login information from SteemConnect
 app.use(session({
@@ -82,8 +84,52 @@ app.get("/create", function(req, res) {
 });
 
 //TODO: handle creation new community
-app.get("/createCommunity", function(req, res) {
-    console.log(req.params.community);
+app.post("/createCommunity", function(req, res) {
+    console.log(req.body);
+    var Communities = Parse.Object.extend("Communities");
+    var community = new Communities();
+
+    community.set("name", req.body.name);
+    community.set("description", req.body.description);
+    community.set("image", req.body.image);
+    community.set("tags", req.body.tags);
+    community.set("max_upvote", req.body.max_upvote);
+    community.set("vote_when", req.body.vote_when);
+    community.set("type_community", req.body.type_community);
+    community.set("administrators", req.body.administrators);
+    community.set("moderators", req.body.moderators);
+    community.set("whitelist", req.body.whitelist);
+    community.set("blacklist", req.body.blacklist);
+    community.set("owner", req.body.owner);
+
+    community.save(null, {
+        success: function(community) {
+        console.log("success");
+            res.sendStatus(200);
+        },
+        error: function(community, error) {
+        console.log("error");
+            res.sendStatus(408);
+        }
+    });
+});
+
+app.get("/edit/:error_message", function(req, res) {
+    isLoggedIn(req).then(function(loggedIn) {
+        res.render("error.ejs", {
+            loggedIn: loggedIn,
+            error_message: req.params.error_message
+        });
+    });
+});
+
+app.get("/error/:error_message", function(req, res) {
+    isLoggedIn(req).then(function(loggedIn) {
+        res.render("error.ejs", {
+            loggedIn: loggedIn,
+            error_message: req.params.error_message
+        });
+    });
 });
 
 //Login via Steemconnect

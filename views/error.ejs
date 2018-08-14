@@ -1,0 +1,37 @@
+<html lang="en">
+  <%- include include/head.ejs %>
+    <body>
+        <div class="container">
+            <%- include include/header.ejs %>
+<!-- HTML for erros !-->
+            <div class='create_community'>
+                <div>
+                  <%= error_message %>
+                </div>
+            </div>
+          <%- include include/footer.ejs %>
+          </div>
+
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+          <script src="https://cdn.steemjs.com/lib/latest/steem.min.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/parse/1.11.0/parse.min.js"></script>
+          <script>
+          console.log("aa");
+
+          /* Mobile menu openning */
+          $(document).ready(function() {
+          //Show whitelist or blacklist according to the type of community
+          $("#type_community").change(function() {
+              $(".whitelist").toggle($(
+                  "#type_community option[name='whitelist']"
+              ).prop("selected") == true);
+              $(".blacklist").toggle($(
+                  "#type_community option[name='open']"
+              ).prop("selected") == true);
+          });
+        });
+
+
+          </script>
+      </body>
+</html>
