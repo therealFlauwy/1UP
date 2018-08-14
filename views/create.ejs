@@ -33,7 +33,7 @@
                     <h3>Maximum number of daily upvotes per user *</h3>
                     <input type="number" id="max_upvote" placeholder="1" />
                     <button id="create_community">Create!</button>
-                    <p id=></p>
+                    <p id="error_create" style="color:red;display:none;">Please fill all the non optional fields.</p>
                 </div>
             </div>
             <%- include include/footer.ejs %>
@@ -94,6 +94,7 @@
                         window.location.href="/error/creation_error";
                       });
                 }
+                else $("#error_create").show();
             });
 
             const menuMainButton = $('.menu-main-button');
