@@ -65,8 +65,7 @@ app.get("/", function(req, res) {
                     sToken: req.cookies.access_token
                 });
             },
-            error: function(error) {
-            }
+            error: function(error) {}
         });
     });
 });
@@ -74,15 +73,15 @@ app.get("/", function(req, res) {
 //Launch the community creation page
 app.get("/create", function(req, res) {
     isLoggedIn(req).then(function(loggedIn) {
-      if(loggedIn)
-        res.render("create.ejs", {
-            loggedIn: loggedIn,
-            account: req.session.account,
-            sToken: req.cookies.access_token
-        });
-      else {
-        res.redirect("error/login");
-      }
+        if (loggedIn)
+            res.render("create.ejs", {
+                loggedIn: loggedIn,
+                account: req.session.account,
+                sToken: req.cookies.access_token
+            });
+        else {
+            res.redirect("error/login");
+        }
     });
 });
 
@@ -115,32 +114,32 @@ app.post("/createCommunity", function(req, res) {
 });
 
 app.get("/view/:name", function(req, res) {
-  isLoggedIn(req).then(function(loggedIn) {
-    const community = Parse.Object.extend("Communities");
-    const query = new Parse.Query(community);
-    query.equalTo("name",req.params.name);
-    query.limit(1);
-    query.find({
-        success: function(communities) {
-            if(communities.length==0)
-              res.redirect("/error/no_community");
-            else{
-              console.log(communities[0]);
-              res.render("view.ejs",{
-                loggedIn:loggedIn,
-                community:communities[0]
-              })
+    isLoggedIn(req).then(function(loggedIn) {
+        const community = Parse.Object.extend("Communities");
+        const query = new Parse.Query(community);
+        query.equalTo("name", req.params.name);
+        query.limit(1);
+        query.find({
+            success: function(communities) {
+                if (communities.length == 0)
+                    res.redirect("/error/no_community");
+                else {
+                    console.log(communities[0]);
+                    res.render("view.ejs", {
+                        loggedIn: loggedIn,
+                        community: communities[0]
+                    })
+                }
+            },
+            error: function() {
+                res.redirect("/error/wrong");
             }
-        },
-        error:function(){
-          res.redirect("/error/wrong");
-        }
-      });
-  });
+        });
+    });
 });
 
 app.get("/edit/:name", function(req, res) {
-  //TODO : Edit Page
+    //TODO : Edit Page
 });
 
 app.get("/error/:error_message", function(req, res) {
