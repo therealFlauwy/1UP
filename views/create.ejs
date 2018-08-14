@@ -4,7 +4,7 @@
         <div class="container">
             <%- include include/header.ejs %>
             <!-- HTML for community creation !-->
-            <div class='create_community'>
+            <div class='outline'>
                 <div>
                     <h2>Create a new community</h2>
                     <h3>Name *</h3>
@@ -33,7 +33,7 @@
                     <h3>Maximum number of daily upvotes per user *</h3>
                     <input type="number" id="max_upvote" placeholder="1" />
                     <button id="create_community">Create!</button>
-                    <p id="error_create" style="color:red; display:none;">Please fill all the non-optional fields above</p>
+                    <p id="error_create" style="color:red;display:none;">Please fill all the non optional fields.</p>
                 </div>
             </div>
             <%- include include/footer.ejs %>
@@ -88,6 +88,7 @@
                       .done(function() {
                         console.log("done");
                         window.location.href="/view/"+obj.name;
+
                      })
                       .fail(function() {
                         console.log("error");
