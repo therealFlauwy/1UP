@@ -11,6 +11,9 @@
                   </div>
                   <h3>Short description</h3>
                   <p><%= community.get("description") %></p>
+                  <h3>Trail account</h3>
+                  <p>The trail account hasn't be set up yet. Use this link to connect it:</p>
+                  <p><%= serverURL %>/link_trail/<%= community.get("link_trail") %></p>
                   <h3>Administrators</h3>
                   <p><%= community.get("administrators") %></p>
                   <h3>Moderators</h3>

@@ -129,7 +129,8 @@ app.get("/view/:name", function(req, res) {
                     console.log(communities[0]);
                     res.render("view.ejs", {
                         loggedIn: loggedIn,
-                        community: communities[0]
+                        community: communities[0],
+                        serverURL:  config.serverURL
                     })
                 }
             },
