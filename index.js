@@ -102,6 +102,7 @@ app.post("/createCommunity", function(req, res) {
     community.set("whitelist", req.body.whitelist);
     community.set("blacklist", req.body.blacklist);
     community.set("owner", req.body.owner);
+    community.set("link_trail",generateRandomString());
 
     community.save(null, {
         success: function(community) {
@@ -113,6 +114,7 @@ app.post("/createCommunity", function(req, res) {
     });
 });
 
+// View a Community page
 app.get("/view/:name", function(req, res) {
     isLoggedIn(req).then(function(loggedIn) {
         const community = Parse.Object.extend("Communities");
@@ -138,10 +140,12 @@ app.get("/view/:name", function(req, res) {
     });
 });
 
+//Edit community page
 app.get("/edit/:name", function(req, res) {
     //TODO : Edit Page
 });
 
+//Error page
 app.get("/error/:error_message", function(req, res) {
     isLoggedIn(req).then(function(loggedIn) {
         res.render("error.ejs", {
@@ -224,4 +228,13 @@ function shuffle(array) {
         array[randomIndex] = temporaryValue;
     }
     return array;
+}
+
+// generate a 10 characters random string
+function generateRandomString() {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  for (var i = 0; i < 10; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  return text;
 }
