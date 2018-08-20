@@ -13,7 +13,7 @@ const session = require("express-session");
 const steemjs = require("steem");
 const bodyParser = require("body-parser");
 const steem = sc2.Initialize({
-    app: config.app_id,
+    app: config.sc2_id,
     callbackURL: config.redirect_uri,
     scope: config.scopes
 });
@@ -150,13 +150,43 @@ app.get("/link_trail/:link_trail", function(req, res) {
   query.limit(1);
   query.find({
       success: function(communities) {
-          if(communities.length==1)
-              res.redirect("https://steemconnect.com/oauth2/authorize?client_id="+config.appId+"&redirect_uri=/create_trail&response_type=code&scope=offline,comment,vote,comment_option,custom_json");
+          if(communities.length==1){
+              res.redirect("https://steemconnect.com/oauth2/authorize?client_id="+config.sc2_id+"&redirect_uri="+config.serverURL+"/create_trail&response_type=code&scope=offline,comment,vote,comment_options,custom_json");
+        }
           else {
                 res.redirect("/error/wrong_page");
           }
       }
   });
+});
+
+// Get the trail ID
+app.get("/create_trail", function(req, res) {
+  if(req.query.code!==undefined&&req.session.link_trail!==undefined){
+    const community = Parse.Object.extend("Communities");
+    const query = new Parse.Query(community);
+    query.equalTo("link_trail", req.session.link_trail);
+    query.limit(1);
+    query.find({
+      success: function(communities) {
+          if(communities.length==1){
+            communities[0].unset("link_trail");
+            communities[0].set("trail_token",req.query.code);
+            communities[0].save(null,{});
+            res.redirect("/view/"+communities[0].get("name"));
+        }
+        else {
+                res.redirect("/error/wrong_page");
+        }
+      },
+      error: function(error) {
+          console.log(error);
+      }
+    });
+  }
+  else {
+    res.redirect("/error/identify");
+  }
 });
 
 

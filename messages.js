@@ -3,7 +3,8 @@ const messages = {
     login: "Please login to access to this page!",
     sth_wrong: "Something went wrong! Please try again later!",
     no_community: "We cannot find the community you're looking for! ",
-    wrong_page:"The page you are looking for does not exist!"
+    wrong_page:"The page you are looking for does not exist!",
+    identify:"We could not identify you. Please try again later!"
 };
 
 module.exports = messages;
