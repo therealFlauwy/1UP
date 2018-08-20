@@ -135,11 +135,30 @@ app.get("/view/:name", function(req, res) {
                 }
             },
             error: function() {
-                res.redirect("/error/wrong");
+                res.redirect("/error/sth_wrong");
             }
         });
     });
 });
+
+// Create a route to link to the trail
+app.get("/link_trail/:link_trail", function(req, res) {
+  req.session.link_trail = req.params.link_trail;
+  const community = Parse.Object.extend("Communities");
+  const query = new Parse.Query(community);
+  query.equalTo("link_trail", req.params.link_trail);
+  query.limit(1);
+  query.find({
+      success: function(communities) {
+          if(communities.length==1)
+              res.redirect("https://steemconnect.com/oauth2/authorize?client_id="+config.appId+"&redirect_uri=/create_trail&response_type=code&scope=offline,comment,vote,comment_option,custom_json");
+          else {
+                res.redirect("/error/wrong_page");
+          }
+      }
+  });
+});
+
 
 //Edit community page
 app.get("/edit/:name", function(req, res) {
