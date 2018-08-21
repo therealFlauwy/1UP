@@ -1,5 +1,6 @@
 let config = {
-    app_id: "app-1up",
+    sc2_id: "app-1up",
+    sc2_secret: process.env.CLIENT_SECRET,
     redirect_uri: (process.env.SERVER_URL || 'http://localhost:1337') + '/login',
     scopes: ["login", "vote"],
     db: process.env.DATABASE_URI || process.env.MONGODB_URI,

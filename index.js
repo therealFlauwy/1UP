@@ -12,8 +12,9 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const steemjs = require("steem");
 const bodyParser = require("body-parser");
+const rp = require('request-promise');
 const steem = sc2.Initialize({
-    app: config.app_id,
+    app: config.sc2_id,
     callbackURL: config.redirect_uri,
     scope: config.scopes
 });
@@ -102,6 +103,7 @@ app.post("/createCommunity", function(req, res) {
     community.set("whitelist", req.body.whitelist);
     community.set("blacklist", req.body.blacklist);
     community.set("owner", req.body.owner);
+    community.set("link_trail",generateRandomString());
 
     community.save(null, {
         success: function(community) {
@@ -113,6 +115,7 @@ app.post("/createCommunity", function(req, res) {
     });
 });
 
+// View a Community page
 app.get("/view/:name", function(req, res) {
     isLoggedIn(req).then(function(loggedIn) {
         const community = Parse.Object.extend("Communities");
@@ -124,24 +127,123 @@ app.get("/view/:name", function(req, res) {
                 if (communities.length == 0)
                     res.redirect("/error/no_community");
                 else {
-                    console.log(communities[0]);
-                    res.render("view.ejs", {
-                        loggedIn: loggedIn,
-                        community: communities[0]
-                    })
+                  const Trails = Parse.Object.extend("Trails");
+                  let queryTrail = new Parse.Query(Trails);
+                  // View for no trail
+                  if(communities[0].get("trail")===undefined){
+                      res.render("view.ejs", {
+                          loggedIn: loggedIn,
+                          community: communities[0],
+                          serverURL:  config.serverURL,
+                          trail: null
+                      });
+                  }
+                  else { //View with a trail set
+                      queryTrail.get(communities[0].get("trail").id).then((trail)=>{
+                        res.render("view.ejs", {
+                            loggedIn: loggedIn,
+                            community: communities[0],
+                            serverURL:  config.serverURL,
+                            trail:trail
+                        });
+                      });
+                  }
                 }
             },
             error: function() {
-                res.redirect("/error/wrong");
+                res.redirect("/error/sth_wrong");
             }
         });
     });
 });
 
+// Create a route to link to the trail
+app.get("/link_trail/:link_trail", function(req, res) {
+  req.session.link_trail = req.params.link_trail;
+  const community = Parse.Object.extend("Communities");
+  const query = new Parse.Query(community);
+  query.equalTo("link_trail", req.params.link_trail);
+  query.limit(1);
+  query.find({
+      success: function(communities) {
+          if(communities.length==1){
+              // Generates the SteemConnect link if the link_trail string exists
+              res.redirect("https://steemconnect.com/oauth2/authorize?client_id="+config.sc2_id+"&redirect_uri="+config.serverURL+"/create_trail&response_type=code&scope=offline,comment,vote,comment_options,custom_json");
+        }
+          else {
+                res.redirect("/error/wrong_page");
+          }
+      }
+  });
+});
+
+// Create trail object and link it to the community
+app.get("/create_trail", function(req, res) {
+  // Check if we got session data and token from SC2
+  if(req.query.code!==undefined&&req.session.link_trail!==undefined){
+
+  return rp({
+    method: "POST",
+    uri: "https://steemconnect.com/api/oauth2/token",
+    body: {
+      response_type: "refresh",
+      code: req.query.code,
+      client_id: config.sc2_id,
+      client_secret: config.sc2_secret,
+      scope: "vote,comment,offline,custom_json,comment_options"
+    },
+    json: true
+  })
+  .then((results) => {
+    const community = Parse.Object.extend("Communities");
+    const query = new Parse.Query(community);
+    query.equalTo("link_trail", req.session.link_trail);
+    query.limit(1);
+    query.find({
+      success: function(communities) {
+          if(communities.length==1){
+            // Create a new trail object with the token information
+            let Trails= Parse.Object.extend("Trails");
+            let trail= new Trails();
+            trail.set("trail_token",req.query.code);
+            trail.set("access_token",results.access_token);
+            trail.set("username",results.username);
+            trail.set("refresh_token",results.refresh_token);
+            trail.set("expires",Date.now()+7*24*3600*1000);
+            trail.save().then((tr)=>{
+
+            // If the trail has been created, save the SC2 token
+            // and delete the trail_token random string
+            communities[0].unset("link_trail");
+            communities[0].set("trail",tr);
+            communities[0].save();
+            //Redirect to the community page view
+            res.redirect("/view/"+communities[0].get("name"));
+          });
+        }
+        else {
+                res.redirect("/error/wrong_page");
+        }
+      },
+      error: function(error) {
+          res.redirect("/error/sth_wrong");
+      }
+    });
+  });
+
+  }
+  else {
+    res.redirect("/error/identify");
+  }
+});
+
+
+//Edit community page
 app.get("/edit/:name", function(req, res) {
     //TODO : Edit Page
 });
 
+//Error page
 app.get("/error/:error_message", function(req, res) {
     isLoggedIn(req).then(function(loggedIn) {
         res.render("error.ejs", {
@@ -224,4 +326,13 @@ function shuffle(array) {
         array[randomIndex] = temporaryValue;
     }
     return array;
+}
+
+// generate a 10 characters random string
+function generateRandomString() {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  for (var i = 0; i < 10; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  return text;
 }
