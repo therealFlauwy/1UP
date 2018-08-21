@@ -161,9 +161,11 @@ app.get("/link_trail/:link_trail", function(req, res) {
   });
 });
 
-// Get the trail ID
+// Create trail object and link it to the community
 app.get("/create_trail", function(req, res) {
   // Check if we got session data and token from SC2
+  if(req.query.code!==undefined&&req.session.link_trail!==undefined){
+
   return rp({
     method: "POST",
     uri: "https://steemconnect.com/api/oauth2/token",
@@ -177,8 +179,6 @@ app.get("/create_trail", function(req, res) {
     json: true
   })
   .then((results) => {
-    console.log(results);
-  if(req.query.code!==undefined&&req.session.link_trail!==undefined){
     const community = Parse.Object.extend("Communities");
     const query = new Parse.Query(community);
     query.equalTo("link_trail", req.session.link_trail);
@@ -186,13 +186,24 @@ app.get("/create_trail", function(req, res) {
     query.find({
       success: function(communities) {
           if(communities.length==1){
-            // If the session data corresponds to a community, save the SC2 token
+            // Create a new trail object with the token information
+            let Trails= Parse.Object.extend("Trails");
+            let trail= new Trails();
+            trail.set("trail_token",req.query.code);
+            trail.set("access_token",results.access_token);
+            trail.set("username",results.username);
+            trail.set("refresh_token",results.refresh_token);
+            trail.set("expires",Date.now()+7*24*3600*1000);
+            trail.save().then((tr)=>{
+
+            // If the trail has been created, save the SC2 token
             // and delete the trail_token random string
             communities[0].unset("link_trail");
-            communities[0].set("trail_token",req.query.code);
-            communities[0].save(null,{});
+            communities[0].set("trail",tr);
+            communities[0].save();
             //Redirect to the community page view
             res.redirect("/view/"+communities[0].get("name"));
+          });
         }
         else {
                 res.redirect("/error/wrong_page");
@@ -202,11 +213,12 @@ app.get("/create_trail", function(req, res) {
           res.redirect("/error/sth_wrong");
       }
     });
+  });
+
   }
   else {
     res.redirect("/error/identify");
   }
-});
 });
 
 
