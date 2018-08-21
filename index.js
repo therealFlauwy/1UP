@@ -12,6 +12,7 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const steemjs = require("steem");
 const bodyParser = require("body-parser");
+const rp = require('request-promise');
 const steem = sc2.Initialize({
     app: config.sc2_id,
     callbackURL: config.redirect_uri,
@@ -126,7 +127,6 @@ app.get("/view/:name", function(req, res) {
                 if (communities.length == 0)
                     res.redirect("/error/no_community");
                 else {
-                    console.log(communities[0]);
                     res.render("view.ejs", {
                         loggedIn: loggedIn,
                         community: communities[0],
@@ -151,6 +151,7 @@ app.get("/link_trail/:link_trail", function(req, res) {
   query.find({
       success: function(communities) {
           if(communities.length==1){
+              // Generates the SteemConnect link if the link_trail string exists
               res.redirect("https://steemconnect.com/oauth2/authorize?client_id="+config.sc2_id+"&redirect_uri="+config.serverURL+"/create_trail&response_type=code&scope=offline,comment,vote,comment_options,custom_json");
         }
           else {
@@ -162,6 +163,21 @@ app.get("/link_trail/:link_trail", function(req, res) {
 
 // Get the trail ID
 app.get("/create_trail", function(req, res) {
+  // Check if we got session data and token from SC2
+  return rp({
+    method: "POST",
+    uri: "https://steemconnect.com/api/oauth2/token",
+    body: {
+      response_type: "refresh",
+      code: req.query.code,
+      client_id: config.sc2_id,
+      client_secret: config.sc2_secret,
+      scope: "vote,comment,offline,custom_json,comment_options"
+    },
+    json: true
+  })
+  .then((results) => {
+    console.log(results);
   if(req.query.code!==undefined&&req.session.link_trail!==undefined){
     const community = Parse.Object.extend("Communities");
     const query = new Parse.Query(community);
@@ -170,9 +186,12 @@ app.get("/create_trail", function(req, res) {
     query.find({
       success: function(communities) {
           if(communities.length==1){
+            // If the session data corresponds to a community, save the SC2 token
+            // and delete the trail_token random string
             communities[0].unset("link_trail");
             communities[0].set("trail_token",req.query.code);
             communities[0].save(null,{});
+            //Redirect to the community page view
             res.redirect("/view/"+communities[0].get("name"));
         }
         else {
@@ -180,13 +199,14 @@ app.get("/create_trail", function(req, res) {
         }
       },
       error: function(error) {
-          console.log(error);
+          res.redirect("/error/sth_wrong");
       }
     });
   }
   else {
     res.redirect("/error/identify");
   }
+});
 });
 
 
