@@ -127,11 +127,27 @@ app.get("/view/:name", function(req, res) {
                 if (communities.length == 0)
                     res.redirect("/error/no_community");
                 else {
-                    res.render("view.ejs", {
-                        loggedIn: loggedIn,
-                        community: communities[0],
-                        serverURL:  config.serverURL
-                    })
+                  const Trails = Parse.Object.extend("Trails");
+                  let queryTrail = new Parse.Query(Trails);
+                  // View for no trail
+                  if(communities[0].get("trail")===undefined){
+                      res.render("view.ejs", {
+                          loggedIn: loggedIn,
+                          community: communities[0],
+                          serverURL:  config.serverURL,
+                          trail: null
+                      });
+                  }
+                  else {
+                      queryTrail.get(communities[0].get("trail").id).then((trail)=>{
+                        res.render("view.ejs", {
+                            loggedIn: loggedIn,
+                            community: communities[0],
+                            serverURL:  config.serverURL,
+                            trail:trail
+                        });
+                      });
+                  }
                 }
             },
             error: function() {
