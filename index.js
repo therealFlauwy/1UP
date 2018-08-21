@@ -138,7 +138,7 @@ app.get("/view/:name", function(req, res) {
                           trail: null
                       });
                   }
-                  else {
+                  else { //View with a trail set
                       queryTrail.get(communities[0].get("trail").id).then((trail)=>{
                         res.render("view.ejs", {
                             loggedIn: loggedIn,
