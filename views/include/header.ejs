@@ -10,8 +10,10 @@
                         <% if(!loggedIn){ %>
                         <li><a href="/login" class="item">Login</a></li>
                         <%} else { %>
-                        <li><a href="/create" class="item">Create Community</a></li>
-                        <li><a href="/logout" class="item">Logout</a></li>
+                        <select id="loggedIn">
+                          <option value="/create">Create Community</option>
+                          <option value="/logout">Logout</option>
+                        </select>
                         <% } %>
                         <li><a href="https://steemit.com/utopian-io/@flauwy/steemy-ep-46-how-to-create-and-follow-a-curation-trail-with-steemauto"
                                 target="_blank" class="item">How to vote?</a></li>

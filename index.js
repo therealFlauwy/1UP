@@ -278,7 +278,7 @@ app.get("/logout", function(req, res) {
 const mountPath = "/parse";
 app.use(mountPath, api);
 
-// Parse Server plays nicely with the rest of your web routes
+
 
 function isLoggedIn(req) {
     return new Promise(function(fulfill, reject) {
@@ -291,7 +291,30 @@ function isLoggedIn(req) {
                     req.session.name = response.name;
                     req.session.account = response.account;
                     req.session.logged_in = true;
-                    fulfill(true);
+
+                    let owner=new Parse.Query(Parse.Object.extend("Communities"));
+                    let admin=new Parse.Query(Parse.Object.extend("Communities"));
+                    let mod=new Parse.Query(Parse.Object.extend("Communities"));
+
+                    owner.equalTo("owner",response.name);
+                    admin.equalTo("administrators",response.name);
+                    mod.equalTo("moderators",response.name);
+                    let mainQuery = Parse.Query.or(owner, mod,admin);
+                    mainQuery.find({
+                      success: function(communities) {
+                        if(communities.length!==0){
+                          req.session.communities=communities;
+                          console.log(communities);
+                        }
+                        else {
+                          req.session.communities=null;
+                        }
+                        fulfill(true);
+                    },
+                    error: function(error) {
+                        fulfill(true);
+                    }
+                  });
                 } else fulfill(false);
             });
         } else {
@@ -300,17 +323,6 @@ function isLoggedIn(req) {
     });
 }
 
-// There will be a test page available on the /test path of your server url
-// Remove this before launching your app
-
-const port = config.port;
-const httpServer = require("http").createServer(app);
-httpServer.listen(port, function() {
-    console.log("1UP running on port " + port + ".");
-});
-
-// This will enable the Live Query real-time server
-// ParseServer.createLiveQueryServer(httpServer);
 
 function shuffle(array) {
     let currentIndex = array.length,
@@ -336,3 +348,10 @@ function generateRandomString() {
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   return text;
 }
+
+
+const port = config.port;
+const httpServer = require("http").createServer(app);
+httpServer.listen(port, function() {
+    console.log("1UP running on port " + port + ".");
+});
