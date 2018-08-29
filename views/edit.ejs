@@ -5,43 +5,29 @@
             <%- include include/header.ejs %>
             <div class='outline'>
                 <div>
-                  <h2><%= community.get("name") %></h2>
-                  <div id="view_img" style="background-image: url(<%= community.get("image") %>">
+                  <h3>Name</h3>
+                  <input value='<%= community.get("name") %>'/>
+                  <h3>Image</h3>
+                  <input value='<%= community.get("image") %>'>
                   </div>
                   <h3>Short description</h3>
-                  <p><%= community.get("description") %></p>
-                  <h3>Trail account</h3>
-                  <% if(trail===null){ %>
-                  <p>The trail account has not been set up yet. Use this link to connect it:</p>
-                  <a target="_blank" href="<%= serverURL %>/link_trail/<%= community.get("link_trail") %>">
-                    <%= serverURL %>/link_trail/<%= community.get("link_trail") %>
-                  </a>
-                  <% } else { %>
-                  <a target="_blank" href="https://steemit.com/@<%= trail.get("username") %>">
-                    @<%= trail.get("username") %>
-                  </a>
-                  <% } %>
+                  <input value='<%= community.get("description") %>'/>
                   <h3>Administrators</h3>
-                  <p><%= community.get("administrators") %></p>
+                  <input value='<%= community.get("administrators") %>'/>
                   <h3>Moderators</h3>
-                  <p><%= community.get("moderators") %></p>
+                  <input value='<%= community.get("moderators") %>'/>
                   <h3>Post selection</h3>
                   <p><%= community.get("type_community") %></p>
                   <h3>Tags</h3>
-                  <p><%= community.get("tags") %></p>
+                  <input value='<%= community.get("tags") %>'/>
                   <h3 class="whitelist">Whitelist</h3>
-                  <p><%= community.get("whitelist") %></p>
+                  <input value='<%= community.get("whitelist") %>'/>
                   <h3 class="blacklist">Blacklist</h3>
-                  <p><%= community.get("blacklist") %></p>
+                  <input value='<%= community.get("blacklist") %>'/>
                   <h3>Vote at Voting Power percentage</h3>
-                  <p><%= community.get("vote_when") %></p>
+                  <input value='<%= community.get("vote_when") %>'/>
                   <h3>Maximum number of daily upvotes per user</h3>
-                  <p><%= community.get("max_upvote") %></p>
-                  <% if(community.get("owner")===session.name||
-                      community.get("administrators").includes(session.name)||
-                      community.get("moderators").includes(session.name)){ %>
-                    <button id="edit">Edit Parameters</button>
-                  <% } %>
+                  <input value='<%= community.get("max_upvote") %>'/>
               </div>
           </div>
           <%- include include/footer.ejs %>
