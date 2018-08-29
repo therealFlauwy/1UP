@@ -9,7 +9,7 @@ const sc2 = require("sc2-sdk");
 const config = require("./config");
 const messages = require("./messages");
 const cookieParser = require("cookie-parser");
-const session = require("express-session");
+const expressSession = require("express-session");
 const steemjs = require("steem");
 const bodyParser = require("body-parser");
 const rp = require('request-promise');
@@ -38,7 +38,7 @@ const app = express();
 app.use(bodyParser.json());
 
 //Create sessions and cookies to keep login information from SteemConnect
-app.use(session({
+app.use(expressSession({
     secret: config.secret,
     resave: true,
     saveUninitialized: true,
@@ -55,13 +55,13 @@ app.use("/public", express.static(path.join(__dirname, "/public")));
 app.get("/", function(req, res) {
     const community = Parse.Object.extend("Communities");
     const query = new Parse.Query(community);
-    isLoggedIn(req).then(function(loggedIn) {
+    getSession(req).then(function(session) {
         query.limit(1000);
         query.find({
             success: function(communities) {
                 res.render("main.ejs", {
                     communities: communities,
-                    loggedIn: loggedIn,
+                    session: session,
                     account: req.session.account,
                     sToken: req.cookies.access_token
                 });
@@ -73,10 +73,10 @@ app.get("/", function(req, res) {
 
 //Launch the community creation page
 app.get("/create", function(req, res) {
-    isLoggedIn(req).then(function(loggedIn) {
-        if (loggedIn)
+    getSession(req).then(function(session) {
+        if (session.loggedIn)
             res.render("create.ejs", {
-                loggedIn: loggedIn,
+                session: session,
                 account: req.session.account,
                 sToken: req.cookies.access_token
             });
@@ -117,7 +117,7 @@ app.post("/createCommunity", function(req, res) {
 
 // View a Community page
 app.get("/view/:name", function(req, res) {
-    isLoggedIn(req).then(function(loggedIn) {
+    getSession(req).then(function(session) {
         const community = Parse.Object.extend("Communities");
         const query = new Parse.Query(community);
         query.equalTo("name", req.params.name);
@@ -132,7 +132,7 @@ app.get("/view/:name", function(req, res) {
                   // View for no trail
                   if(communities[0].get("trail")===undefined){
                       res.render("view.ejs", {
-                          loggedIn: loggedIn,
+                          session: session,
                           community: communities[0],
                           serverURL:  config.serverURL,
                           trail: null
@@ -141,7 +141,7 @@ app.get("/view/:name", function(req, res) {
                   else { //View with a trail set
                       queryTrail.get(communities[0].get("trail").id).then((trail)=>{
                         res.render("view.ejs", {
-                            loggedIn: loggedIn,
+                            session: session,
                             community: communities[0],
                             serverURL:  config.serverURL,
                             trail:trail
@@ -245,9 +245,9 @@ app.get("/edit/:name", function(req, res) {
 
 //Error page
 app.get("/error/:error_message", function(req, res) {
-    isLoggedIn(req).then(function(loggedIn) {
+    getSession(req).then(function(session) {
         res.render("error.ejs", {
-            loggedIn: loggedIn,
+            session: session,
             error_message: messages[req.params.error_message]
         });
     });
@@ -280,16 +280,18 @@ app.use(mountPath, api);
 
 
 
-function isLoggedIn(req) {
+function getSession(req) {
     return new Promise(function(fulfill, reject) {
-        if (req.session.logged_in)
-            fulfill(true);
+        if (req.session.logged_in){
+          console.log({loggedIn:true,name:req.session.name,communities:req.session.communities});
+            fulfill({loggedIn:true,name:req.session.name,communities:req.session.communities});
+          }
         else if (req.cookies.access_token !== undefined) {
             steem.setAccessToken(req.cookies.access_token);
             steem.me(function(err, response) {
                 if (err === null) {
                     req.session.name = response.name;
-                    req.session.account = response.account;
+                    req.session.account = JSON.stringify(response.account);
                     req.session.logged_in = true;
 
                     let owner=new Parse.Query(Parse.Object.extend("Communities"));
@@ -303,22 +305,23 @@ function isLoggedIn(req) {
                     mainQuery.find({
                       success: function(communities) {
                         if(communities.length!==0){
-                          req.session.communities=communities;
-                          console.log(communities);
+                          req.session.communities=JSON.stringify(communities);
                         }
                         else {
                           req.session.communities=null;
                         }
-                        fulfill(true);
+
+                        console.log({loggedIn:true,name:req.session.name,communities:req.session.communities});
+                        fulfill({loggedIn:true,name:req.session.name,communities:req.session.communities});
                     },
                     error: function(error) {
-                        fulfill(true);
+                        fulfill({loggedIn:true,name:req.session.name,communities:null});
                     }
                   });
-                } else fulfill(false);
+                } else fulfill({loggedIn:false});
             });
         } else {
-            fulfill(false);
+            fulfill({loggedIn:false});
         }
     });
 }

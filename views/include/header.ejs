@@ -7,14 +7,21 @@
                     <span class="bar bar-3"></span>
                     </span>
                     <ul class="menu-main">
-                        <% if(!loggedIn){ %>
+                        <% if(!session.loggedIn){ %>
                         <li><a href="/login" class="item">Login</a></li>
                         <%} else { %>
                         <select id="loggedIn">
+                          <option >@<%= session.name%></option>
+                          <%if(session.communities!==null)
+                          { console.log(session.communities);
+                            for (com of JSON.parse(session.communities)) { console.log(com); %>
+                          <option value="/view/<%= com.name %>"><%= com.name %></option>
+                            <%} %>
                           <option value="/create">Create Community</option>
                           <option value="/logout">Logout</option>
                         </select>
-                        <% } %>
+                        <% }
+                        } %>
                         <li><a href="https://steemit.com/utopian-io/@flauwy/steemy-ep-46-how-to-create-and-follow-a-curation-trail-with-steemauto"
                                 target="_blank" class="item">How to vote?</a></li>
                         <li><a href="https://steemit.com/curation/@flauwy/utopian-1up-a-lucrative-steem-trail-for-the-best-daily-utopian-contributions"
