@@ -122,8 +122,10 @@ app.get("/view/:name", function(req, res) {
         const query = new Parse.Query(community);
         query.equalTo("name", req.params.name);
         query.limit(1);
+        //Query the community named on the url
         query.find({
             success: function(communities) {
+              // if it does not exist, return an error
                 if (communities.length == 0)
                     res.redirect("/error/no_community");
                 else {
@@ -282,13 +284,16 @@ app.use(mountPath, api);
 
 function getSession(req) {
     return new Promise(function(fulfill, reject) {
+        // If already logged in, return the session parameters
         if (req.session.logged_in){
             fulfill({loggedIn:true,name:req.session.name,communities:req.session.communities});
           }
         else if (req.cookies.access_token !== undefined) {
+            // If retreiving informaiton from cookies, recreate the session.
             steem.setAccessToken(req.cookies.access_token);
             steem.me(function(err, response) {
                 if (err === null) {
+                    // get Account information about the user logged in
                     req.session.name = response.name;
                     req.session.account = JSON.stringify(response.account);
                     req.session.logged_in = true;
@@ -297,12 +302,14 @@ function getSession(req) {
                     let admin=new Parse.Query(Parse.Object.extend("Communities"));
                     let mod=new Parse.Query(Parse.Object.extend("Communities"));
 
+                    // query all the communities on which the user is either owner administrator or moderator.
                     owner.equalTo("owner",response.name);
                     admin.equalTo("administrators",response.name);
                     mod.equalTo("moderators",response.name);
                     let mainQuery = Parse.Query.or(owner, mod,admin);
                     mainQuery.find({
                       success: function(communities) {
+                        // Add the relevant communities to the session. This will be used for populating the community select box.
                         if(communities.length!==0){
                           req.session.communities=JSON.stringify(communities);
                         }

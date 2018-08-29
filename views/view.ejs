@@ -38,6 +38,11 @@
                   <p><%= community.get("vote_when") %></p>
                   <h3>Maximum number of daily upvotes per user</h3>
                   <p><%= community.get("max_upvote") %></p>
+                  <% if(community.get("owner")===session.name||
+                      community.get("administrators").includes(session.name)||
+                      community.get("moderators").includes(session.name)){ %>
+                    <button id="edit">Edit Parameters</button>
+                  <% } %>
               </div>
           </div>
           <%- include include/footer.ejs %>
