@@ -283,7 +283,6 @@ app.use(mountPath, api);
 function getSession(req) {
     return new Promise(function(fulfill, reject) {
         if (req.session.logged_in){
-          console.log({loggedIn:true,name:req.session.name,communities:req.session.communities});
             fulfill({loggedIn:true,name:req.session.name,communities:req.session.communities});
           }
         else if (req.cookies.access_token !== undefined) {
@@ -310,8 +309,6 @@ function getSession(req) {
                         else {
                           req.session.communities=null;
                         }
-
-                        console.log({loggedIn:true,name:req.session.name,communities:req.session.communities});
                         fulfill({loggedIn:true,name:req.session.name,communities:req.session.communities});
                     },
                     error: function(error) {

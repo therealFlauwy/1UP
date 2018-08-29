@@ -13,8 +13,8 @@
                         <select id="loggedIn">
                           <option >@<%= session.name%></option>
                           <%if(session.communities!==null)
-                          { console.log(session.communities);
-                            for (com of JSON.parse(session.communities)) { console.log(com); %>
+                          {
+                            for (com of JSON.parse(session.communities)) {  %>
                           <option value="/view/<%= com.name %>"><%= com.name %></option>
                             <%} %>
                           <option value="/create">Create Community</option>
@@ -31,3 +31,4 @@
                     </ul>
                 </div>
             </div>
+            
