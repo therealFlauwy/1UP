@@ -30,10 +30,13 @@
                   <p><%= community.get("type_community") %></p>
                   <h3>Tags</h3>
                   <p><%= community.get("tags") %></p>
-                  <h3 class="whitelist">Whitelist</h3>
+                  <% if (community.get("type_community")==="Whitelist only"){ %>
+                  <h3 >Whitelist</h3>
                   <p><%= community.get("whitelist") %></p>
-                  <h3 class="blacklist">Blacklist</h3>
+                  <%} else { %>
+                  <h3 >Blacklist</h3>
                   <p><%= community.get("blacklist") %></p>
+                  <% }  %>
                   <h3>Vote at Voting Power percentage</h3>
                   <p><%= community.get("vote_when") %></p>
                   <h3>Maximum number of daily upvotes per user</h3>
@@ -53,20 +56,11 @@
           <script src="https://cdnjs.cloudflare.com/ajax/libs/parse/1.11.0/parse.min.js"></script>
           <script src="/public/assets/js/scripts.js"></script>
           <script>
-
-          /* Mobile menu openning */
-          $(document).ready(function() {
-          //Show whitelist or blacklist according to the type of community
-          $("#type_community").change(function() {
-              $(".whitelist").toggle($(
-                 "#type_community option[name='whitelist']"
-              ).prop("selected") == true);
-              $(".blacklist").toggle($(
-                 "#type_community option[name='open']"
-              ).prop("selected") == true);
-          });
-        });
-
+            // Add to none to empty fields
+            $("p").each(function(){
+              if($(this).html()=="")
+                $(this).html("None");
+            });
           </script>
       </body>
 </html>
