@@ -254,11 +254,17 @@ app.get("/edit/:name", function(req, res) {
               if (communities.length == 0)
                   res.redirect("/error/no_community");
               else {
-                    res.render("view.ejs", {
+                let type_user=-1;
+                if(communities[0].get("moderators").includes(session.name))
+                  type_user=0;
+                if(communities[0].get("owner")===session.name||communities[0].get("administrators").includes(session.name))
+                  type_user=1;
+                  if(type_user==-1)
+                    res.redirect("/error/denied");
+                  else
+                    res.render("edit.ejs", {
                         session: session,
-                        community: communities[0],
-                        serverURL:  config.serverURL,
-                        trail: null
+                        community: communities[0]
                     });
                 }
           },

@@ -39,18 +39,9 @@
           <script src="/public/assets/js/scripts.js"></script>
           <script>
 
-          /* Mobile menu openning */
-          $(document).ready(function() {
-          //Show whitelist or blacklist according to the type of community
-          $("#type_community").change(function() {
-              $(".whitelist").toggle($(
-                 "#type_community option[name='whitelist']"
-              ).prop("selected") == true);
-              $(".blacklist").toggle($(
-                 "#type_community option[name='open']"
-              ).prop("selected") == true);
-          });
-        });
+          
+
+        if(<%= community%>)
 
           </script>
       </body>
