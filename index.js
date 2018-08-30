@@ -242,7 +242,31 @@ app.get("/create_trail", function(req, res) {
 
 //Edit community page
 app.get("/edit/:name", function(req, res) {
-    //TODO : Edit Page
+  getSession(req).then(function(session) {
+      const community = Parse.Object.extend("Communities");
+      const query = new Parse.Query(community);
+      query.equalTo("name", req.params.name);
+      query.limit(1);
+      //Query the community named on the url
+      query.find({
+          success: function(communities) {
+            // if it does not exist, return an error
+              if (communities.length == 0)
+                  res.redirect("/error/no_community");
+              else {
+                    res.render("view.ejs", {
+                        session: session,
+                        community: communities[0],
+                        serverURL:  config.serverURL,
+                        trail: null
+                    });
+                }
+          },
+          error: function() {
+              res.redirect("/error/sth_wrong");
+          }
+      });
+  });
 });
 
 //Error page
