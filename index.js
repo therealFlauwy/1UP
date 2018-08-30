@@ -264,7 +264,8 @@ app.get("/edit/:name", function(req, res) {
                   else
                     res.render("edit.ejs", {
                         session: session,
-                        community: communities[0]
+                        community: communities[0],
+                        type_user:type_user
                     });
                 }
           },
