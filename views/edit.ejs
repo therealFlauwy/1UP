@@ -32,7 +32,12 @@
                   <input value='<%= community.get("max_upvote") %>'/>
                   <button id="save-edit">Save</button>
                   <% if(type_user==1){ %>
-                  <button id="delete">Delete community</button>
+                  <button id="delete" >Delete community</button>
+                  <div id="delete_confirm">
+                    <p>Are you sure you want to delete <%= community.get("name") %>?</p>
+                    <button id="yes-delete">Yes</button>
+                    <button id="no-delete">No</button>
+                  </div>
                   <% } %>
                 </div>
               </div>
@@ -46,6 +51,35 @@
           <script src="/public/assets/js/scripts.js"></script>
           <script>
           $(document).ready(function() {
+
+          //Hide the delete confirmation button at first
+          $("delete_confirm").hide();
+
+          //Show confirmation buttons if delete button is clicked
+          $("#delete").click(function(){
+            $("#delete_confirm").show();
+          });
+
+          //Hide confirmation buttons if user clicks no
+          $("#no-delete").click(function(){
+            $("delete_confirm").hide();
+          });
+
+          // Make AJAX request to delete the community
+          $("#yes-delete").click(function(){
+            $("delete_confirm").hide();
+            $.ajax({
+                url: '/community',
+                type: 'DELETE',
+                data: {community:<%=community.id %>},
+                contentType:'application/json',
+                dataType: 'text',                
+                success: function(result) {
+                  console.log(result);
+                },
+                error: function(result){}
+            });
+          });
 
           //Hide blacklist or whitelist depending on the type of community
           if("<%= community.get("type_community") %>"=="Whitelist only") {
