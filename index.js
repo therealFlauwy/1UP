@@ -88,6 +88,7 @@ app.get("/create", function(req, res) {
 
 // Create the new community
 app.post("/createCommunity", function(req, res) {
+  getSession(req).then(function(session) {
     var Communities = Parse.Object.extend("Communities");
     var community = new Communities();
 
@@ -107,12 +108,18 @@ app.post("/createCommunity", function(req, res) {
 
     community.save(null, {
         success: function(community) {
+          try{
             res.sendStatus(200);
+            req.session.destroy();
+          }catch(e){
+            console.log(e);
+          }
         },
         error: function(community, error) {
             res.sendStatus(408);
         }
     });
+  });
 });
 
 //Delete a Community

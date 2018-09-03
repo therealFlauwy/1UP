@@ -78,7 +78,7 @@
                         moderators: $("#moderators").val(),
                         whitelist: $("#whitelist").val(),
                         blacklist: $("#blacklist").val(),
-                        owner: "<%=account.name %>"
+                        owner: "<%=session.name %>"
                     };
                       $.ajax({
                            type: 'POST',
@@ -89,7 +89,6 @@
                       .done(function() {
                         console.log("done");
                         window.location.href="/view/"+obj.name;
-
                      })
                       .fail(function() {
                         console.log("error");
