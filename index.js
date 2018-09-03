@@ -9,7 +9,7 @@ const sc2 = require("sc2-sdk");
 const config = require("./config");
 const messages = require("./messages");
 const cookieParser = require("cookie-parser");
-const session = require("express-session");
+const expressSession = require("express-session");
 const steemjs = require("steem");
 const bodyParser = require("body-parser");
 const rp = require('request-promise');
@@ -38,7 +38,7 @@ const app = express();
 app.use(bodyParser.json());
 
 //Create sessions and cookies to keep login information from SteemConnect
-app.use(session({
+app.use(expressSession({
     secret: config.secret,
     resave: true,
     saveUninitialized: true,
@@ -55,13 +55,13 @@ app.use("/public", express.static(path.join(__dirname, "/public")));
 app.get("/", function(req, res) {
     const community = Parse.Object.extend("Communities");
     const query = new Parse.Query(community);
-    isLoggedIn(req).then(function(loggedIn) {
+    getSession(req).then(function(session) {
         query.limit(1000);
         query.find({
             success: function(communities) {
                 res.render("main.ejs", {
                     communities: communities,
-                    loggedIn: loggedIn,
+                    session: session,
                     account: req.session.account,
                     sToken: req.cookies.access_token
                 });
@@ -73,10 +73,10 @@ app.get("/", function(req, res) {
 
 //Launch the community creation page
 app.get("/create", function(req, res) {
-    isLoggedIn(req).then(function(loggedIn) {
-        if (loggedIn)
+    getSession(req).then(function(session) {
+        if (session.loggedIn)
             res.render("create.ejs", {
-                loggedIn: loggedIn,
+                session: session,
                 account: req.session.account,
                 sToken: req.cookies.access_token
             });
@@ -117,13 +117,15 @@ app.post("/createCommunity", function(req, res) {
 
 // View a Community page
 app.get("/view/:name", function(req, res) {
-    isLoggedIn(req).then(function(loggedIn) {
+    getSession(req).then(function(session) {
         const community = Parse.Object.extend("Communities");
         const query = new Parse.Query(community);
         query.equalTo("name", req.params.name);
         query.limit(1);
+        //Query the community named on the url
         query.find({
             success: function(communities) {
+              // if it does not exist, return an error
                 if (communities.length == 0)
                     res.redirect("/error/no_community");
                 else {
@@ -132,7 +134,7 @@ app.get("/view/:name", function(req, res) {
                   // View for no trail
                   if(communities[0].get("trail")===undefined){
                       res.render("view.ejs", {
-                          loggedIn: loggedIn,
+                          session: session,
                           community: communities[0],
                           serverURL:  config.serverURL,
                           trail: null
@@ -141,7 +143,7 @@ app.get("/view/:name", function(req, res) {
                   else { //View with a trail set
                       queryTrail.get(communities[0].get("trail").id).then((trail)=>{
                         res.render("view.ejs", {
-                            loggedIn: loggedIn,
+                            session: session,
                             community: communities[0],
                             serverURL:  config.serverURL,
                             trail:trail
@@ -240,14 +242,45 @@ app.get("/create_trail", function(req, res) {
 
 //Edit community page
 app.get("/edit/:name", function(req, res) {
-    //TODO : Edit Page
+  getSession(req).then(function(session) {
+      const community = Parse.Object.extend("Communities");
+      const query = new Parse.Query(community);
+      query.equalTo("name", req.params.name);
+      query.limit(1);
+      //Query the community named on the url
+      query.find({
+          success: function(communities) {
+            // if it does not exist, return an error
+              if (communities.length == 0)
+                  res.redirect("/error/no_community");
+              else {
+                let type_user=-1;
+                if(communities[0].get("moderators").includes(session.name))
+                  type_user=0;
+                if(communities[0].get("owner")===session.name||communities[0].get("administrators").includes(session.name))
+                  type_user=1;
+                  if(type_user==-1)
+                    res.redirect("/error/denied");
+                  else
+                    res.render("edit.ejs", {
+                        session: session,
+                        community: communities[0],
+                        type_user:type_user
+                    });
+                }
+          },
+          error: function() {
+              res.redirect("/error/sth_wrong");
+          }
+      });
+  });
 });
 
 //Error page
 app.get("/error/:error_message", function(req, res) {
-    isLoggedIn(req).then(function(loggedIn) {
+    getSession(req).then(function(session) {
         res.render("error.ejs", {
-            loggedIn: loggedIn,
+            session: session,
             error_message: messages[req.params.error_message]
         });
     });
@@ -278,39 +311,56 @@ app.get("/logout", function(req, res) {
 const mountPath = "/parse";
 app.use(mountPath, api);
 
-// Parse Server plays nicely with the rest of your web routes
 
-function isLoggedIn(req) {
+
+function getSession(req) {
     return new Promise(function(fulfill, reject) {
-        if (req.session.logged_in)
-            fulfill(true);
+        // If already logged in, return the session parameters
+        if (req.session.logged_in){
+            fulfill({loggedIn:true,name:req.session.name,communities:req.session.communities});
+          }
         else if (req.cookies.access_token !== undefined) {
+            // If retreiving informaiton from cookies, recreate the session.
             steem.setAccessToken(req.cookies.access_token);
             steem.me(function(err, response) {
                 if (err === null) {
+                    // get Account information about the user logged in
                     req.session.name = response.name;
-                    req.session.account = response.account;
+                    req.session.account = JSON.stringify(response.account);
                     req.session.logged_in = true;
-                    fulfill(true);
-                } else fulfill(false);
+
+                    let owner=new Parse.Query(Parse.Object.extend("Communities"));
+                    let admin=new Parse.Query(Parse.Object.extend("Communities"));
+                    let mod=new Parse.Query(Parse.Object.extend("Communities"));
+
+                    // query all the communities on which the user is either owner administrator or moderator.
+                    owner.equalTo("owner",response.name);
+                    admin.equalTo("administrators",response.name);
+                    mod.equalTo("moderators",response.name);
+                    let mainQuery = Parse.Query.or(owner, mod,admin);
+                    mainQuery.find({
+                      success: function(communities) {
+                        // Add the relevant communities to the session. This will be used for populating the community select box.
+                        if(communities.length!==0){
+                          req.session.communities=JSON.stringify(communities);
+                        }
+                        else {
+                          req.session.communities=null;
+                        }
+                        fulfill({loggedIn:true,name:req.session.name,communities:req.session.communities});
+                    },
+                    error: function(error) {
+                        fulfill({loggedIn:true,name:req.session.name,communities:null});
+                    }
+                  });
+                } else fulfill({loggedIn:false});
             });
         } else {
-            fulfill(false);
+            fulfill({loggedIn:false});
         }
     });
 }
 
-// There will be a test page available on the /test path of your server url
-// Remove this before launching your app
-
-const port = config.port;
-const httpServer = require("http").createServer(app);
-httpServer.listen(port, function() {
-    console.log("1UP running on port " + port + ".");
-});
-
-// This will enable the Live Query real-time server
-// ParseServer.createLiveQueryServer(httpServer);
 
 function shuffle(array) {
     let currentIndex = array.length,
@@ -336,3 +386,10 @@ function generateRandomString() {
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   return text;
 }
+
+
+const port = config.port;
+const httpServer = require("http").createServer(app);
+httpServer.listen(port, function() {
+    console.log("1UP running on port " + port + ".");
+});

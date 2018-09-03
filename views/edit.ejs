@@ -1,0 +1,81 @@
+<html lang="en">
+  <%- include include/head.ejs %>
+    <body>
+        <div class="container">
+            <%- include include/header.ejs %>
+            <div class='outline'>
+                <div>
+                  <h3>Name</h3>
+                  <input value='<%= community.get("name") %>'/>
+                  <h3>Image</h3>
+                  <input value='<%= community.get("image") %>'>
+                  <h3>Short description</h3>
+                  <input value='<%= community.get("description") %>'/>
+                  <h3>Administrators</h3>
+                  <input value='<%= community.get("administrators") %>'/>
+                  <h3>Moderators</h3>
+                  <input value='<%= community.get("moderators") %>'/>
+                  <h3>Post selection</h3>
+                  <select id="type_community">
+                    <option name="whitelist"  value="0">Whitelist only</option>
+                    <option name="open" value="1">Open</option>
+                  </select>
+                  <h3>Tags</h3>
+                  <input value='<%= community.get("tags") %>'/>
+                  <h3 class="white mod">Whitelist</h3>
+                  <input class="white" value='<%= community.get("whitelist") %>'/>
+                  <h3 class="black mod">Blacklist</h3>
+                  <input class="black" value='<%= community.get("blacklist") %>'/>
+                  <h3>Vote at Voting Power percentage</h3>
+                  <input value='<%= community.get("vote_when") %>'/>
+                  <h3>Maximum number of daily upvotes per user</h3>
+                  <input value='<%= community.get("max_upvote") %>'/>
+                  <button id="save-edit">Save</button>
+                  <% if(type_user==1){ %>
+                  <button id="delete">Delete community</button>
+                  <% } %>
+                </div>
+              </div>
+          </div>
+          <%- include include/footer.ejs %>
+          </div>
+
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+          <script src="https://cdn.steemjs.com/lib/latest/steem.min.js"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/parse/1.11.0/parse.min.js"></script>
+          <script src="/public/assets/js/scripts.js"></script>
+          <script>
+          $(document).ready(function() {
+
+          //Hide blacklist or whitelist depending on the type of community
+          if("<%= community.get("type_community") %>"=="Whitelist only") {
+            $(".black").hide();
+            $("#type_community").val("0");
+          }
+          else{
+             $(".white").hide();
+             $("#type_community").val("1");
+           }
+
+          // Change black/whitelist according to changes in type of community
+          $("#type_community").change(function() {
+              $(".white").toggle($(
+                  "#type_community option[name='whitelist']"
+              ).prop("selected") == true);
+              $(".black").toggle($(
+                  "#type_community option[name='open']"
+              ).prop("selected") == true);
+          });
+
+          // Only enable whitelist and blacklist if the user is a moderator
+          if("<%=type_user%>"=="0"){
+            $("input").prop("disabled",true);
+            $("#type_community").prop("disabled",true);
+            $(".black, .white").prop("disabled",false);
+          }
+
+        });
+
+          </script>
+      </body>
+</html>

@@ -30,14 +30,22 @@
                   <p><%= community.get("type_community") %></p>
                   <h3>Tags</h3>
                   <p><%= community.get("tags") %></p>
-                  <h3 class="whitelist">Whitelist</h3>
+                  <% if (community.get("type_community")==="Whitelist only"){ %>
+                  <h3 >Whitelist</h3>
                   <p><%= community.get("whitelist") %></p>
-                  <h3 class="blacklist">Blacklist</h3>
+                  <%} else { %>
+                  <h3 >Blacklist</h3>
                   <p><%= community.get("blacklist") %></p>
+                  <% }  %>
                   <h3>Vote at Voting Power percentage</h3>
                   <p><%= community.get("vote_when") %></p>
                   <h3>Maximum number of daily upvotes per user</h3>
                   <p><%= community.get("max_upvote") %></p>
+                  <% if(community.get("owner")===session.name||
+                      community.get("administrators").includes(session.name)||
+                      community.get("moderators").includes(session.name)){ %>
+                    <button id="edit" onclick="location.href='/edit/<%= community.get("name") %>'">Edit Parameters</button>
+                  <% } %>
               </div>
           </div>
           <%- include include/footer.ejs %>
@@ -46,21 +54,13 @@
           <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
           <script src="https://cdn.steemjs.com/lib/latest/steem.min.js"></script>
           <script src="https://cdnjs.cloudflare.com/ajax/libs/parse/1.11.0/parse.min.js"></script>
+          <script src="/public/assets/js/scripts.js"></script>
           <script>
-
-          /* Mobile menu openning */
-          $(document).ready(function() {
-          //Show whitelist or blacklist according to the type of community
-          $("#type_community").change(function() {
-              $(".whitelist").toggle($(
-                 "#type_community option[name='whitelist']"
-              ).prop("selected") == true);
-              $(".blacklist").toggle($(
-                 "#type_community option[name='open']"
-              ).prop("selected") == true);
-          });
-        });
-
+            // Add to none to empty fields
+            $("p").each(function(){
+              if($(this).html()=="")
+                $(this).html("None");
+            });
           </script>
       </body>
 </html>
