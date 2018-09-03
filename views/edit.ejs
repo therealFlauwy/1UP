@@ -62,7 +62,7 @@
 
           //Hide confirmation buttons if user clicks no
           $("#no-delete").click(function(){
-            $("delete_confirm").hide();
+            $("#delete_confirm").hide();
           });
 
           // Make AJAX request to delete the community
@@ -74,12 +74,9 @@
                 contentType:'application/json',
                 dataType: 'text'})
               .done(function() {
-                  console.log("done");
                   window.location.href="/";
-
                })
                 .fail(function(jqXHR, textStatus, errorThrown) {
-                  console.log("error");
                   if(jqXHR.status==400)
                     window.location.href="/error/sth_wrong";
                   else if(jqXHR.status==401)
