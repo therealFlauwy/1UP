@@ -72,14 +72,19 @@
                 url: '/community/<%=community.id %>',
                 type: 'DELETE',
                 contentType:'application/json',
-                dataType: 'text',
-                success: function(result) {
-                  console.log(result);
-                },
-                error: function(result){
-                  console.log(result);
-                }
-            });
+                dataType: 'text'})
+              .done(function() {
+                  console.log("done");
+                  window.location.href="/";
+
+               })
+                .fail(function(jqXHR, textStatus, errorThrown) {
+                  console.log("error");
+                  if(jqXHR.status==400)
+                    window.location.href="/error/sth_wrong";
+                  else if(jqXHR.status==401)
+                    window.location.href="/error/denied";
+                });
           });
 
           //Hide blacklist or whitelist depending on the type of community
