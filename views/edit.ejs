@@ -69,15 +69,16 @@
           $("#yes-delete").click(function(){
             $("delete_confirm").hide();
             $.ajax({
-                url: '/community',
+                url: '/community/<%=community.id %>',
                 type: 'DELETE',
-                data: {community:<%=community.id %>},
                 contentType:'application/json',
-                dataType: 'text',                
+                dataType: 'text',
                 success: function(result) {
                   console.log(result);
                 },
-                error: function(result){}
+                error: function(result){
+                  console.log(result);
+                }
             });
           });
 

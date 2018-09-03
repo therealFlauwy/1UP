@@ -1124,3 +1124,7 @@ hr {
     background-repeat: no-repeat;
     background-size: 341px 192px;
 }
+
+#delete_confirm {
+  display: none;
+}

@@ -86,7 +86,7 @@ app.get("/create", function(req, res) {
     });
 });
 
-//TODO: handle creation new community
+// Create the new community
 app.post("/createCommunity", function(req, res) {
     var Communities = Parse.Object.extend("Communities");
     var community = new Communities();
@@ -114,6 +114,43 @@ app.post("/createCommunity", function(req, res) {
         }
     });
 });
+
+//Delete a Community
+app.delete("/community/:id", function(req, res) {
+  getSession(req).then(function(session) {
+    var communities = Parse.Object.extend("Communities");
+    var query = new Parse.Query(communities);
+    query.get(req.params.id, {
+      success: function(communities) {
+        if (communities.length == 0){
+            res.sendStatus(400);
+          }
+        else {
+          try{
+          let type_user=getTypeUser(communities,session);
+            // if not an owner or admin, permission refused.
+            if(type_user!=1){
+              res.sendStatus(401);
+            }
+            else{
+              communities.destroy({});
+              req.session.destroy();
+              res.sendStatus(200);
+            // The object was retrieved successfully.
+            }
+          } catch(e){
+            console.log(e);
+            res.sendStatus(400);
+          }
+        }
+      },
+      error: function(object, error) {
+        res.sendStatus(400);
+      }
+    });
+  });
+});
+
 
 // View a Community page
 app.get("/view/:name", function(req, res) {
@@ -254,11 +291,7 @@ app.get("/edit/:name", function(req, res) {
               if (communities.length == 0)
                   res.redirect("/error/no_community");
               else {
-                let type_user=-1;
-                if(communities[0].get("moderators").includes(session.name))
-                  type_user=0;
-                if(communities[0].get("owner")===session.name||communities[0].get("administrators").includes(session.name))
-                  type_user=1;
+                let type_user=getTypeUser(communities[0],session);
                   if(type_user==-1)
                     res.redirect("/error/denied");
                   else
@@ -385,6 +418,15 @@ function generateRandomString() {
   for (var i = 0; i < 10; i++)
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   return text;
+}
+
+function getTypeUser(community,session){
+  let type_user=-1;
+  if(community.get("moderators").includes(session.name))
+    type_user=0;
+  if(community.get("owner")===session.name||community.get("administrators").includes(session.name))
+    type_user=1;
+  return type_user;
 }
 
 
