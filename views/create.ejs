@@ -77,6 +77,7 @@
                         administrators: $("#admins").val(),
                         moderators: $("#moderators").val(),
                         whitelist: $("#whitelist").val(),
+                        id:null,
                         blacklist: $("#blacklist").val(),
                         owner: "<%=session.name %>"
                     };
@@ -84,7 +85,7 @@
                            type: 'POST',
                            data: JSON.stringify(obj),
                            contentType: 'application/json',
-                           url: '/createCommunity'
+                           url: '/community'
                       })
                       .done(function() {
                         console.log("done");

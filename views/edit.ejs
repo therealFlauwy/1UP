@@ -39,6 +39,7 @@
                     <button id="no-delete">No</button>
                   </div>
                   <% } %>
+                  <p id="error_create" style="color:red;display:none;">Please fill all the non optional fields.</p>
                 </div>
               </div>
           </div>
@@ -82,6 +83,49 @@
                   else if(jqXHR.status==401)
                     window.location.href="/error/denied";
                 });
+          });
+
+          //If all fields are completed, send back the information to create the community
+          $("#save-edit").click(function() {
+              if ($("#name").val() != "" &&
+                  $("#description").val() != "" &&
+                  $("#image").val() != "" &&
+                  $("#tags").val() != "" &&
+                  $("#max_upvote").val() != "" &&
+                  $("#vote_when").val() != "") {
+                  const obj = {
+                      name: $("#name").val(),
+                      description: $("#description").val(),
+                      image: $("#image").val(),
+                      tags: $("#tags").val(),
+                      max_upvote: $("#max_upvote").val(),
+                      vote_when: $("#vote_when").val(),
+                      type_community: $(
+                          "#type_community option:selected"
+                      ).val(),
+                      administrators: $("#admins").val(),
+                      moderators: $("#moderators").val(),
+                      whitelist: $("#whitelist").val(),
+                      id:<%=community.id %>,
+                      blacklist: $("#blacklist").val(),
+                      owner: "<%=session.name %>"
+                  };
+                    $.ajax({
+                         type: 'POST',
+                         data: JSON.stringify(obj),
+                         contentType: 'application/json',
+                         url: '/community'
+                    })
+                    .done(function() {
+                      console.log("done");
+                      window.location.href="/view/"+obj.name;
+                   })
+                    .fail(function() {
+                      console.log("error");
+                      window.location.href="/error/creation_error";
+                    });
+              }
+              else $("#error_create").show();
           });
 
           //Hide blacklist or whitelist depending on the type of community
