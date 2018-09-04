@@ -89,17 +89,18 @@ app.get("/create", function(req, res) {
 // Create the new community or update it
 app.post("/community", function(req, res) {
   getSession(req).then(function(session) {
-    var Communities = Parse.Object.extend("Communities");
+    const Communities = Parse.Object.extend("Communities");
     if(req.body.id==null){
       var community = new Communities();
       PostCommunity(community,req,res);
     }
     else {
-      var query = new Parse.Query(Communities);
+      let query = new Parse.Query(Communities);
       query.get(req.body.id, {
           success: function(community) {
             PostCommunity(community,req,res);
-          }
+          },
+          error: function(error) {console.log(error);}
       });
     }
   });
