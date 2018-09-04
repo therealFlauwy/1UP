@@ -86,39 +86,22 @@ app.get("/create", function(req, res) {
     });
 });
 
-// Create the new community
-app.post("/createCommunity", function(req, res) {
+// Create the new community or update it
+app.post("/community", function(req, res) {
   getSession(req).then(function(session) {
     var Communities = Parse.Object.extend("Communities");
-    var community = new Communities();
-
-    community.set("name", req.body.name);
-    community.set("description", req.body.description);
-    community.set("image", req.body.image);
-    community.set("tags", req.body.tags);
-    community.set("max_upvote", req.body.max_upvote);
-    community.set("vote_when", req.body.vote_when);
-    community.set("type_community", req.body.type_community);
-    community.set("administrators", req.body.administrators);
-    community.set("moderators", req.body.moderators);
-    community.set("whitelist", req.body.whitelist);
-    community.set("blacklist", req.body.blacklist);
-    community.set("owner", req.body.owner);
-    community.set("link_trail",generateRandomString());
-
-    community.save(null, {
-        success: function(community) {
-          try{
-            res.sendStatus(200);
-            req.session.destroy();
-          }catch(e){
-            console.log(e);
+    if(req.body.id==null){
+      var community = new Communities();
+      PostCommunity(community,req,res);
+    }
+    else {
+      var query = new Parse.Query(Communities);
+      query.get(req.body.id, {
+          success: function(community) {
+            PostCommunity(community,req,res);
           }
-        },
-        error: function(community, error) {
-            res.sendStatus(408);
-        }
-    });
+      });
+    }
   });
 });
 
@@ -434,6 +417,37 @@ function getTypeUser(community,session){
   if(community.get("owner")===session.name||community.get("administrators").includes(session.name))
     type_user=1;
   return type_user;
+}
+
+function PostCommunity(community,req,res){
+
+    community.set("name", req.body.name);
+    community.set("description", req.body.description);
+    community.set("image", req.body.image);
+    community.set("tags", req.body.tags);
+    community.set("max_upvote", req.body.max_upvote);
+    community.set("vote_when", req.body.vote_when);
+    community.set("type_community", req.body.type_community);
+    community.set("administrators", req.body.administrators);
+    community.set("moderators", req.body.moderators);
+    community.set("whitelist", req.body.whitelist);
+    community.set("blacklist", req.body.blacklist);
+    community.set("owner", req.body.owner);
+    community.set("link_trail",generateRandomString());
+
+    community.save(null, {
+        success: function(community) {
+          try{
+            res.sendStatus(200);
+            req.session.destroy();
+          }catch(e){
+            console.log(e);
+          }
+        },
+        error: function(community, error) {
+            res.sendStatus(408);
+        }
+    });
 }
 
 
