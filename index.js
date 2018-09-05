@@ -18,7 +18,7 @@ const steem = sc2.Initialize({
     callbackURL: config.redirect_uri,
     scope: config.scopes
 });
-const utils=require("./utils.js");
+const Utils=require("./Utils.js");
 
 //Configure Parse.js parameters
 const databaseUri = config.db;
@@ -56,7 +56,7 @@ app.use("/public", express.static(path.join(__dirname, "/public")));
 app.get("/", function(req, res) {
     const community = Parse.Object.extend("Communities");
     const query = new Parse.Query(community);
-    utils.getSession(req).then(function(session) {
+    Utils.getSession(req).then(function(session) {
         query.limit(1000);
         query.find({
             success: function(communities) {
@@ -74,7 +74,7 @@ app.get("/", function(req, res) {
 
 //Launch the community creation page
 app.get("/create", function(req, res) {
-    utils.getSession(req).then(function(session) {
+    Utils.getSession(req).then(function(session) {
         if (session.loggedIn)
             res.render("create.ejs", {
                 session: session,
@@ -89,17 +89,17 @@ app.get("/create", function(req, res) {
 
 // Create the new community or update it
 app.post("/community", function(req, res) {
-  utils.getSession(req).then(function(session) {
+  Utils.getSession(req).then(function(session) {
     const Communities = Parse.Object.extend("Communities");
     if(req.body.id==null){
       var community = new Communities();
-      utils.PostCommunity(community,req,res);
+      Utils.PostCommunity(community,req,res);
     }
     else {
       let query = new Parse.Query(Communities);
       query.get(req.body.id, {
           success: function(community) {
-            utils.PostCommunity(community,req,res);
+            Utils.PostCommunity(community,req,res);
           },
           error: function(error) {console.log(error);}
       });
@@ -109,7 +109,7 @@ app.post("/community", function(req, res) {
 
 //Delete a Community
 app.delete("/community/:id", function(req, res) {
-  utils.getSession(req).then(function(session) {
+  Utils.getSession(req).then(function(session) {
     var communities = Parse.Object.extend("Communities");
     var query = new Parse.Query(communities);
     query.get(req.params.id, {
@@ -119,7 +119,7 @@ app.delete("/community/:id", function(req, res) {
           }
         else {
           try{
-          let type_user=utils.getTypeUser(communities,session);
+          let type_user=Utils.getTypeUser(communities,session);
             // if not an owner or admin, permission refused.
             if(type_user!=1){
               res.sendStatus(401);
@@ -146,7 +146,7 @@ app.delete("/community/:id", function(req, res) {
 
 // View a Community page
 app.get("/view/:name", function(req, res) {
-    utils.getSession(req).then(function(session) {
+    Utils.getSession(req).then(function(session) {
         const community = Parse.Object.extend("Communities");
         const query = new Parse.Query(community);
         query.equalTo("name", req.params.name);
@@ -190,7 +190,7 @@ app.get("/view/:name", function(req, res) {
 
 // Create a route to link to the trail tail account
 app.get("/trail_account/:link_trail", function(req, res) {
-  utils.getSession(req).then(function(session) {
+  Utils.getSession(req).then(function(session) {
     hasOfflineToken(session.name).then(function(offlineToken){
       req.session.link_trail = req.params.link_trail;
       const community = Parse.Object.extend("Communities");
@@ -236,19 +236,7 @@ app.get("/trail/:community", function(req, res) {
 app.get("/create_trail", function(req, res) {
   // Check if we got session data and token from SC2
   if(req.query.code!==undefined&&req.session.link_trail!==undefined){
-
-  return rp({
-    method: "POST",
-    uri: "https://steemconnect.com/api/oauth2/token",
-    body: {
-      response_type: "refresh",
-      code: req.query.code,
-      client_id: config.sc2_id,
-      client_secret: config.sc2_secret,
-      scope: "vote,comment,offline,custom_json,comment_options"
-    },
-    json: true
-  })
+  Utils.getTokenFromCode(req.query.code)
   .then((results) => {
     const community = Parse.Object.extend("Communities");
     const query = new Parse.Query(community);
@@ -295,7 +283,7 @@ app.get("/create_trail", function(req, res) {
 
 //Edit community page
 app.get("/edit/:name", function(req, res) {
-  utils.getSession(req).then(function(session) {
+  Utils.getSession(req).then(function(session) {
       const community = Parse.Object.extend("Communities");
       const query = new Parse.Query(community);
       query.equalTo("name", req.params.name);
@@ -307,7 +295,7 @@ app.get("/edit/:name", function(req, res) {
               if (communities.length == 0)
                   res.redirect("/error/no_community");
               else {
-                let type_user=utils.getTypeUser(communities[0],session);
+                let type_user=Utils.getTypeUser(communities[0],session);
                   if(type_user==-1)
                     res.redirect("/error/denied");
                   else
@@ -327,7 +315,7 @@ app.get("/edit/:name", function(req, res) {
 
 //Error page
 app.get("/error/:error_message", function(req, res) {
-    utils.getSession(req).then(function(session) {
+    Utils.getSession(req).then(function(session) {
         res.render("error.ejs", {
             session: session,
             error_message: messages[req.params.error_message]

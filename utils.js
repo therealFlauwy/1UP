@@ -106,6 +106,39 @@ module.exports = {
               res.sendStatus(408);
           }
       });
+  },
+  hasOfflineToken:function(name){
+    return new Promise(function(fulfill, reject) {
+      let Offline= Parse.Object.extend("OfflineTokens");
+      const query = new Parse.Query(Offline);
+      query.equalTo("username", name);
+      query.limit(1);
+      query.find({
+        success: function(offline) {
+          if(offline.length==1){
+            fulfill(true,offline[0])
+          }(
+          else fulfill(false,null);
+        },
+        error:function(error){
+          reject(error);
+        }
+      });
+    });
+  },
+  getTokenFromCode:function(code){
+    return rp({
+      method: "POST",
+      uri: "https://steemconnect.com/api/oauth2/token",
+      body: {
+        response_type: "refresh",
+        code: code,
+        client_id: config.sc2_id,
+        client_secret: config.sc2_secret,
+        scope: "vote,comment,offline,custom_json,comment_options"
+      },
+      json: true
+    })
   }
 };
 
