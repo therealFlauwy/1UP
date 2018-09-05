@@ -18,7 +18,7 @@ const steem = sc2.Initialize({
     callbackURL: config.redirect_uri,
     scope: config.scopes
 });
-const Utils=require("./Utils.js");
+const Utils=require("./utils.js");
 
 //Configure Parse.js parameters
 const databaseUri = config.db;
@@ -310,6 +310,8 @@ app.get("/edit/:name", function(req, res) {
               res.redirect("/error/sth_wrong");
           }
       });
+  }).catch(function(){
+    res.redirect("/error/sth_wrong");
   });
 });
 

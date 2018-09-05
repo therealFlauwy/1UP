@@ -116,8 +116,8 @@ module.exports = {
       query.find({
         success: function(offline) {
           if(offline.length==1){
-            fulfill(true,offline[0])
-          }(
+            fulfill(true,offline[0]);
+          }
           else fulfill(false,null);
         },
         error:function(error){

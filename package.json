@@ -10,7 +10,7 @@
     "express": "^4.16.3",
     "express-session": "^1.15.6",
     "parse": "^1.11.1",
-    "parse-server": "^2.7.1",
+    "parse-server": "^2.8.2",
     "request-promise": "^4.2.2",
     "sc2-sdk": "^1.0.2",
     "serve-favicon": "^2.5.0",
