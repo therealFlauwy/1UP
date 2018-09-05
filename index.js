@@ -189,10 +189,34 @@ app.get("/view/:name", function(req, res) {
 
 // Create a route to link to the trail tail account
 app.get("/trail_account/:link_trail", function(req, res) {
-  req.session.link_trail = req.params.link_trail;
+  getSession(req).then(function(session) {
+    hasOfflineToken(session.name).then(function(offlineToken){
+      req.session.link_trail = req.params.link_trail;
+      const community = Parse.Object.extend("Communities");
+      const query = new Parse.Query(community);
+      query.equalTo("link_trail", req.params.link_trail);
+      query.limit(1);
+      query.find({
+          success: function(communities) {
+              if(communities.length==1){
+                  // Generates the SteemConnect link if the link_trail string exists
+                  res.redirect("https://steemconnect.com/oauth2/authorize?client_id="+config.sc2_id+"&redirect_uri="+config.serverURL+"/create_trail&response_type=code&scope=offline,comment,vote,comment_options,custom_json");
+            }
+              else {
+                    res.redirect("/error/wrong_page");
+              }
+          }
+      });
+    });
+  });
+});
+
+// Create a route to link all accounts that want to trail a community
+app.get("/trail/:community", function(req, res) {
+  req.session.trail = req.params.community;
   const community = Parse.Object.extend("Communities");
   const query = new Parse.Query(community);
-  query.equalTo("link_trail", req.params.link_trail);
+  query.equalTo("id", req.params.community);
   query.limit(1);
   query.find({
       success: function(communities) {
