@@ -18,6 +18,7 @@ const steem = sc2.Initialize({
     callbackURL: config.redirect_uri,
     scope: config.scopes
 });
+const utils=require("./utils.js");
 
 //Configure Parse.js parameters
 const databaseUri = config.db;
@@ -55,7 +56,7 @@ app.use("/public", express.static(path.join(__dirname, "/public")));
 app.get("/", function(req, res) {
     const community = Parse.Object.extend("Communities");
     const query = new Parse.Query(community);
-    getSession(req).then(function(session) {
+    utils.getSession(req).then(function(session) {
         query.limit(1000);
         query.find({
             success: function(communities) {
@@ -73,7 +74,7 @@ app.get("/", function(req, res) {
 
 //Launch the community creation page
 app.get("/create", function(req, res) {
-    getSession(req).then(function(session) {
+    utils.getSession(req).then(function(session) {
         if (session.loggedIn)
             res.render("create.ejs", {
                 session: session,
@@ -88,17 +89,17 @@ app.get("/create", function(req, res) {
 
 // Create the new community or update it
 app.post("/community", function(req, res) {
-  getSession(req).then(function(session) {
+  utils.getSession(req).then(function(session) {
     const Communities = Parse.Object.extend("Communities");
     if(req.body.id==null){
       var community = new Communities();
-      PostCommunity(community,req,res);
+      utils.PostCommunity(community,req,res);
     }
     else {
       let query = new Parse.Query(Communities);
       query.get(req.body.id, {
           success: function(community) {
-            PostCommunity(community,req,res);
+            utils.PostCommunity(community,req,res);
           },
           error: function(error) {console.log(error);}
       });
@@ -108,7 +109,7 @@ app.post("/community", function(req, res) {
 
 //Delete a Community
 app.delete("/community/:id", function(req, res) {
-  getSession(req).then(function(session) {
+  utils.getSession(req).then(function(session) {
     var communities = Parse.Object.extend("Communities");
     var query = new Parse.Query(communities);
     query.get(req.params.id, {
@@ -118,7 +119,7 @@ app.delete("/community/:id", function(req, res) {
           }
         else {
           try{
-          let type_user=getTypeUser(communities,session);
+          let type_user=utils.getTypeUser(communities,session);
             // if not an owner or admin, permission refused.
             if(type_user!=1){
               res.sendStatus(401);
@@ -145,7 +146,7 @@ app.delete("/community/:id", function(req, res) {
 
 // View a Community page
 app.get("/view/:name", function(req, res) {
-    getSession(req).then(function(session) {
+    utils.getSession(req).then(function(session) {
         const community = Parse.Object.extend("Communities");
         const query = new Parse.Query(community);
         query.equalTo("name", req.params.name);
@@ -189,7 +190,7 @@ app.get("/view/:name", function(req, res) {
 
 // Create a route to link to the trail tail account
 app.get("/trail_account/:link_trail", function(req, res) {
-  getSession(req).then(function(session) {
+  utils.getSession(req).then(function(session) {
     hasOfflineToken(session.name).then(function(offlineToken){
       req.session.link_trail = req.params.link_trail;
       const community = Parse.Object.extend("Communities");
@@ -294,7 +295,7 @@ app.get("/create_trail", function(req, res) {
 
 //Edit community page
 app.get("/edit/:name", function(req, res) {
-  getSession(req).then(function(session) {
+  utils.getSession(req).then(function(session) {
       const community = Parse.Object.extend("Communities");
       const query = new Parse.Query(community);
       query.equalTo("name", req.params.name);
@@ -306,7 +307,7 @@ app.get("/edit/:name", function(req, res) {
               if (communities.length == 0)
                   res.redirect("/error/no_community");
               else {
-                let type_user=getTypeUser(communities[0],session);
+                let type_user=utils.getTypeUser(communities[0],session);
                   if(type_user==-1)
                     res.redirect("/error/denied");
                   else
@@ -326,7 +327,7 @@ app.get("/edit/:name", function(req, res) {
 
 //Error page
 app.get("/error/:error_message", function(req, res) {
-    getSession(req).then(function(session) {
+    utils.getSession(req).then(function(session) {
         res.render("error.ejs", {
             session: session,
             error_message: messages[req.params.error_message]
@@ -358,123 +359,6 @@ app.get("/logout", function(req, res) {
 // Serve the Parse API on the /parse URL prefix
 const mountPath = "/parse";
 app.use(mountPath, api);
-
-
-
-function getSession(req) {
-    return new Promise(function(fulfill, reject) {
-        // If already logged in, return the session parameters
-        if (req.session.logged_in){
-            fulfill({loggedIn:true,name:req.session.name,communities:req.session.communities});
-          }
-        else if (req.cookies.access_token !== undefined) {
-            // If retreiving informaiton from cookies, recreate the session.
-            steem.setAccessToken(req.cookies.access_token);
-            steem.me(function(err, response) {
-                if (err === null) {
-                    // get Account information about the user logged in
-                    req.session.name = response.name;
-                    req.session.account = JSON.stringify(response.account);
-                    req.session.logged_in = true;
-
-                    let owner=new Parse.Query(Parse.Object.extend("Communities"));
-                    let admin=new Parse.Query(Parse.Object.extend("Communities"));
-                    let mod=new Parse.Query(Parse.Object.extend("Communities"));
-
-                    // query all the communities on which the user is either owner administrator or moderator.
-                    owner.equalTo("owner",response.name);
-                    admin.equalTo("administrators",response.name);
-                    mod.equalTo("moderators",response.name);
-                    let mainQuery = Parse.Query.or(owner, mod,admin);
-                    mainQuery.find({
-                      success: function(communities) {
-                        // Add the relevant communities to the session. This will be used for populating the community select box.
-                        if(communities.length!==0){
-                          req.session.communities=JSON.stringify(communities);
-                        }
-                        else {
-                          req.session.communities=null;
-                        }
-                        fulfill({loggedIn:true,name:req.session.name,communities:req.session.communities});
-                    },
-                    error: function(error) {
-                        fulfill({loggedIn:true,name:req.session.name,communities:null});
-                    }
-                  });
-                } else fulfill({loggedIn:false});
-            });
-        } else {
-            fulfill({loggedIn:false});
-        }
-    });
-}
-
-
-function shuffle(array) {
-    let currentIndex = array.length,
-        temporaryValue, randomIndex;
-    // While there are still elements to shuffle...
-    while (0 !== currentIndex) {
-        // Pick a remaining element...
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        // And swap it with the current element.
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
-    return array;
-}
-
-// generate a 10 characters random string
-function generateRandomString() {
-  var text = "";
-  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  for (var i = 0; i < 10; i++)
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  return text;
-}
-
-function getTypeUser(community,session){
-  let type_user=-1;
-  if(community.get("moderators").includes(session.name))
-    type_user=0;
-  if(community.get("owner")===session.name||community.get("administrators").includes(session.name))
-    type_user=1;
-  return type_user;
-}
-
-function PostCommunity(community,req,res){
-
-    community.set("name", req.body.name);
-    community.set("description", req.body.description);
-    community.set("image", req.body.image);
-    community.set("tags", req.body.tags);
-    community.set("max_upvote", req.body.max_upvote);
-    community.set("vote_when", req.body.vote_when);
-    community.set("type_community", req.body.type_community);
-    community.set("administrators", req.body.administrators);
-    community.set("moderators", req.body.moderators);
-    community.set("whitelist", req.body.whitelist);
-    community.set("blacklist", req.body.blacklist);
-    community.set("owner", req.body.owner);
-    community.set("link_trail",generateRandomString());
-
-    community.save(null, {
-        success: function(community) {
-          try{
-            res.sendStatus(200);
-            req.session.destroy();
-          }catch(e){
-            console.log(e);
-          }
-        },
-        error: function(community, error) {
-            res.sendStatus(408);
-        }
-    });
-}
-
 
 const port = config.port;
 const httpServer = require("http").createServer(app);
