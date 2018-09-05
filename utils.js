@@ -5,6 +5,7 @@ const steem = sc2.Initialize({
     callbackURL: config.redirect_uri,
     scope: config.scopes
 });
+const rp = require('request-promise');
 
 module.exports = {
   getSession:function(req) {

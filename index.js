@@ -12,7 +12,6 @@ const cookieParser = require("cookie-parser");
 const expressSession = require("express-session");
 const steemjs = require("steem");
 const bodyParser = require("body-parser");
-const rp = require('request-promise');
 const steem = sc2.Initialize({
     app: config.sc2_id,
     callbackURL: config.redirect_uri,
@@ -158,8 +157,8 @@ app.get("/view/:name", function(req, res) {
                 if (communities.length == 0)
                     res.redirect("/error/no_community");
                 else {
-                  const Trails = Parse.Object.extend("Trails");
-                  let queryTrail = new Parse.Query(Trails);
+                  const Offline = Parse.Object.extend("OfflineTokens");
+                  let queryOffline = new Parse.Query(Offline);
                   // View for no trail
                   if(communities[0].get("trail")===undefined){
                       res.render("view.ejs", {
@@ -170,7 +169,7 @@ app.get("/view/:name", function(req, res) {
                       });
                   }
                   else { //View with a trail set
-                      queryTrail.get(communities[0].get("trail").id).then((trail)=>{
+                      queryOffline.get(communities[0].get("trail").id).then((trail)=>{
                         res.render("view.ejs", {
                             session: session,
                             community: communities[0],
@@ -190,8 +189,6 @@ app.get("/view/:name", function(req, res) {
 
 // Create a route to link to the trail tail account
 app.get("/trail_account/:link_trail", function(req, res) {
-  Utils.getSession(req).then(function(session) {
-    hasOfflineToken(session.name).then(function(offlineToken){
       req.session.link_trail = req.params.link_trail;
       const community = Parse.Object.extend("Communities");
       const query = new Parse.Query(community);
@@ -208,27 +205,29 @@ app.get("/trail_account/:link_trail", function(req, res) {
               }
           }
       });
-    });
-  });
 });
 
 // Create a route to link all accounts that want to trail a community
 app.get("/trail/:community", function(req, res) {
-  req.session.trail = req.params.community;
-  const community = Parse.Object.extend("Communities");
-  const query = new Parse.Query(community);
-  query.equalTo("id", req.params.community);
-  query.limit(1);
-  query.find({
-      success: function(communities) {
-          if(communities.length==1){
-              // Generates the SteemConnect link if the link_trail string exists
-              res.redirect("https://steemconnect.com/oauth2/authorize?client_id="+config.sc2_id+"&redirect_uri="+config.serverURL+"/create_trail&response_type=code&scope=offline,comment,vote,comment_options,custom_json");
-        }
-          else {
-                res.redirect("/error/wrong_page");
+  Utils.getSession(req).then(function(session) {
+    hasOfflineToken(session.name).then(function(offlineToken){
+      req.session.trail = req.params.community;
+      const community = Parse.Object.extend("Communities");
+      const query = new Parse.Query(community);
+      query.equalTo("id", req.params.community);
+      query.limit(1);
+      query.find({
+          success: function(communities) {
+              if(communities.length==1){
+                  // Generates the SteemConnect link if the link_trail string exists
+                  res.redirect("https://steemconnect.com/oauth2/authorize?client_id="+config.sc2_id+"&redirect_uri="+config.serverURL+"/create_trail&response_type=code&scope=offline,comment,vote,comment_options,custom_json");
+            }
+              else {
+                    res.redirect("/error/wrong_page");
+              }
           }
-      }
+      });
+    });
   });
 });
 
@@ -254,7 +253,7 @@ app.get("/create_trail", function(req, res) {
             offline.set("refresh_token",results.refresh_token);
             offline.set("expires",Date.now()+7*24*3600*1000);
             offline.save().then((off)=>{
-
+            console.log("save new");
             // If the trail has been created, save the SC2 token
             // and delete the trail_token random string
             communities[0].unset("link_trail");
