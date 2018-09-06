@@ -45,6 +45,13 @@
                       community.get("administrators").includes(session.name)||
                       community.get("moderators").includes(session.name)){ %>
                     <button id="edit" onclick="location.href='/edit/<%= community.get("name") %>'">Edit Parameters</button>
+                  <% }
+                  if(trail===null||trail.get("username")!==session.name){ %>
+                    <button id="follow_trail">Follow Trail</button>
+                    <div id="follow_div">
+                      <input id="percent_vote_follow" type="number" placeholder="Vote percentage"/>%
+                      <button id="confirm_trail">Confirm</button>
+                    </div>
                   <% } %>
               </div>
           </div>
@@ -60,6 +67,15 @@
             $("p").each(function(){
               if($(this).html()=="")
                 $(this).html("None");
+            });
+
+            $("#follow_trail").click(function(){
+              $("#follow_div").show();
+            });
+
+            $("#confirm_trail").click(function(){
+              if($("#percent_vote_follow").val()<=100&&$("#percent_vote_follow").val()>=0)
+                windows.location.href="/trail/<%= community.id %>/"+$("#percent_vote_follow").val();
             });
           </script>
       </body>

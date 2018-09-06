@@ -208,7 +208,7 @@ app.get("/trail_account/:link_trail", function(req, res) {
 });
 
 // Create a route to link all accounts that want to trail a community
-app.get("/trail/:community", function(req, res) {
+app.get("/trail/:community/:vote", function(req, res) {
   Utils.getSession(req).then(function(session) {
     hasOfflineToken(session.name).then(function(offlineToken){
       req.session.trail = req.params.community;
