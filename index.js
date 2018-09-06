@@ -219,13 +219,14 @@ app.get("/trail/:community/:weight", function(req, res) {
           success: function(communities) {
             console.log(communities,communities.length);
               if(communities){
-                  // Generates the SteemConnect link if the link_trail string exists
+                  // Generates the SteemConnect link if we do not have the offline token of the user yet
                   if(!hasOffline){
                     req.session.trail_c = req.params.community;
                     req.session.trail_w = req.params.weight;
                     res.redirect("https://steemconnect.com/oauth2/authorize?client_id="+config.sc2_id+"&redirect_uri="+config.serverURL+"/create_trail&response_type=code&scope=offline,comment,vote,comment_options,custom_json");
                   }
                   else {
+                    // Otherwise create the new trail with the existing token
                     const Trail= Parse.Object.extend("Trail");
                     let trail= new Trail();
                     trail.set("community",req.params.community);
@@ -276,6 +277,7 @@ app.get("/create_trail", function(req, res) {
               communities[0].set("trail",off);
               communities[0].save();
             }
+            // If the trail has been created as a regulard user
             else if(req.session.trail_c!==undefined&&req.session.trail_w!==undefined)
             {
               const Trail= Parse.Object.extend("Trail");
