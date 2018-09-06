@@ -5,7 +5,7 @@
             <%- include include/header.ejs %>
 <!-- HTML for erros !-->
             <div class='outline'>
-                <div>
+                <div id="inner">
                   <h2><%= community.get("name") %></h2>
                   <div id="view_img" style="background-image: url(<%= community.get("image") %>">
                   </div>
@@ -49,7 +49,7 @@
                   if(trail===null||trail.get("username")!==session.name){ %>
                     <button id="follow_trail">Follow Trail</button>
                     <div id="follow_div">
-                      <input id="percent_vote_follow" type="number" placeholder="Vote percentage"/>%
+                      <input id="percent_vote_follow" type="number" placeholder="Vote percentage"/>
                       <button id="confirm_trail">Confirm</button>
                     </div>
                   <% } %>

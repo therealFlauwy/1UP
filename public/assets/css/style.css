@@ -1093,7 +1093,7 @@ hr {
     margin-bottom: 20px;
 }
 
-.outline div {
+.outline #inner {
     margin: auto;
     width: 60%;
     margin-top: 20px;
