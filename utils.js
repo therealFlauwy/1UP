@@ -117,9 +117,9 @@ module.exports = {
       query.find({
         success: function(offline) {
           if(offline.length==1){
-            fulfill(true,offline[0]);
+            fulfill({has:true,token:offline[0]});
           }
-          else fulfill(false,null);
+          else fulfill({has:false,token:null});
         },
         error:function(error){
           reject(error);

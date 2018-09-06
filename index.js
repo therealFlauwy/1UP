@@ -208,19 +208,33 @@ app.get("/trail_account/:link_trail", function(req, res) {
 });
 
 // Create a route to link all accounts that want to trail a community
-app.get("/trail/:community/:vote", function(req, res) {
+app.get("/trail/:community/:weight", function(req, res) {
   Utils.getSession(req).then(function(session) {
-    hasOfflineToken(session.name).then(function(offlineToken){
-      req.session.trail = req.params.community;
+    Utils.hasOfflineToken(session.name).then(function(offline){
+      const hasOffline=offline.has;
+      const offlineToken=offline.token;
       const community = Parse.Object.extend("Communities");
       const query = new Parse.Query(community);
-      query.equalTo("id", req.params.community);
-      query.limit(1);
-      query.find({
+      query.get(req.params.community,{
           success: function(communities) {
-              if(communities.length==1){
+            console.log(communities,communities.length);
+              if(communities){
                   // Generates the SteemConnect link if the link_trail string exists
-                  res.redirect("https://steemconnect.com/oauth2/authorize?client_id="+config.sc2_id+"&redirect_uri="+config.serverURL+"/create_trail&response_type=code&scope=offline,comment,vote,comment_options,custom_json");
+                  if(!hasOffline){
+                    req.session.trail_c = req.params.community;
+                    req.session.trail_w = req.params.weight;
+                    res.redirect("https://steemconnect.com/oauth2/authorize?client_id="+config.sc2_id+"&redirect_uri="+config.serverURL+"/create_trail&response_type=code&scope=offline,comment,vote,comment_options,custom_json");
+                  }
+                  else {
+                    const Trail= Parse.Object.extend("Trail");
+                    let trail= new Trail();
+                    trail.set("community",req.params.community);
+                    trail.set("voter",session.name);
+                    trail.set("weight",req.params.weight);
+                    trail.set("offline",offlineToken);
+                    trail.save();
+                    res.redirect("/view/"+communities.get("name"));
+                  }
             }
               else {
                     res.redirect("/error/wrong_page");
@@ -234,7 +248,7 @@ app.get("/trail/:community/:vote", function(req, res) {
 // Create trail object and link it to the community
 app.get("/create_trail", function(req, res) {
   // Check if we got session data and token from SC2
-  if(req.query.code!==undefined&&req.session.link_trail!==undefined){
+  if(req.query.code!==undefined&&(req.session.link_trail!==undefined||(req.session.trail_c!==undefined&&req.session.trail_w!==undefined))){
   Utils.getTokenFromCode(req.query.code)
   .then((results) => {
     const community = Parse.Object.extend("Communities");
@@ -256,9 +270,22 @@ app.get("/create_trail", function(req, res) {
             console.log("save new");
             // If the trail has been created, save the SC2 token
             // and delete the trail_token random string
-            communities[0].unset("link_trail");
-            communities[0].set("trail",off);
-            communities[0].save();
+
+            if(req.session.link_trail!==undefined){
+              communities[0].unset("link_trail");
+              communities[0].set("trail",off);
+              communities[0].save();
+            }
+            else if(req.session.trail_c!==undefined&&req.session.trail_w!==undefined)
+            {
+              const Trail= Parse.Object.extend("Trail");
+              let trail= new Trail();
+              trail.set("community",req.session.trail_c);
+              trail.set("voter",req.session.name);
+              trail.set("weight",req.session.trail_w);
+              trail.set("offline",off)
+              trail.save();
+            }
             //Redirect to the community page view
             res.redirect("/view/"+communities[0].get("name"));
           });

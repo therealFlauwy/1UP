@@ -51,6 +51,7 @@
                     <div id="follow_div">
                       <input id="percent_vote_follow" type="number" placeholder="Vote percentage"/>
                       <button id="confirm_trail">Confirm</button>
+                      <p id="message_follow_trail"></p>
                     </div>
                   <% } %>
               </div>
@@ -65,7 +66,7 @@
           <script>
             // Add to none to empty fields
             $("p").each(function(){
-              if($(this).html()=="")
+              if($(this).html()==""&&$(this).attr("id")!="message_follow_trail")
                 $(this).html("None");
             });
 
@@ -74,8 +75,11 @@
             });
 
             $("#confirm_trail").click(function(){
-              if($("#percent_vote_follow").val()<=100&&$("#percent_vote_follow").val()>=0)
-                windows.location.href="/trail/<%= community.id %>/"+$("#percent_vote_follow").val();
+              if($("#percent_vote_follow").val()!=null&&$("#percent_vote_follow").val()<=100&&$("#percent_vote_follow").val()>=0)
+                window.location.href="/trail/<%= community.id %>/"+$("#percent_vote_follow").val();
+              else {
+                $("#message_follow_trail").html("The percentage must be comprised between 0 and 100");
+              }
             });
           </script>
       </body>
