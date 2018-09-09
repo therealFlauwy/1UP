@@ -1093,7 +1093,7 @@ hr {
     margin-bottom: 20px;
 }
 
-.outline div {
+.outline #inner {
     margin: auto;
     width: 60%;
     margin-top: 20px;
@@ -1125,6 +1125,6 @@ hr {
     background-size: 341px 192px;
 }
 
-#delete_confirm {
+#delete_confirm, #follow_div {
   display: none;
 }
