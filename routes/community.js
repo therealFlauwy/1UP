@@ -1,6 +1,6 @@
 
 module.exports = function(app,steem,Utils,config,messages){
-  
+
   //Launch the community creation page
   app.get("/create", function(req, res) {
       Utils.getSession(req).then(function(session) {
@@ -131,16 +131,33 @@ module.exports = function(app,steem,Utils,config,messages){
                 if (communities.length == 0)
                     res.redirect("/error/no_community");
                 else {
+                  const Offline = Parse.Object.extend("OfflineTokens");
+                  let queryOffline = new Parse.Query(Offline);
+
                   let type_user=Utils.getTypeUser(communities[0],session);
+                  // View for no trail
+                  if(communities[0].get("trail")===undefined){
+                      res.render("edit.ejs", {
+                          session: session,
+                          community: communities[0],
+                          trail: null,
+                          type_user:type_user
+                      });
+                  }
+                  else { //View with a trail set
+                      queryOffline.get(communities[0].get("trail").id).then((trail)=>{
                     if(type_user==-1)
                       res.redirect("/error/denied");
                     else
                       res.render("edit.ejs", {
                           session: session,
                           community: communities[0],
-                          type_user:type_user
+                          type_user:type_user,
+                          trail:trail
                       });
+                    });
                   }
+                }
             },
             error: function() {
                 res.redirect("/error/sth_wrong");

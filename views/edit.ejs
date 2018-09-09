@@ -11,6 +11,11 @@
                   <input id="image" value='<%= community.get("image") %>'>
                   <h3>Short description</h3>
                   <input id="description" value='<%= community.get("description") %>'/>
+                  <% if(trail!=null) { %>
+                  <h3>Tail Trail</p>
+                  <p id="tail_trail">@<%= trail.get("username") %></p>
+                  <button id="remove_trail">Remove Trail</button>
+                  <% } %>
                   <h3>Administrators</h3>
                   <input id="admins"value='<%= community.get("administrators") %>'/>
                   <h3>Moderators</h3>
@@ -126,6 +131,22 @@
               else $("#error_create").show();
           });
 
+          $("#remove_trail").click(function(){
+            $.ajax({
+                url: '/trail/<%=community.id %>',
+                type: 'DELETE',
+                contentType:'application/json',
+                dataType: 'text'})
+              .done(function() {
+                  window.location.href="/view/<%=community.get('name') %>";
+               })
+                .fail(function(jqXHR, textStatus, errorThrown) {
+                  if(jqXHR.status==400)
+                    window.location.href="/error/sth_wrong";
+                  else if(jqXHR.status==401)
+                    window.location.href="/error/denied";
+                });
+          });
           //Hide blacklist or whitelist depending on the type of community
           if("<%= community.get("type_community") %>"=="Whitelist only") {
             $(".black").hide();

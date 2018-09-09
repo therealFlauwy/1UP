@@ -121,4 +121,42 @@ module.exports = function(app,steem,Utils,config,messages){
       res.redirect("/error/identify");
     }
   });
+
+  //Delete a Trail
+  app.delete("/trail/:community", function(req, res) {
+    Utils.getSession(req).then(function(session) {
+      var communities = Parse.Object.extend("Communities");
+      var query = new Parse.Query(communities);
+      query.get(req.params.community, {
+        success: function(communities) {
+          if (communities.length == 0){
+              res.sendStatus(400);
+            }
+          else {
+            try{
+            let type_user=Utils.getTypeUser(communities,session);
+              // if not an owner or admin, permission refused.
+              if(type_user!=1){
+                res.sendStatus(401);
+              }
+              else{
+                communities.unset("trail");
+                communities.set("link_trail",Utils.generateRandomString());
+                communities.save();
+                req.session.destroy();
+                res.sendStatus(200);
+              // The object was deleted successfully.
+              }
+            } catch(e){
+              console.log(e);
+              res.sendStatus(400);
+            }
+          }
+        },
+        error: function(object, error) {
+          res.sendStatus(400);
+        }
+      });
+    });
+  });
 }
