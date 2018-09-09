@@ -1,13 +1,7 @@
-const sc2 = require("sc2-sdk");
-const config = require("./config");
-const steem = sc2.Initialize({
-    app: config.sc2_id,
-    callbackURL: config.redirect_uri,
-    scope: config.scopes
-});
 const rp = require('request-promise');
 
-module.exports = {
+module.exports = function(config,steem){
+  return {
   getSession:function(req) {
       return new Promise(function(fulfill, reject) {
           // If already logged in, return the session parameters
@@ -141,7 +135,8 @@ module.exports = {
       json: true
     })
   }
-};
+}
+}
 
 // generate a 10 characters random string
 function generateRandomString() {
