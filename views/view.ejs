@@ -45,13 +45,19 @@
                       community.get("administrators").includes(session.name)||
                       community.get("moderators").includes(session.name)){ %>
                     <button id="edit" onclick="location.href='/edit/<%= community.get("name") %>'">Edit Parameters</button>
-                  <% }
-                  if(trail===null||trail.get("username")!==session.name){ %>
+                  <% } %>
+                  <% if(trail===null||trail.get("username")!==session.name){ %>
                     <button id="follow_trail">Follow Trail</button>
                     <div id="follow_div">
                       <input id="percent_vote_follow" type="number" placeholder="Vote percentage"/>
                       <button id="confirm_trail">Confirm</button>
                       <p id="message_follow_trail"></p>
+                    </div>
+                  <% } %>
+                  <% if(session.trail_tail!==undefined && session.trail_tail!==null && JSON.parse(session.trail_tail).includes(community.get("name"))){ %>
+                    <button id="remove_trail_tail">Remove from the trail</button>
+                    <div id="remove_trail_tail_div">
+                      <button id="confirm_remove_trail_tail">Confirm</button>
                     </div>
                   <% } %>
               </div>
@@ -72,6 +78,27 @@
 
             $("#follow_trail").click(function(){
               $("#follow_div").show();
+            });
+
+            $("#remove_trail_tail").click(function(){
+              $("#remove_trail_tail_div").show();
+            });
+            // Tail Trail can remove itself from the community
+            $("#confirm_remove_trail_tail").click(function(){
+              $.ajax({
+                  url: '/trail/<%=community.id %>',
+                  type: 'DELETE',
+                  contentType:'application/json',
+                  dataType: 'text'})
+                .done(function() {
+                    window.location.href="/view/<%=community.get('name') %>";
+                 })
+                  .fail(function(jqXHR, textStatus, errorThrown) {
+                    if(jqXHR.status==400)
+                      window.location.href="/error/sth_wrong";
+                    else if(jqXHR.status==401)
+                      window.location.href="/error/denied";
+                  });
             });
 
             $("#confirm_trail").click(function(){

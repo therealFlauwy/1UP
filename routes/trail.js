@@ -125,6 +125,7 @@ module.exports = function(app,steem,Utils,config,messages){
   //Delete a Trail
   app.delete("/trail/:community", function(req, res) {
     Utils.getSession(req).then(function(session) {
+
       var communities = Parse.Object.extend("Communities");
       var query = new Parse.Query(communities);
       query.get(req.params.community, {
@@ -136,7 +137,7 @@ module.exports = function(app,steem,Utils,config,messages){
             try{
             let type_user=Utils.getTypeUser(communities,session);
               // if not an owner or admin, permission refused.
-              if(type_user!=1){
+              if(type_user!=1&&!session.trail_tail.includes(communities.get("name"))){
                 res.sendStatus(401);
               }
               else{

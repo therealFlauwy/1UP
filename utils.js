@@ -6,7 +6,7 @@ module.exports = function(config,steem){
       return new Promise(function(fulfill, reject) {
           // If already logged in, return the session parameters
           if (req.session.logged_in){
-              fulfill({loggedIn:true,name:req.session.name,communities:req.session.communities});
+              fulfill({loggedIn:true,name:req.session.name,communities:req.session.communities,trail_tail:req.session.trail_tail});
             }
           else if (req.cookies.access_token !== undefined) {
               // If retreiving informaiton from cookies, recreate the session.
@@ -21,25 +21,35 @@ module.exports = function(config,steem){
                       let owner=new Parse.Query(Parse.Object.extend("Communities"));
                       let admin=new Parse.Query(Parse.Object.extend("Communities"));
                       let mod=new Parse.Query(Parse.Object.extend("Communities"));
-
+                      let Offline = Parse.Object.extend("OfflineTokens");
+                      // Add an inner query to get the communities where account is a tail trail
+                      var innerTokenQuery = new Parse.Query(Offline);
+                      innerTokenQuery.equalTo("username", response.name);
+                      let trail_tail=new Parse.Query(Parse.Object.extend("Communities"));;
+                      trail_tail.matchesQuery("trail", innerTokenQuery);
                       // query all the communities on which the user is either owner administrator or moderator.
                       owner.equalTo("owner",response.name);
                       admin.equalTo("administrators",response.name);
                       mod.equalTo("moderators",response.name);
-                      let mainQuery = Parse.Query.or(owner, mod,admin);
+                      let mainQuery = Parse.Query.or(owner, mod,admin,trail_tail);
+                      // include pointers of element trail
+                      mainQuery.include("trail");
                       mainQuery.find({
                         success: function(communities) {
                           // Add the relevant communities to the session. This will be used for populating the community select box.
                           if(communities.length!==0){
+                            let tt= communities.filter(function(community){return community.get("trail").get("username")==response.name});
+                            req.session.trail_tail=tt.length==0?null:JSON.stringify(tt.map(function(e){return e.get("name");}));
                             req.session.communities=JSON.stringify(communities);
                           }
                           else {
+                            req.session.trail_tail=null;
                             req.session.communities=null;
                           }
-                          fulfill({loggedIn:true,name:req.session.name,communities:req.session.communities});
+                          fulfill({loggedIn:true,name:req.session.name,communities:req.session.communities,trail_tail:req.session.trail_tail});
                       },
                       error: function(error) {
-                          fulfill({loggedIn:true,name:req.session.name,communities:null});
+                          fulfill({loggedIn:true,name:req.session.name,communities:null,trail_tail:null});
                       }
                     });
                   } else fulfill({loggedIn:false});
