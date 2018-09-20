@@ -1,3 +1,4 @@
 $("#loggedIn").click(function() {
-    window.location.href = $(this).val();
+  if(!$("#loggedIn option:selected").hasClass("no_link"))
+    window.location.href=$(this).val();
 });

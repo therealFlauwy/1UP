@@ -30,7 +30,6 @@ module.exports = function(app,steem,Utils,config,messages){
         const query = new Parse.Query(community);
         query.get(req.params.community,{
             success: function(communities) {
-              console.log(communities,communities.length);
                 if(communities){
                     // Generates the SteemConnect link if we do not have the offline token of the user yet
                     if(!hasOffline){
@@ -42,11 +41,12 @@ module.exports = function(app,steem,Utils,config,messages){
                       // Otherwise create the new trail with the existing token
                       const Trail= Parse.Object.extend("Trail");
                       let trail= new Trail();
-                      trail.set("community",req.params.community);
+                      trail.set("community",communities);
                       trail.set("voter",session.name);
                       trail.set("weight",req.params.weight);
                       trail.set("offline",offlineToken);
                       trail.save();
+                      req.session.destroy();
                       res.redirect("/view/"+communities.get("name"));
                     }
               }
@@ -79,12 +79,10 @@ module.exports = function(app,steem,Utils,config,messages){
               offline.set("refresh_token",results.refresh_token);
               offline.set("expires",Date.now()+7*24*3600*1000);
               offline.save().then((off)=>{
-              console.log("save new",req.session.link_trail,communities.get("link_trail"));
               // If the trail has been created, save the SC2 token
               // and delete the trail_token random string
 
               if(req.session.link_trail!==undefined&&req.session.link_trail==communities.get("link_trail")) {
-                console.log("a");
                 communities.unset("link_trail");
                 communities.set("trail",off);
                 communities.save();
@@ -94,7 +92,8 @@ module.exports = function(app,steem,Utils,config,messages){
               {
                 const Trail= Parse.Object.extend("Trail");
                 let trail= new Trail();
-                trail.set("community",req.session.community_trail);
+                // Create a new trail object
+                trail.set("community",communities);
                 trail.set("voter",req.session.name);
                 trail.set("weight",req.session.trail_w);
                 trail.set("offline",off)

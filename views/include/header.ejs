@@ -11,7 +11,7 @@
                         <li><a href="/login" class="item">Login</a></li>
                         <% } else { %>
                         <select id="loggedIn">
-                          <option >@<%= session.name%></option>
+                          <option class="no_link">@<%= session.name%></option>
                           <% if(session.communities!==null)
                           {
                             for (com of JSON.parse(session.communities)) {  %>

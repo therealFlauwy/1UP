@@ -6,18 +6,34 @@ module.exports = function(config,steem){
       return new Promise(function(fulfill, reject) {
           // If already logged in, return the session parameters
           if (req.session.logged_in){
-              fulfill({loggedIn:true,name:req.session.name,communities:req.session.communities,trail_tail:req.session.trail_tail});
+              fulfill({loggedIn:true,name:req.session.name,communities:req.session.communities,trail_tail:req.session.trail_tail,trails:req.session.trails});
             }
           else if (req.cookies.access_token !== undefined) {
               // If retreiving informaiton from cookies, recreate the session.
               steem.setAccessToken(req.cookies.access_token);
-              steem.me(function(err, response) {
+              steem.me(async function(err, response) {
                   if (err === null) {
                       // get Account information about the user logged in
                       req.session.name = response.name;
                       req.session.account = JSON.stringify(response.account);
                       req.session.logged_in = true;
 
+                      // get Trails followed by user
+                      let trail= new Parse.Query(Parse.Object.extend("Trail"));
+                      trail.equalTo("voter",response.name);
+                      trail.include("community");
+                      try{
+                      await trail.find({
+                        success: function(trails) {
+                          if(trails.length==0)
+                            req.session.trails=null;
+                          else
+                            req.session.trails=JSON.stringify(trails);
+                        }
+                      });
+                    } catch(e){console.log(e);}
+
+                      // get all user data
                       let owner=new Parse.Query(Parse.Object.extend("Communities"));
                       let admin=new Parse.Query(Parse.Object.extend("Communities"));
                       let mod=new Parse.Query(Parse.Object.extend("Communities"));
@@ -34,7 +50,7 @@ module.exports = function(config,steem){
                       let mainQuery = Parse.Query.or(owner, mod,admin,trail_tail);
                       // include pointers of element trail
                       mainQuery.include("trail");
-                      mainQuery.find({
+                      await mainQuery.find({
                         success: function(communities) {
                           console.log(communities);
                           // Add the relevant communities to the session. This will be used for populating the community select box.
@@ -48,10 +64,10 @@ module.exports = function(config,steem){
                             req.session.trail_tail=null;
                             req.session.communities=null;
                           }
-                          fulfill({loggedIn:true,name:req.session.name,communities:req.session.communities,trail_tail:req.session.trail_tail});
+                          fulfill({loggedIn:true,name:req.session.name,communities:req.session.communities,trail_tail:req.session.trail_tail,trails:req.session.trails});
                       },
                       error: function(error) {
-                          fulfill({loggedIn:true,name:req.session.name,communities:null,trail_tail:null});
+                          fulfill({loggedIn:true,name:req.session.name,communities:null,trail_tail:null,trails:req.session.trails});
                       }
                     });
                   } else fulfill({loggedIn:false});
@@ -85,7 +101,6 @@ module.exports = function(config,steem){
     return type_user;
   },
   PostCommunity:function(community,req,res){
-
       community.set("name", req.body.name);
       community.set("description", req.body.description);
       community.set("image", req.body.image);
