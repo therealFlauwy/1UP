@@ -36,9 +36,11 @@ module.exports = function(config,steem){
                       mainQuery.include("trail");
                       mainQuery.find({
                         success: function(communities) {
+                          console.log(communities);
                           // Add the relevant communities to the session. This will be used for populating the community select box.
                           if(communities.length!==0){
-                            let tt= communities.filter(function(community){return community.get("trail").get("username")==response.name});
+                            console.log("a");
+                            let tt= communities.filter(function(community){return community.get("trail")==undefined?false:(community.get("trail").get("username")==response.name);});
                             req.session.trail_tail=tt.length==0?null:JSON.stringify(tt.map(function(e){return e.get("name");}));
                             req.session.communities=JSON.stringify(communities);
                           }

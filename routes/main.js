@@ -5,6 +5,7 @@ module.exports = function(app,steem,Utils,config,messages){
       const community = Parse.Object.extend("Communities");
       const query = new Parse.Query(community);
       Utils.getSession(req).then(function(session) {
+        console.log(session);
           query.limit(1000);
           query.find({
               success: function(communities) {
