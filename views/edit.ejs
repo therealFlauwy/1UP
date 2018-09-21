@@ -133,7 +133,7 @@
 
           $("#remove_trail").click(function(){
             $.ajax({
-                url: '/trail/<%=community.id %>',
+                url: '/trail_tail/<%=community.id %>',
                 type: 'DELETE',
                 contentType:'application/json',
                 dataType: 'text'})
