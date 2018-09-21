@@ -156,6 +156,42 @@ module.exports = function(app,steem,Utils,config,messages){
     });
   });
 
+  // Patch a trail weight
+
+  app.patch("/trail/:trail/:weight", function(req, res) {
+    Utils.getSession(req).then(function(session) {
+      var trails = Parse.Object.extend("Trail");
+      var query = new Parse.Query(trails);
+      console.log(req.params);
+      query.get(req.params.trail, {
+        success: function(trail) {
+          console.log(trail);
+          if (trail== null||trail==undefined){
+              res.sendStatus(400);
+            }
+          else {
+            try{
+                if(session.name==trail.get("voter")){
+                  trail.set("weight",req.params.weight);
+                  trail.save();
+                  req.session.destroy();
+                  res.sendStatus(200);
+                }
+                else res.sendStatus(401);
+            } catch(e){
+              console.log(e);
+              res.sendStatus(400);
+            }
+          }
+        },
+        error: function(object, error) {
+          console.log(error);
+          res.sendStatus(400);
+        }
+      });
+    });
+  });
+
   //Delete a Trail Tail
   app.delete("/trail_tail/:community", function(req, res) {
     Utils.getSession(req).then(function(session) {

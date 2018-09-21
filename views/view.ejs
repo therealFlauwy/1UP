@@ -107,6 +107,23 @@
               $("#edit_trail").show();
             });
 
+            $("#confirm_edit_trail").click(function(){
+              $.ajax({
+                  url: "<%= session.trails !=null?('/trail/'+JSON.parse(session.trails).filter(function(e){ return e.community.name==community.get('name')})[0].objectId)+'/':"" %>"+$("#percent_vote_follow").val(),
+                  type: 'PATCH',
+                  contentType:'application/json',
+                  dataType: 'text'})
+                .done(function() {
+                    window.location.href="/view/<%=community.get('name') %>";
+                 })
+                  .fail(function(jqXHR, textStatus, errorThrown) {
+                    if(jqXHR.status==400)
+                      window.location.href="/error/sth_wrong";
+                    else if(jqXHR.status==401)
+                      window.location.href="/error/denied";
+                  });
+            });
+
             $("#delete_trail").click(function(){
               $.ajax({
                   url: "<%= session.trails !=null?('/trail/'+JSON.parse(session.trails).filter(function(e){ return e.community.name==community.get('name')})[0].objectId):null %>",
