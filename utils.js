@@ -1,51 +1,73 @@
-const sc2 = require("sc2-sdk");
-const config = require("./config");
-const steem = sc2.Initialize({
-    app: config.sc2_id,
-    callbackURL: config.redirect_uri,
-    scope: config.scopes
-});
 const rp = require('request-promise');
 
-module.exports = {
+module.exports = function(config,steem){
+  return {
   getSession:function(req) {
       return new Promise(function(fulfill, reject) {
           // If already logged in, return the session parameters
           if (req.session.logged_in){
-              fulfill({loggedIn:true,name:req.session.name,communities:req.session.communities});
+              fulfill({loggedIn:true,name:req.session.name,communities:req.session.communities,trail_tail:req.session.trail_tail,trails:req.session.trails});
             }
           else if (req.cookies.access_token !== undefined) {
               // If retreiving informaiton from cookies, recreate the session.
               steem.setAccessToken(req.cookies.access_token);
-              steem.me(function(err, response) {
+              steem.me(async function(err, response) {
                   if (err === null) {
                       // get Account information about the user logged in
                       req.session.name = response.name;
                       req.session.account = JSON.stringify(response.account);
                       req.session.logged_in = true;
 
+                      // get Trails followed by user
+                      let trail= new Parse.Query(Parse.Object.extend("Trail"));
+                      trail.equalTo("voter",response.name);
+                      trail.include("community");
+                      try{
+                      await trail.find({
+                        success: function(trails) {
+                          if(trails.length==0)
+                            req.session.trails=null;
+                          else
+                            req.session.trails=JSON.stringify(trails);
+                        }
+                      });
+                    } catch(e){console.log(e);}
+
+                      // get all user data
                       let owner=new Parse.Query(Parse.Object.extend("Communities"));
                       let admin=new Parse.Query(Parse.Object.extend("Communities"));
                       let mod=new Parse.Query(Parse.Object.extend("Communities"));
-
+                      let Offline = Parse.Object.extend("OfflineTokens");
+                      // Add an inner query to get the communities where account is a tail trail
+                      var innerTokenQuery = new Parse.Query(Offline);
+                      innerTokenQuery.equalTo("username", response.name);
+                      let trail_tail=new Parse.Query(Parse.Object.extend("Communities"));;
+                      trail_tail.matchesQuery("trail", innerTokenQuery);
                       // query all the communities on which the user is either owner administrator or moderator.
                       owner.equalTo("owner",response.name);
                       admin.equalTo("administrators",response.name);
                       mod.equalTo("moderators",response.name);
-                      let mainQuery = Parse.Query.or(owner, mod,admin);
-                      mainQuery.find({
+                      let mainQuery = Parse.Query.or(owner, mod,admin,trail_tail);
+                      // include pointers of element trail
+                      mainQuery.include("trail");
+                      await mainQuery.find({
                         success: function(communities) {
+                          console.log(communities);
                           // Add the relevant communities to the session. This will be used for populating the community select box.
                           if(communities.length!==0){
+                            console.log("a");
+                            let tt= communities.filter(function(community){return community.get("trail")==undefined?false:(community.get("trail").get("username")==response.name);});
+                            req.session.trail_tail=tt.length==0?null:JSON.stringify(tt.map(function(e){return e.get("name");}));
                             req.session.communities=JSON.stringify(communities);
                           }
                           else {
+                            req.session.trail_tail=null;
                             req.session.communities=null;
                           }
-                          fulfill({loggedIn:true,name:req.session.name,communities:req.session.communities});
+                          fulfill({loggedIn:true,name:req.session.name,communities:req.session.communities,trail_tail:req.session.trail_tail,trails:req.session.trails});
                       },
                       error: function(error) {
-                          fulfill({loggedIn:true,name:req.session.name,communities:null});
+                          fulfill({loggedIn:true,name:req.session.name,communities:null,trail_tail:null,trails:req.session.trails});
                       }
                     });
                   } else fulfill({loggedIn:false});
@@ -79,7 +101,6 @@ module.exports = {
     return type_user;
   },
   PostCommunity:function(community,req,res){
-
       community.set("name", req.body.name);
       community.set("description", req.body.description);
       community.set("image", req.body.image);
@@ -140,14 +161,14 @@ module.exports = {
       },
       json: true
     })
+  },
+  // generate a 10 characters random string
+  generateRandomString:function() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for (var i = 0; i < 10; i++)
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    return text;
   }
-};
-
-// generate a 10 characters random string
-function generateRandomString() {
-  var text = "";
-  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  for (var i = 0; i < 10; i++)
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  return text;
+}
 }

@@ -1125,6 +1125,6 @@ hr {
     background-size: 341px 192px;
 }
 
-#delete_confirm, #follow_div {
+#delete_confirm, #follow_div, #remove_trail_tail_div,#edit_trail_div {
   display: none;
 }

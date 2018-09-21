@@ -11,12 +11,19 @@
                         <li><a href="/login" class="item">Login</a></li>
                         <% } else { %>
                         <select id="loggedIn">
-                          <option >@<%= session.name%></option>
+                          <option class="no_link">@<%= session.name%></option>
                           <% if(session.communities!==null)
                           {
                             for (com of JSON.parse(session.communities)) {  %>
                           <option value="/view/<%= com.name %>"><%= com.name %></option>
                             <% }} %>
+
+                            <% if(session.trails!==null)
+                            {
+                              for (aTrail of JSON.parse(session.trails)) {
+                            if(session.communities==null||JSON.parse(session.communities).filter(function(e){return e.name==aTrail.community.name}).length==0){ %>
+                            <option value="/view/<%= aTrail.community.name %>"><%= aTrail.community.name %></option>
+                            <% }}} %>
                           <option value="/create">Create Community</option>
                           <option value="/logout">Logout</option>
                         </select>
