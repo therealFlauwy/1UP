@@ -122,15 +122,12 @@ module.exports = function(app,steem,Utils,config,messages){
   });
 
   // Delete a Trail
-
   app.delete("/trail/:trail", function(req, res) {
     Utils.getSession(req).then(function(session) {
       var trails = Parse.Object.extend("Trail");
       var query = new Parse.Query(trails);
-      console.log(req.params.trail);
       query.get(req.params.trail, {
         success: function(trail) {
-          console.log(trail);
           if (trail== null||trail==undefined){
               res.sendStatus(400);
             }
@@ -157,15 +154,12 @@ module.exports = function(app,steem,Utils,config,messages){
   });
 
   // Patch a trail weight
-
   app.patch("/trail/:trail/:weight", function(req, res) {
     Utils.getSession(req).then(function(session) {
       var trails = Parse.Object.extend("Trail");
       var query = new Parse.Query(trails);
-      console.log(req.params);
       query.get(req.params.trail, {
         success: function(trail) {
-          console.log(trail);
           if (trail== null||trail==undefined){
               res.sendStatus(400);
             }
