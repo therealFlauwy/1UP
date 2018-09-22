@@ -1,4 +1,4 @@
-module.exports = function(app,steem,Utils,config,messages){
+module.exports = function(app,steem,Utils,config,messages,sql){
   //Error page
   app.get("/error/:error_message", function(req, res) {
       Utils.getSession(req).then(function(session) {
