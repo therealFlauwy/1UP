@@ -1,4 +1,4 @@
-module.exports = function(app,steem,Utils,config,messages){
+module.exports = function(app,steem,Utils,config,messages,sql){
 
   //Login via Steemconnect
   app.get("/login", function(req, res) {

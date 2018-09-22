@@ -148,6 +148,30 @@ module.exports = function(config,steem){
       });
     });
   },
+  querysearch:function(type,usuarios,tag,agePost){
+    var stardatedate=(agePost==6 ? '0 and 6*12' : '6*24 and 12*24'),
+        typetag=(type=='Whitelist only' ? '=' : '!='),
+        usars=usuarios
+        usersq=(type=='Whitelist only' ? usars.replace(/,/g,`' or author='`) : usars.replace(/,/g,`' or author!='`)),
+        query=`
+select author, permlink, category, title, body, json_metadata, root_title
+from
+Comments
+WHERE        
+(    
+  (ISJSON(json_metadata)>0) and
+    (
+      ( JSON_VALUE(json_metadata,'$.tags[4]') = ('${tag}') ) or   
+      ( JSON_VALUE(json_metadata,'$.tags[3]') = ('${tag}') ) or   
+      ( JSON_VALUE(json_metadata,'$.tags[2]') = ('${tag}') ) or   
+      ( JSON_VALUE(json_metadata,'$.tags[1]') = ('${tag}') ) or   
+      ( JSON_VALUE(json_metadata,'$.tags[0]') = ('${tag}') ) 
+    )
+  )AND (author${typetag}'${usersq}') AND (parent_author='') AND 
+  datediff(hour, created, GETDATE()) between ${stardatedate}
+order by created DESC`
+    return query
+  },
   getTokenFromCode:function(code){
     return rp({
       method: "POST",

@@ -10,7 +10,11 @@ let config = {
     cloud: process.env.CLOUD_CODE_MAIN || __dirname + '/cloud/main.js',
     appId: process.env.APP_ID || 'myAppId',
     masterKey: process.env.MASTER_KEY || '',
-    secret: process.env.SECRET || ''
+    secret: process.env.SECRET || 'prueba',
+    usersqlsteem: '',//User steemsql
+    passwordsqlsteem: '',//password steemsql
+    serversqlsteem: '',//server steemsql
+    databasesqlsteem: '' //db steemsql
 };
 
 module.exports = config;

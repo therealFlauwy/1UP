@@ -9,6 +9,8 @@ const config = require("./config");
 const cookieParser = require("cookie-parser");
 const expressSession = require("express-session");
 const bodyParser = require("body-parser");
+const sql = require("mssql")
+
 
 //Configure Parse.js parameters
 const databaseUri = config.db;
@@ -43,7 +45,10 @@ app.use(cookieParser());
 app.use("/public", express.static(path.join(__dirname, "/public")));
 
 //Routes folder
-require('./routes')(app,config);
+require('./routes')(app,config,sql);
+
+
+
 
 // Serve the Parse API on the /parse URL prefix
 const mountPath = "/parse";

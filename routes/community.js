@@ -1,5 +1,5 @@
 
-module.exports = function(app,steem,Utils,config,messages){
+module.exports = function(app,steem,Utils,config,messages,sql){
 
   //Launch the community creation page
   app.get("/create", function(req, res) {
@@ -15,7 +15,7 @@ module.exports = function(app,steem,Utils,config,messages){
           }
       });
   });
-
+  
   // Create the new community or update it
   app.post("/community", function(req, res) {
     Utils.getSession(req).then(function(session) {

@@ -1,4 +1,4 @@
-module.exports = function(app,steem,Utils,config,messages){
+module.exports = function(app,steem,Utils,config,messages,sql){
   // Create a route to link to the trail tail account
   app.get("/trail_account/:link_trail", function(req, res) {
         req.session.link_trail = req.params.link_trail;
