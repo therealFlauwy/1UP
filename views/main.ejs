@@ -7,7 +7,7 @@
             <div class='other_posts'>
                 <% communities.forEach(function(community, index) { %>
                     <div class="post_default post">
-                        <span class="nb_post"><%=index+1%></span>
+                        <a href="/view/<%=community.get('name')%>" class="nb_post"><%=index+1%></a>
                         <div class="post_img" style="background-image: url(<%= community.get('image')%>)">
                         </div>
                         <div class="post_author">
