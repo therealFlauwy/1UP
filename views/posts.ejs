@@ -1,37 +1,8 @@
 <html lang="en">
-  <head>
-    <title>1UP</title>
-    <meta name="theme-color" content="#993493">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <link href="/public/assets/css/style.css" rel="stylesheet">
-    <link href="/public/assets/fonts/icon-font.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700" rel="stylesheet">
-    <!-- FavIcon -->
-    <link rel="shortcut icon" type="image/x-icon" href="public/assets/images/favicon.png?v=1" />
-    <link rel="apple-touch-icon" href="public/assets/images/favicon-touch.png?v=2"/>
-  </head>
-  <body>
-    <div class="container">
-      <div class="header">
-				<div class="wrapper">
-					<a href="/now"><img class="logo" src="/public/assets/images/logo.svg" alt="1UP logo" title="1UP"></a>
-					<span class="menu-main-button">
-						<span class="bar bar-1"></span>
-						<span class="bar bar-2"></span>
-						<span class="bar bar-3"></span>
-					</span>
-	        <ul class="menu-main">
-            <% if(loggedIn==false){ %>
-            <li><a href="/login"  class="item">Login</a></li>
-            <%} else { %>
-              <li><a href="/logout"  class="item">Logout</a></li>
-              <% } %>
-	        	<li><a href="https://steemit.com/utopian-io/@flauwy/steemy-ep-46-how-to-create-and-follow-a-curation-trail-with-steemauto" target="_blank" class="item">How to vote?</a></li>
-	          <li><a href="https://steemit.com/curation/@flauwy/utopian-1up-a-lucrative-steem-trail-for-the-best-daily-utopian-contributions" target="_blank" class="item">About</a></li>
-	          <li><a href="https://github.com/therealFlauwy/1UP" target="_blank" class="item icon-github" title="1UP on Github"></a></li>
-	        </ul>
-				</div>
-      </div>
+  <%- include include/head.ejs %>
+    <body>
+        <div class="container">
+          <%- include include/header.ejs %>
 			<div class="top">
         <div class="wrapper">
 					<div class="top_left">
@@ -152,7 +123,7 @@
     steem.config.set('websocket','wss://steemd.privex.io');
 
 
-    <%if(posts.length!==0&&(active==0||active==4)&&loggedIn&&account!==undefined&&posts.length!=0)
+    <%if(posts.length!==0&&(active==0||active==4)&&session.loggedIn&&account!==undefined&&posts.length!=0)
     {%>
       var reputation=steem.formatter.reputation(<%=account.reputation%>);
       console.log(reputation);
