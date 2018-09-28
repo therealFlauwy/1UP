@@ -177,7 +177,6 @@ module.exports = function(config,steem){
         postsQuery.greaterThan("created",new Date(new Date()-6.5*24*3600000));
         postsQuery.find({
           success: function(p) {
-            console.log(p[0]);
               fulfill(p);
           },
           error:function(error){
