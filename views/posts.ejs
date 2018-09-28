@@ -75,9 +75,10 @@
     steem.config.set('websocket','wss://steemd.privex.io');
 
 
-    <%if(posts.length!==0&&session.loggedIn&&session.account!==undefined&&posts.length!=0)
+    <%
+    if(posts.length!==0&&session.loggedIn&&session.account!==undefined&&posts.length!=0)
     {%>
-      var reputation=steem.formatter.reputation(<%=session.account.reputation%>);
+      var reputation=steem.formatter.reputation(<%=JSON.parse(session.account).reputation%>);
       console.log(reputation);
       if(reputation>=45)
       {
