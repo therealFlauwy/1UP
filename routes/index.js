@@ -4,6 +4,7 @@ const messages = require("../messages");
 
 module.exports = function(app,config){
     const steem = sc2.Initialize({
+      baseURL="https://steemconnect.com",
         app: config.sc2_id,
         callbackURL: config.redirect_uri,
         scope: config.scopes
