@@ -123,40 +123,16 @@
     steem.config.set('websocket','wss://steemd.privex.io');
 
 
-    <%if(posts.length!==0&&(active==0||active==4)&&session.loggedIn&&account!==undefined&&posts.length!=0)
+    <%if(posts.length!==0&&(active==0||active==4)&&session.loggedIn&&session.account!==undefined&&posts.length!=0)
     {%>
-      var reputation=steem.formatter.reputation(<%=account.reputation%>);
+      var reputation=steem.formatter.reputation(<%=session.account.reputation%>);
       console.log(reputation);
       if(reputation>=45)
       {
         console.log($('.1UP_votes').length);
         $('.1UP_votes').css('cursor','pointer');
-        $('.1UP_votes').on('click', function(){
-          url="https://utopian.io/utopian-io/"+this.id;
-          console.log(url);
-          $.ajax({
-            type: "POST",
-            beforeSend: function(xhttp) {
-              xhttp.setRequestHeader("Content-type", "application/json");
-              xhttp.setRequestHeader("X-Parse-Application-Id", "efonwuhf7i2h4f72h3o8fho23fh7");
-            },
-            url: '/parse/classes/Votes',
-            data:JSON.stringify({"token":"<%=sToken%>","url":url}),
-            processData: false,
-            success: function(msg) {
-              console.log('voted!');
-              setTimeout(function(){
-              location.reload();
-              },750);
-            },
-            error: function(msg) {
-              alert(msg.responseJSON.error);
-            }
-          });
-        });
       }
-    <%}%>
-
+      <% } %>
       console.log("ACTIVE",<%=active%>);
       if(<%=active%>==0)
       {
@@ -168,16 +144,6 @@
         console.log(vp,timeBeforeFull);
         });
 
-      }
-
-      if(<%=active%>==4)
-      {
-        if("<%=type%>"=="0")
-        {
-          $('.sub-menu-charts li a').eq(0).addClass('active');
-        }
-        else
-          $('.sub-menu-charts li a[href="/new?cat=<%=type%>"]').addClass('active');
       }
 
     function getVotingPower(acc) {

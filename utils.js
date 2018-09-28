@@ -111,7 +111,7 @@ module.exports = function(config,steem){
         community.set("whitelist", req.body.whitelist);
         community.set("blacklist", req.body.blacklist);
         community.set("owner", req.body.owner);
-        community.set("link_trail",generateRandomString());
+        community.set("link_trail",this.generateRandomString());
 
         community.save(null, {
             success: function(community) {
