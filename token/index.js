@@ -82,5 +82,8 @@ steem.api.streamTransactions((err, op) => {
 module.exports = {
     getUserData: function(user) {
         return db.users[user];
+    },
+    allData: function() {
+        return db;
     }
 };

@@ -1,0 +1,37 @@
+<html lang="en">
+  <%- include include/head.ejs %>
+    <body>
+        <div class="container">
+            <%- include include/header.ejs %>
+            <div class='outline'>
+                <div id="inner">
+                    <h2>UP Top Holders</h2>
+                    A total of <span class="total-tokens"><%= data.totalTokens %></span> <span class="ticker">UP</span> has been distributed.
+                    <ol>
+                        <%   
+                            var users = [];
+                            for (var username in data.users) {
+                                users.push({
+                                name: username,
+                                balance: data.users[username].tokens
+                                });
+                            }
+                            users.sort(function(a, b) {
+                                return a.balance < b.balance;
+                            });
+                            users.forEach(function(user) {
+                        %>
+                        <li><%= user.name %>: <%= user.balance %> UP</li>
+                        <% }); %>  
+                    </ol>
+                </div>
+            </div>
+            <%- include include/footer.ejs %>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://cdn.steemjs.com/lib/latest/steem.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/parse/1.11.0/parse.min.js"></script>
+        <script src="/public/assets/js/scripts.js"></script>
+    </body>
+</html>
