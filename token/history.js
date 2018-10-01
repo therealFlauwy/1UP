@@ -1,6 +1,5 @@
 const steem = require("steem");
 const processTxs = require("./processTxs.js");
-const Config = require("./config.json")
 
 module.exports.getHistory = (cb) => {
     var state = { users: {}, totalTokens: 0, pendingSends: {} };
