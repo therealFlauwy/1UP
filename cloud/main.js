@@ -4,10 +4,10 @@ const MAX_VOTE_PER_DAY=10;
 const BOT=process.env.BOT;
 steem.api.setOptions({ url: 'https://api.steemit.com' });
 let sc2=require('sc2-sdk');
-const messages = require("../messages");
+const config = require("../config");
 
  let steemc = sc2.Initialize({
-     baseURL="https://steemconnect.com",
+     //baseURL="https://steemconnect.com",
      app: config.sc2_id,
      callbackURL: config.redirect_uri,
      scope: config.scopes
@@ -57,6 +57,4 @@ Parse.Cloud.beforeSave('Votes', function (request, response) {
           ,error:function(err){console.log(err);}
         });
       });
-      // Catching errors
-    }).catch(e => response.error(e));
-});
+  });
