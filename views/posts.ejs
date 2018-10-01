@@ -110,21 +110,36 @@
           });
         });
 
-      steem.api.getAccounts(["<%=bot%>"], function(err, result) {
+      //get bot account information
+      steem.api.getAccounts(["<%=bot%>"], async function(err, result) {
         console.log(err, result);
-        var vp=getVotingPower(result["0"]);
+        var vp=await getVotingMana(result["0"]);
         var timeBeforeFull=getTimeBeforeFull(vp);
         startTicker(timeBeforeFull);
         console.log(vp,timeBeforeFull);
       });
 
 
-    function getVotingPower(acc) {
-      var secondsago = (new Date - new Date(acc.last_vote_time + "Z")) / 1000;
-      vpow = acc.voting_power + (10000 * secondsago / 432000);
-      vpow = Math.min(vpow / 100, 100).toFixed(2);
-      return vpow;
-    }
+      var getVotingMana = function(account) {
+        return new Promise(function(fulfill,reject){
+          const mana= getMana(account);
+          fulfill(mana.estimated_pct.toFixed(2));
+        });
+      };
+
+      var getMana = function(account) {
+          const STEEM_VOTING_MANA_REGENERATION_SECONDS =432000;
+          const estimated_max = getEffectiveVestingSharesPerAccount(account)*1000000;
+          const current_mana = parseFloat(account.voting_manabar.current_mana);
+          const last_update_time = account.voting_manabar.last_update_time;
+          const diff_in_seconds = Math.round(Date.now()/1000-last_update_time);
+          let estimated_mana = (current_mana + diff_in_seconds * estimated_max / STEEM_VOTING_MANA_REGENERATION_SECONDS);
+          if (estimated_mana > estimated_max)
+              estimated_mana = estimated_max;
+          const estimated_pct = estimated_mana / estimated_max * 100;
+          return {"current_mana": current_mana, "last_update_time": last_update_time,
+                  "estimated_mana": estimated_mana, "estimated_max": estimated_max, "estimated_pct": estimated_pct};
+      }
 
     function getTimeBeforeFull(vp)
     {
