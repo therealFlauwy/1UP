@@ -10,6 +10,7 @@
                     You have <span class="total-tokens"><%= tokens.tokens %></span> <span class="ticker">UP</span>.
                     <% tokens.history.forEach(function (event) { %>
                         <div class='history-item'>
+                            <br>
                             <span class='history-amount'>+<%= event.amount %> UP</span>
                             <%
                                 var reason = event.reason ? event.reason[0] : "other";
