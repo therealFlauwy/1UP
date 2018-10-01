@@ -20,11 +20,11 @@
                                 } else if (reason === "adminui") {
                                     reasonText = "Manual transfer";
                                 } else if (reason === "modcomment") {
-                                    reasonText = "<a href='https://busy.org/" + event.reason[1] + "' target='_blank'>This post</a> was approved by a moderator"
+                                    reasonText = "<a href='https://busy.org/" + event.reason[1] + "' target='_blank'>This post</a> was approved by a moderator";
                                 } else if (reason === "delegation") {
-                                    reasonText = "Delegation payout"
+                                    reasonText = "Delegation payout";
                                 } else {
-                                    reasonText = "Other"
+                                    reasonText = "Other";
                                 }
                             %>
                             <div class='history-reason'>Reason: <%- reasonText %></div>
