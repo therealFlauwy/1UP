@@ -7,4 +7,14 @@ module.exports = function(app,steem,Utils,config,messages){
       res.end(JSON.stringify(Tokens.getUserData(session.name)));
     });
   });
+  app.get("/wallet", function(req, res) {
+      Utils.getSession(req).then(function(session) {
+        res.render("wallet.ejs", {
+            tokens: Tokens.getUserData(session.name),
+            session: session,
+            account: req.session.account,
+            sToken: req.cookies.access_token
+        });
+      });
+  });
 }

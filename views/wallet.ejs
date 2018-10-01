@@ -1,0 +1,42 @@
+<html lang="en">
+  <%- include include/head.ejs %>
+    <body>
+        <div class="container">
+            <%- include include/header.ejs %>
+            <!-- HTML for community creation !-->
+            <div class='outline'>
+                <div id="inner">
+                    <h2>UP Wallet</h2>
+                    You have <span class="total-tokens"><%= tokens.tokens %></span> <span class="ticker">UP</span>.
+                    <% tokens.history.forEach(function (event) { %>
+                        <div class='history-item'>
+                            <span class='history-amount'>+<%= event.amount %> UP</span>
+                            <%
+                                var reason = event.reason ? event.reason[0] : "other";
+                                var reasonText;
+                                if (reason === "other") {
+                                    reasonText = "Other";
+                                } else if (reason === "adminui") {
+                                    reasonText = "Manual transfer";
+                                } else if (reason === "modcomment") {
+                                    reasonText = "<a href='https://busy.org/" + event.reason[1] + "' target='_blank'>This post</a> was approved by a moderator"
+                                } else if (reason === "delegation") {
+                                    reasonText = "Delegation payout"
+                                } else {
+                                    reasonText = "Other"
+                                }
+                            %>
+                            <div class='history-reason'>Reason: <%- reasonText %></div>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+            <%- include include/footer.ejs %>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://cdn.steemjs.com/lib/latest/steem.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/parse/1.11.0/parse.min.js"></script>
+        <script src="/public/assets/js/scripts.js"></script>
+    </body>
+</html>
