@@ -14,12 +14,10 @@ try {
     });
     db.users = db.users;
 } catch (e) {
-    //references will make the db object update whenever the function object does
     db = History.getHistory();
 }
 function saveDb() {
-    fs.writeFile("./db.json", JSON.stringify(db), () => {
-        console.log("saved db");
+    fs.writeFile("./stateCache.json", JSON.stringify(db), () => {
     });
 }
 saveDb();
