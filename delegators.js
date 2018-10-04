@@ -57,7 +57,7 @@ function loadDelegations(client, account, callback) {
             console.log("Sending " + payouts[delegator] + " tokens to @" + delegator + "...");
             setTimeout(() => {
                 steem.broadcast.customJson(Config.postingKey, [], [Config.bot], "1up", JSON.stringify({
-                    account: delegator,
+                    account: user,
                     amount: payouts[delegator],
                     reason: ["delegation"]
                 }), (err, res) => {
