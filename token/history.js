@@ -1,12 +1,26 @@
 const steem = require("steem");
 const processTxs = require("./processTxs.js");
+const Config = require("../config.js");
 
-module.exports.getHistory = (cb) => {
+module.exports.getHistory = userCallback => {
     var state = { users: {}, totalTokens: 0, pendingSends: {} };
-    steem.api.getAccountHistory("smitop", -1, 9999, (err, txs) => {
-        if (err) throw err;
+    var current = -1;
+    const callback = function (err, txs) {
+        if (err) {
+            throw err;
+        }
         state = processTxs(txs, state);
-        if (cb) cb(state);
-    });
+        current = txs[0][0] - 1; //the oldest transaction's number minus 1
+        console.log("Loaded transaction history up to #" + current + 1);
+        if (current <= 0) {
+            console.log("Got entire transaction history!");
+            if (userCallback) userCallback(state);
+            return;
+        }
+        steem.api.getAccountHistory(Config.bot, current, Math.min(current, 10000), callback);
+    };
+    console.log(callback);
+    //we only load 1 item in case the account has less than 10000 transactions
+    steem.api.getAccountHistory(Config.bot, -1, 1, callback); 
     return state;
 };
