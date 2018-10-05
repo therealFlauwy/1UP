@@ -53,6 +53,12 @@ steem.api.streamTransactions((err, op) => {
             (Config.admins.indexOf(tx[1].voter) > -1) //from an admin...
         ) {
             var link = "@" + tx[1].author + "/" + tx[1].permlink;
+            if (!db.pendingSends[link]) {
+                db.pendingSends[link] = {
+                    account: tx[1].author
+                };
+            }
+            if (tx[1].weight <= 0) return; //don't count flags
             if (db.pendingSends[link].used) return;
             steem.api.getContent(tx[1].author, tx[1].permlink, function(err, comment) {
                 if (err) throw err;
@@ -60,15 +66,14 @@ steem.api.streamTransactions((err, op) => {
                     console.log("@" + tx[1].author + "/" + tx[1].permlink + " tried to airdrop in a root post.");
                     return;
                 }
-                var regexMatch = /\!1upsend (\d*)(\b|$)/g.exec(comment.body);
+                var regexMatch = /\!1upsend(\s*)((\d|\.)*)/g.exec(comment.body);
                 if (!regexMatch) return;
-                var amount = regexMatch[1];
-                if (db.pendingSends[link]) {
-                    db.pendingSends[link].used = true;
-                }
+                var amount = regexMatch[2];
+                db.pendingSends[link].used = true;
+                db.pendingSends[link].amount = amount;
                 steem.broadcast.customJson(Config.postingKey, [], ["smitop"], "1up", JSON.stringify({
                     account: comment.parent_author,
-                    amount: parseInt(regexMatch[1], 10),
+                    amount: parseFloat(amount, 10),
                     reason: ["modcomment", link]
                 }), (err, res) => {
                     if (err) throw err;
