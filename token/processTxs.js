@@ -4,7 +4,7 @@ module.exports = (txs, state) => {
         if (op[0] !== "custom_json") return;
         if (op[1].id !== "1up") return;
         var json = JSON.parse(op[1].json);
-        json.amount = parseInt(json.amount, 10);
+        json.amount = json.amount ? parseFloat(json.amount, 10) : 0;
         console.log(json);
         //if we don't have any data for this user, set them to 0 tokens
         if (!state.users[json.account]) {
