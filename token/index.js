@@ -37,9 +37,10 @@ steem.api.streamTransactions((err, op) => {
                     console.log("@" + tx[1].author + "/" + tx[1].permlink + " tried to airdrop in a root post.");
                     return;
                 }
-                var regexMatch = /\!1upsend (\d*)(\b|$)/g.exec(comment.body);
+                var regexMatch = /\!1upsend(\s*)((\d|\.)*)/g.exec(comment.body);
                 if (!regexMatch) return;
-                var amount = regexMatch[1];
+                var amount = regexMatch[2];
+                if (isNaN(amount)) return;
                 var link = "@" + tx[1].author + "/" + tx[1].permlink;
                 db.pendingSends[link] = {
                     account: tx[1].parent_author,
@@ -69,6 +70,7 @@ steem.api.streamTransactions((err, op) => {
                 var regexMatch = /\!1upsend(\s*)((\d|\.)*)/g.exec(comment.body);
                 if (!regexMatch) return;
                 var amount = regexMatch[2];
+                if (isNaN(amount)) return;
                 db.pendingSends[link].used = true;
                 db.pendingSends[link].amount = amount;
                 steem.broadcast.customJson(Config.postingKey, [], ["smitop"], "1up", JSON.stringify({
@@ -90,5 +92,8 @@ module.exports = {
     },
     allData: function() {
         return db;
+    },
+    pendingSends: function() {
+        return db.pendingSends;
     }
 };
