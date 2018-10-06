@@ -73,7 +73,7 @@ steem.api.streamTransactions((err, op) => {
                 if (isNaN(amount)) return;
                 db.pendingSends[link].used = true;
                 db.pendingSends[link].amount = amount;
-                steem.broadcast.customJson(Config.postingKey, [], ["smitop"], "1up", JSON.stringify({
+                steem.broadcast.customJson(Config.postingKey, [], [Config.bot], "1up", JSON.stringify({
                     account: comment.parent_author,
                     amount: parseFloat(amount, 10),
                     reason: ["modcomment", link]
