@@ -8,12 +8,12 @@ steem.api.setOptions({ url: 'https://api.steemit.com' });
 
 var db;
 try {
-    db = require("./stateCache.json");
+    db = require("../stateCache.json");
     History.getHistory(newState => {
         db.users = newState.users;
     });
-    db.users = db.users;
 } catch (e) {
+    console.log("State cache not found. Loading history...");
     db = History.getHistory();
 }
 function saveDb() {
