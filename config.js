@@ -11,7 +11,10 @@ let config = {
     appId: process.env.APP_ID || 'myAppId',
     masterKey: process.env.MASTER_KEY || '',
     secret: process.env.SECRET || '',
-    bot:"steem-1up"
+    bot: process.env.BOT || "steem-1up",
+    mods: ["smitop"],
+    admins: ["flauwy"],
+    postingKey:  process.env.POSTING_KEY || "5JXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" 
 };
 
 module.exports = config;
