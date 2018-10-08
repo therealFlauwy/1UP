@@ -3,6 +3,7 @@ const rp = require('request-promise');
 module.exports = function(config,steem){
   return {
     getSession:function(req) {
+      let encrypted_username=steem.memo.encode(config.memoKey,config.memoUA,config.bot);
         return new Promise(function(fulfill, reject) {
             // If already logged in, return the session parameters
             if (req.session.logged_in){

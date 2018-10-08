@@ -21,8 +21,14 @@ Parse.Cloud.beforeSave('Votes', function (request, response) {
   const author=request.object.get('url').split('@')[1].split('/')[0];
   const perm=request.object.get('url').split('/')[request.object.get('url').split('/').length-1];
   const voter=request.object.get('voter');
+  const ua=request.object.get('ua');
   request.object.set('author',author);
   request.object.set('voter',voter);
+  request.object.unset('ua');
+  // Throw error if unsufficient UA
+  if(ua<config.UA_threshold)
+    response.error('Increase your User Authority to be able to cast 1UP-votes!');
+
   // Throw error if selfvote
   if(voter==author)
     response.error('You cannot vote for yourself!');
@@ -34,7 +40,6 @@ Parse.Cloud.beforeSave('Votes', function (request, response) {
       .find(function (element) {
         return element.voter == BOT;})!==undefined)
           response.error('Too late! This post was already voted by the trail!');
-
   // Check if voter voted more than once for same user
     var query = new Parse.Query(aVote);
     query.equalTo('from',request.object.get('from'));
