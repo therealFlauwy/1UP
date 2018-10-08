@@ -89,10 +89,10 @@
           url="https://utopian.io/utopian-io/"+this.id;
           console.log(url);
           $.ajax({
-            type: "POST",
+            type:"POST",
+            contentType: 'application/json',
             url: '/vote',
             data:JSON.stringify({"voter":"<%=session.name%>","community":"<%=community%>","url":url}),
-            processData: false,
             success: function(msg) {
               console.log('voted!');
               $(that).find(".votes_amount").html(parseInt($(that).find(".votes_amount").html())+1);
