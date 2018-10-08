@@ -58,8 +58,6 @@
  				 <div class="empty-state">
  					 <br>
  					 <p class="h2">We don’t have anything<br> to show yet</p>
- 					 <br>
- 					 <p>Install <a href="https://chrome.google.com/webstore/detail/steemplus/mjbkjgcplmaneajhcbegoffkedeankaj" target="_blank" title="Install SteemPlus">SteemPlus chrome extension</a> and be among first.</p>
  				 </div>
  			 <% } %>
 
@@ -87,22 +85,17 @@
     <% } %>
 
     $('.1UP_votes').on('click', function(){
+          let that=this;
           url="https://utopian.io/utopian-io/"+this.id;
           console.log(url);
           $.ajax({
             type: "POST",
-            beforeSend: function(xhttp) {
-              xhttp.setRequestHeader("Content-type", "application/json");
-              xhttp.setRequestHeader("X-Parse-Application-Id", "efonwuhf7i2h4f72h3o8fho23fh7");
-            },
             url: '/vote',
             data:JSON.stringify({"voter":"<%=session.name%>","community":"<%=community%>","url":url}),
             processData: false,
             success: function(msg) {
               console.log('voted!');
-              setTimeout(function(){
-              location.reload();
-              },750);
+              $(that).find(".votes_amount").html(parseInt($(that).find(".votes_amount").html())+1);
             },
             error: function(msg) {
               alert(msg.responseJSON.error);
