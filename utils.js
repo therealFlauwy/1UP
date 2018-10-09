@@ -1,19 +1,22 @@
 const rp = require('request-promise');
+var steem = require('steem');
 
-module.exports = function(config,steem){
+module.exports = function(config,sc2){
   return {
     getSession:function(req) {
-      let encrypted_username=steem.memo.encode(config.memoKey,config.memoUA,config.bot);
         return new Promise(function(fulfill, reject) {
             // If already logged in, return the session parameters
             if (req.session.logged_in){
-                fulfill({loggedIn:true,account:req.session.account,name:req.session.name,communities:req.session.communities,trail_tail:req.session.trail_tail,trails:req.session.trails});
+                fulfill({loggedIn:true,account:req.session.account,name:req.session.name,communities:req.session.communities,trail_tail:req.session.trail_tail,trails:req.session.trails,ua:req.session.ua});
               }
             else if (req.cookies.access_token !== undefined) {
                 // If retreiving informaiton from cookies, recreate the session.
-                steem.setAccessToken(req.cookies.access_token);
-                steem.me(async function(err, response) {
-                    if (err === null) {
+                sc2.setAccessToken(req.cookies.access_token);
+                sc2.me(async function(err, response) {
+                    if (err === null){
+
+                        const ua=await getUA(steem,config,response.name);
+                        req.session.ua=ua;
                         // get Account information about the user logged in
                         req.session.name = response.name;
                         req.session.account = JSON.stringify(response.account);
@@ -63,10 +66,10 @@ module.exports = function(config,steem){
                               req.session.trail_tail=null;
                               req.session.communities=null;
                             }
-                            fulfill({loggedIn:true,account:req.session.account,name:req.session.name,communities:req.session.communities,trail_tail:req.session.trail_tail,trails:req.session.trails});
+                            fulfill({loggedIn:true,account:req.session.account,name:req.session.name,communities:req.session.communities,trail_tail:req.session.trail_tail,trails:req.session.trails,ua:req.session.ua});
                         },
                         error: function(error) {
-                            fulfill({loggedIn:true,account:req.session.account,name:req.session.name,communities:null,trail_tail:null,trails:req.session.trails});
+                            fulfill({loggedIn:true,account:req.session.account,name:req.session.name,communities:null,trail_tail:null,trails:req.session.trails,ua:req.session.ua});
                         }
                       });
                     } else fulfill({loggedIn:false});
@@ -161,6 +164,7 @@ module.exports = function(config,steem){
         json: true
       })
     },
+
     // generate a 10 characters random string
     generateRandomString:function() {
       var text = "";
@@ -188,3 +192,19 @@ module.exports = function(config,steem){
     }
   }
 }
+
+// Find UA for a given user
+function getUA(steem,config,username){
+  const enc_user=steem.memo.encode(config.memoKey,config.memoUA,"#"+config.bot);
+  const request_rpc = {
+         url:"https://steem-ua.com:5000/rpc",
+         method: 'POST',
+         body:JSON.stringify({
+           jsonrpc: '2.0',
+           method: "get_accounts",
+           id:0,
+           params: {"user": config.bot, "encrypted_user": enc_user, "accounts": [username]}
+       })
+     };
+  return rp(request_rpc);
+};
