@@ -420,6 +420,7 @@ hr {
     top: 12px;
     left: 17px;
     font-size: 16px;
+    cursor: pointer;
 }
 
 .button-upvote .votes_amount {

@@ -7,6 +7,7 @@ module.exports = function(app,steem,Utils,config,messages){
         vote.set("voter",session.name);
         vote.set("url",req.body.url);
         vote.set("community",req.body.community);
+        vote.set("ua",session.ua);
         // Create the vote object sent to be processed in the cloud
         vote.save().then((result) => {
           // Execute any logic that should take place after the object is saved.

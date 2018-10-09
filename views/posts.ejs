@@ -72,18 +72,6 @@
 
     steem.config.set('websocket','wss://steemd.privex.io');
 
-
-    <%
-    if(posts.length!==0&&session.loggedIn&&session.account!==undefined&&posts.length!=0)
-    {%>
-      var reputation=steem.formatter.reputation(<%=JSON.parse(session.account).reputation%>);
-      console.log(reputation);
-      if(reputation>=45)
-      {
-        $('.1UP_votes').css('cursor','pointer');
-      }
-    <% } %>
-
     $('.1UP_votes').on('click', function(){
           let that=this;
           url="https://utopian.io/utopian-io/"+this.id;

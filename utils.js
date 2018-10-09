@@ -16,7 +16,7 @@ module.exports = function(config,sc2){
                     if (err === null){
 
                         const ua=await getUA(steem,config,response.name);
-                        req.session.ua=ua;
+                        req.session.ua=JSON.parse(ua).result.accounts[0];
                         // get Account information about the user logged in
                         req.session.name = response.name;
                         req.session.account = JSON.stringify(response.account);
