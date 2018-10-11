@@ -23,7 +23,6 @@ const api = new ParseServer({
     masterKey: config.masterKey,
     serverURL: serverURL + "/parse",
 });
-
 //Use Express Framework
 const app = express();
 app.use(bodyParser.json());
