@@ -3,12 +3,11 @@
     <body>
         <div class="container">
             <%- include include/header.ejs %>
-            <!-- HTML for community creation !-->
             <div class='outline'>
                 <div id="inner">
                     <h2>UP Wallet</h2>
-                    You have <span class="total-tokens"><%= tokens.tokens %></span> <span class="ticker">UP</span>.
-                    <% tokens.history.forEach(function (event) { %>
+                    You have <span class="total-tokens"><%= tokens ? tokens.tokens : 0 %></span> <span class="ticker">UP</span>.
+                    <% (tokens ? tokens.history : []).forEach(function (event) { %>
                         <div class='history-item'>
                             <br>
                             <span class='history-amount'>+<%= event.amount %> UP</span>
