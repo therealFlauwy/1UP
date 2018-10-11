@@ -14,20 +14,18 @@ const config = require("../config");
  });
 
 
+// Before accepting 1UP-votes, perform tests
 Parse.Cloud.beforeSave('Votes', function (request, response) {
   var aPost = Parse.Object.extend("Posts");
   var aVote = Parse.Object.extend("Votes");
   //Get author and permlink from URL
-  const author=request.object.get('url').split('@')[1].split('/')[0];
-  const perm=request.object.get('url').split('/')[request.object.get('url').split('/').length-1];
+  const author=request.object.get('author');
+  const perm=request.object.get('permlink');
   const voter=request.object.get('voter');
   const ua=request.object.get('ua').ua;
-  console.log(ua);
-  request.object.set('author',author);
-  request.object.set('voter',voter);
+  console.log(author,perm);
   request.object.unset('ua');
   // Throw error if unsufficient UA
-  console.log(ua,config.UA_threshold);
   if(ua<config.UA_threshold){
     response.error('Increase your User Authority to be able to cast 1UP-votes!');
   }
@@ -57,12 +55,24 @@ Parse.Cloud.beforeSave('Votes', function (request, response) {
                 if(author===vote.get('author'))
                   response.error('You can only vote once a day for @'+author);
               }
-              // Check maximum votes per day
-              if(votes.length>=MAX_VOTE_PER_DAY)
-                  response.error('You can only vote '+MAX_VOTE_PER_DAY+' times per day. Please try again tomorrow!');
+
             }
+            // Check maximum votes per day
+            if(votes.length>=MAX_VOTE_PER_DAY)
+                response.error('You can only vote '+MAX_VOTE_PER_DAY+' times per day. Please try again tomorrow!');
+            response.success();
           }
-          ,error:function(err){console.log(err);}
+          ,error:function(err){response.error(err);}
         });
       });
   });
+
+// After saving new 1UP-vote
+Parse.Cloud.afterSave('Votes', async function (request) {
+  var Post = Parse.Object.extend("Posts");
+  const post= await request.object.get('post').fetch();
+  let nb=post.get("votes");
+  nb=((nb==undefined||nb==null)?1:nb+1);
+  post.set("votes",nb);
+  post.save();
+});
