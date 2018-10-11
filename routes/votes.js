@@ -1,14 +1,16 @@
 module.exports = function(app,steem,Utils,config,messages){
-  // Posts page community
+  // Receive 1UP-vote information through POST
   app.post("/vote", function(req, res) {
       Utils.getSession(req).then(function(session) {
         const Votes = Parse.Object.extend("Votes");
         let vote= new Votes();
         const Posts = Parse.Object.extend("Posts");
         let query= new Parse.Query(Posts);
+        //query the post concerned
         query.get(req.body.id, {
           success: function(post) {
             if (post.length != 0){
+              // Setting votes parameters
               vote.set("voter",session.name);
               vote.set("community",req.body.community);
               vote.set("post",post);

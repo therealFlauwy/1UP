@@ -6,6 +6,7 @@ steem.api.setOptions({ url: 'https://api.steemit.com' });
 let sc2=require('sc2-sdk');
 const config = require("../config");
 
+// Initialize SteemConnect API
  let steemc = sc2.Initialize({
      //baseURL="https://steemconnect.com",
      app: config.sc2_id,
@@ -68,6 +69,7 @@ Parse.Cloud.beforeSave('Votes', function (request, response) {
   });
 
 // After saving new 1UP-vote
+// Increment the number of votes
 Parse.Cloud.afterSave('Votes', async function (request) {
   var Post = Parse.Object.extend("Posts");
   const post= await request.object.get('post').fetch();
