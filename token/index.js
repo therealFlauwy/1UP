@@ -9,9 +9,8 @@ steem.api.setOptions({ url: 'https://api.steemit.com' });
 var db;
 try {
     db = require("../stateCache.json");
-    History.getHistory(newState => {
-        db.users = newState.users;
-    });
+    db.users  = History.getHistory(newState => {
+    }).users;
 } catch (e) {
     console.log("State cache not found. Loading history...");
     db = History.getHistory();
@@ -96,11 +95,15 @@ module.exports = {
     pendingSends: function() {
         return db.pendingSends;
     },
-    approve: function(account, amount, reason) {
+    approve: function(postId) {
+        if (!db.pendingSends[postId]) throw new Error("invalid post id");
+        var account = db.pendingSends[postId].account;
+        var amount = db.pendingSends[postId].amount;
+        db.pendingSends[postId].used = true;
         steem.broadcast.customJson(Config.postingKey, [], [Config.bot], "1up", JSON.stringify({
             account: account,
             amount: amount,
-            reason: reason
+            reason: ["modcomment", postId]
         }));
     }
 };
