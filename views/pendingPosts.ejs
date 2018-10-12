@@ -7,7 +7,6 @@
                 <div id="inner">
                     <h2>Pending tokens</h2>
                     You can approve moderator token sends either by upvoting comments, or approving them here.
-                    <label for="key">To approve tokens, enter the posting key: </label><input type="password" id="key" />
                     <ul id="pending-list"></ul>
                     <script>
                     var data = <%- JSON.stringify(posts) %>;
@@ -33,32 +32,18 @@
                             this.parentElement.style.textDecoration = "line-through";
                             this.parentElement.style.color = "#737373";
                             var button = this;
-                            data[this.id].reason = ["modcomment", this.id];
-                            steem.broadcast.customJson(
-                                document.getElementById("key").value,
-                                [],
-                                ["steem-1up"],
-                                "1up",
-                                JSON.stringify(data[this.id]),
-                                function(err, res) {
-                                if (err) {
-                                    button.style.display = "inline";
-                                    button.parentElement.style.textDecoration = "";
-                                    button.parentElement.style.color = "black";
-                                    console.log(err);
-                                    if (err.message.indexOf("Expected version") === 0) {
-                                    alert("You didn't enter the right posting key. Make sure you've entered the right key at the top of the page, and try again.");
-                                    return;
-                                    }
-                                    if (err.message === "private_key required") {
-                                    alert("Please enter the posting key at the top of the page.");
-                                    return;
-                                    }
-                                    alert("There was an unknown issue issue approving this: " + err.toString());
-                                    return;
-                                }
-                                alert("Succesfully approved! This might take up to a minute to process on the blockchain. Don't try to approve this again.");
+                            $.ajax({
+                                type: 'POST',
+                                data: JSON.stringify({postId: this.id}),
+                                contentType: 'application/json',
+                                url: '/admin/approve'
                             })
+                            .done(function() {
+                                alert("The post was approved!")
+                            })
+                            .fail(function() {
+                                alert("There was a server error approving this post.");
+                            });
                         });
                     }
                     </script>
