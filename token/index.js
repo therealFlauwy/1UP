@@ -95,5 +95,12 @@ module.exports = {
     },
     pendingSends: function() {
         return db.pendingSends;
+    },
+    approve: function(account, amount, reason) {
+        steem.broadcast.customJson(Config.postingKey, [], [Config.bot], "1up", JSON.stringify({
+            account: account,
+            amount: amount,
+            reason: reason
+        }));
     }
 };
