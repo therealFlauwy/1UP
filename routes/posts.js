@@ -6,7 +6,7 @@ module.exports = function(app,steem,Utils,config,messages){
           res.render("posts.ejs", {
               session: session,
               posts: posts,
-              active:0,
+              community:req.params.community,
               bot:config.bot
           });
         });

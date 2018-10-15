@@ -12,9 +12,10 @@ let config = {
     masterKey: process.env.MASTER_KEY || '',
     secret: process.env.SECRET || '',
     bot: process.env.BOT || "steem-1up",
-    mods: ["smitop"],
-    admins: ["flauwy"],
-    postingKey:  process.env.POSTING_KEY || "5JXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" 
+    memoKey:process.env.MEMO||'',
+    postingKey:process.env.POSTING||'',
+    memoUA:process.env.MEMO_UA||'',
+    UA_threshold:process.env.UA_THRESHOLD||3
 };
 
 module.exports = config;

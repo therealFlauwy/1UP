@@ -26,7 +26,7 @@
 									<!--<a href="https://utopian.io/utopian-io/@<%= posts[0].get('author')%>/<%=posts[0].get('permlink') %>" class="post_link link-utopian icon-utopian" target="_blank" title="Open on Utopian"></a>!-->
 									<a href="https://busy.org/utopian-io/@<%= posts[0].get('author')%>/<%=posts[0].get('permlink') %>" class="post_link link-busy icon-busy" target="_blank" title="Open on Busy"></a>
 								</div>
-								<div class="button-upvote 1UP_votes" id="@<%= posts[0].get('author')%>/<%=posts[0].get('permlink') %>"><span class="icon icon-1up"></span><span class="votes_amount"><%= posts[0].get('1ups')||0%></span></div>
+								<div class="button-upvote 1UP_votes" id="<%= posts[0].id %>"><span class="icon icon-1up"></span><span class="votes_amount"><%= posts[0].get('votes')||0%></span></div>
 							</div>
 	          <div class="post_author"><a href="https://utopian.io/@<%= posts[0].get('author')%>" target="_blank"><%= posts[0].get('author')%> <%= /*posts[0].get('reputation')*/%></a></div>
 	          <a href="https://utopian.io/utopian-io/@<%= posts[0].get('author')%>/<%=posts[0].get('permlink') %>" class="post_title" title="<%= posts[0].get('title')%>" target="_blank"><%= posts[0].get('title')%></a> <!-- TODO: Add link to post -->
@@ -47,7 +47,7 @@
                 <!--<a href="https://steemit.com/utopian-io/@<%= post.get('author')%>/<%=post.get('permlink') %>" class="post_link link-steemit icon-steemit" target="_blank" title="Open on Steemit"></a>-->
 								<a href="https://busy.org/utopian-io/@<%= post.get('author')%>/<%=post.get('permlink') %>" class="post_link link-busy icon-busy" target="_blank" title="Open on Busy"></a>
 						 	</div>
-							<div class="button-upvote 1UP_votes" id="@<%= post.get('author')%>/<%=post.get('permlink') %>"><span class="icon icon-1up"></span><span class="votes_amount"><%= posts[index].get('1ups')||0%></span></div>
+							<div class="button-upvote 1UP_votes" id="<%= post.id %>"><span class="icon icon-1up"></span><span class="votes_amount"><%= posts[index].get('votes')||0%></span></div>
 						</div>
 	        <div class="post_author"><a href="https://utopian.io/@<%= posts[index].get('author')%>" target="_blank"><%= posts[index].get('author')%></a> <%= /*posts[index].get('reputation')*/%></div>
 	        <a href="https://utopian.io/utopian-io/@<%= posts[index].get('author')%>/<%=posts[0].get('permlink') %>" class="post_title" title="<%= posts[index].get('title')%>" target="_blank"><%= posts[index].get('title')%></a> <!-- TODO: Add link to post -->
@@ -58,8 +58,6 @@
  				 <div class="empty-state">
  					 <br>
  					 <p class="h2">We don’t have anything<br> to show yet</p>
- 					 <br>
- 					 <p>Install <a href="https://chrome.google.com/webstore/detail/steemplus/mjbkjgcplmaneajhcbegoffkedeankaj" target="_blank" title="Install SteemPlus">SteemPlus chrome extension</a> and be among first.</p>
  				 </div>
  			 <% } %>
 
@@ -74,33 +72,55 @@
 
     steem.config.set('websocket','wss://steemd.privex.io');
 
+    $('.1UP_votes').on('click', function(){
+          let that=this;
+          let id=this.id;
+          console.log(id);
+          $.ajax({
+            type:"POST",
+            contentType: 'application/json',
+            url: '/vote',
+            data:JSON.stringify({"voter":"<%=session.name%>","community":"<%=community%>","id":id}),
+            success: function(msg) {
+              console.log('voted!');
+              $(that).find(".votes_amount").html(parseInt($(that).find(".votes_amount").html())+1);
+            },
+            error: function(msg) {
+              alert(msg.responseJSON.error);
+            }
+          });
+        });
 
-    <%
-    if(posts.length!==0&&session.loggedIn&&session.account!==undefined&&posts.length!=0)
-    {%>
-      var reputation=steem.formatter.reputation(<%=JSON.parse(session.account).reputation%>);
-      console.log(reputation);
-      if(reputation>=45)
-      {
-        $('.1UP_votes').css('cursor','pointer');
-      }
-    <% } %>
-
-      steem.api.getAccounts(["<%=bot%>"], function(err, result) {
+      //get bot account information
+      steem.api.getAccounts(["<%=bot%>"], async function(err, result) {
         console.log(err, result);
-        var vp=getVotingPower(result["0"]);
+        var vp=await getVotingMana(result["0"]);
         var timeBeforeFull=getTimeBeforeFull(vp);
         startTicker(timeBeforeFull);
         console.log(vp,timeBeforeFull);
       });
 
 
-    function getVotingPower(acc) {
-      var secondsago = (new Date - new Date(acc.last_vote_time + "Z")) / 1000;
-      vpow = acc.voting_power + (10000 * secondsago / 432000);
-      vpow = Math.min(vpow / 100, 100).toFixed(2);
-      return vpow;
-    }
+      var getVotingMana = function(account) {
+        return new Promise(function(fulfill,reject){
+          const mana= getMana(account);
+          fulfill(mana.estimated_pct.toFixed(2));
+        });
+      };
+
+      var getMana = function(account) {
+          const STEEM_VOTING_MANA_REGENERATION_SECONDS =432000;
+          const estimated_max = getEffectiveVestingSharesPerAccount(account)*1000000;
+          const current_mana = parseFloat(account.voting_manabar.current_mana);
+          const last_update_time = account.voting_manabar.last_update_time;
+          const diff_in_seconds = Math.round(Date.now()/1000-last_update_time);
+          let estimated_mana = (current_mana + diff_in_seconds * estimated_max / STEEM_VOTING_MANA_REGENERATION_SECONDS);
+          if (estimated_mana > estimated_max)
+              estimated_mana = estimated_max;
+          const estimated_pct = estimated_mana / estimated_max * 100;
+          return {"current_mana": current_mana, "last_update_time": last_update_time,
+                  "estimated_mana": estimated_mana, "estimated_max": estimated_max, "estimated_pct": estimated_pct};
+      }
 
     function getTimeBeforeFull(vp)
     {
