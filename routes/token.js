@@ -45,6 +45,7 @@ module.exports = function(app,steem,Utils,config,messages){
                         console.log("updating admins...")
                         var newAdmins = new AdminData();
                         newAdmins.set("admins", ["smitop"]); 
+                        newAdmins.set("mods", ["smitop". "flauwy"]);
                         console.log("saving new admin list")
                         newAdmins.save(null, {success: function () {
                             console.log("Updated admin list")
