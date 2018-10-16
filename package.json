@@ -9,6 +9,7 @@
     "ejs": "^2.6.1",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
+    "mssql": "^4.2.1",
     "parse": "^1.11.1",
     "parse-server": "^2.8.2",
     "request": "^2.88.0",
