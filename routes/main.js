@@ -2,6 +2,7 @@
 module.exports = function(app,steem,Utils,config,messages){
   // Default page shows the list of communities
   app.get("/", function(req, res) {
+      console.log("a");
       const community = Parse.Object.extend("Communities");
       const query = new Parse.Query(community);
       try{
@@ -16,7 +17,7 @@ module.exports = function(app,steem,Utils,config,messages){
                       sToken: req.cookies.access_token
                   });
               },
-              error: function(error) {}
+              error: function(error) {console.log(error);}
           });
       });
     }catch(e){console.log(e);}
