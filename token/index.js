@@ -139,5 +139,10 @@ module.exports = {
             amount: amount,
             reason: ["modcomment", postId]
         }));
+    },
+    reject: function(postId) {
+        if (!db.pendingSends[postId]) return console.error("invalid post id");
+        db.pendingSends[postId].used = true;
+        db.pendingSends[postId].rejected = true;
     }
 };
