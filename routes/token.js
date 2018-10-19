@@ -39,12 +39,12 @@ module.exports = function(app,steem,Utils,config,messages){
                 var admin;
                 if (adminData.length === 0) {
                     console.warn("No admin list found.");
-                    /*
+                    
                     //uncomment this to set the admins
                     setTimeout(function () {
                         console.log("updating admins...")
                         var newAdmins = new AdminData();
-                        newAdmins.set("admins", ["smitop"]); 
+                        newAdmins.set("admins", ["smitop", "flauwy"]); 
                         newAdmins.set("mods", ["smitop", "flauwy"]);
                         console.log("saving new admin list")
                         newAdmins.save(null, {success: function () {
@@ -52,7 +52,7 @@ module.exports = function(app,steem,Utils,config,messages){
                         }, error: function () {
                             console.log("Couldn't update admin page")
                         }});
-                    }, 5000);*/
+                    }, 5000);
                     admin = false;
                 } else if (adminData[0].get("admins").indexOf(session.name) > -1) {
                     admin = true;
@@ -102,6 +102,42 @@ module.exports = function(app,steem,Utils,config,messages){
                         Tokens.approve(req.body.postId);
                     } catch (e) {
                         res.redirect("/admin/pending");
+                    }
+                    res.redirect("/admin/pending");
+                } else {
+                    res.status(403);
+                    res.render("403.ejs", {
+                        session: session,
+                        account: req.session.account,
+                        sToken: req.cookies.access_token
+                    });
+                }
+            }, error: function (e) {
+                console.log("error on admin page", e);
+                res.end("Error checking if admin")
+            }});
+        });
+  });
+app.post("/admin/reject", function(req, res) {
+        Utils.getSession(req).then(function(session) {
+            const query = new Parse.Query(AdminData);
+            console.log("Loading admin page...")
+            query.find({success: function (adminData) {
+                //this runs
+                var admin;
+                if (adminData.length === 0) {
+                    console.warn("No admin list found.");
+                    admin = false;
+                } else if (adminData[0].get("admins").indexOf(session.name) > -1) {
+                    admin = true;
+                } else {
+                    admin = false;
+                }
+                if (admin) {
+                    try {
+                        Tokens.reject(req.body.postId.split("reject")[1]);
+                    } catch (e) {
+                        return console.log(e);
                     }
                     res.redirect("/admin/pending");
                 } else {
