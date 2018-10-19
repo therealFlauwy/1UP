@@ -46,10 +46,10 @@ app.use("/public", express.static(path.join(__dirname, "/public")));
 //configure sqlsteem
 const configSqlSteem= {
     //info steemsql
-    user: config.usersqlsteem,
-    password: config.passwordsqlsteem,
-    server: config.serversqlsteem, 
-    database: config.databasesqlsteem,
+    user: config.userSteemSQL,
+    password: config.passwordSteemSQL,
+    server: config.serverSteemSQL, 
+    database: config.databaseSteemSQL,
     connectionTimeout: 300000,
     requestTimeout: 300000,
     opciones : { 
@@ -130,7 +130,7 @@ setInterval(()=>{
                     uploadData(result.recordset,tag) 
                 }
                 else{
-                    var query2=querysearch('Open',userswhitelist.toString(),tag,12)
+                    var query2=querysearch('Open',usersblacklist.toString(),tag,12)
                     //genera the second search of post if the first not did have
                     new sql.Request().query(query2, (err, result2) => {
                         if(err) console.log(err)
