@@ -14,6 +14,7 @@
                     var send;
                     for (var postId in data) {
                         send = data[postId];
+                        if (send.rejected) continue;
                         html +=
                         "<li style = '" +
                         (send.used ? "text-decoration: line-through;color:#737373;" : "") +
@@ -21,12 +22,28 @@
                         send.amount +
                         " UP to @" +
                         send.account +
-                        (send.used ? "" : "<button class='approve-button' id='" + postId + "'>Approve</button></li>")
+                        (send.used ? "" : "<button class='approve-button' id='" + postId + "'>Approve</button> <button class='reject-button' id='reject" + postId + "'>Reject</button></li>")
                         ;
                     }
                     document.getElementById("pending-list").innerHTML = html;
                     var buttons = document.getElementsByClassName("approve-button");
                     for (var i = 0; i < buttons.length; i++) {
+                        var reject = document.getElementById("reject" + buttons[i].id);
+                        reject.addEventListener("click", function () {
+                            this.parentElement.style.display = "none";
+                            $.ajax({
+                                type: 'POST',
+                                data: JSON.stringify({postId: this.id}),
+                                contentType: 'application/json',
+                                url: '/admin/reject'
+                            })
+                            .done(function() {
+                                alert("The post was rejected.")
+                            })
+                            .fail(function() {
+                                alert("There was a server error rejecting this post. Try reloading.");
+                            });
+                        });
                         buttons[i].addEventListener("click", function() {
                             this.style.display = "none";
                             this.parentElement.style.textDecoration = "line-through";
@@ -42,7 +59,7 @@
                                 alert("The post was approved!")
                             })
                             .fail(function() {
-                                alert("There was a server error approving this post.");
+                                alert("There was a server error approving this post. Try reloading.");
                             });
                         });
                     }
