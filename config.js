@@ -14,6 +14,10 @@ let config = {
     memoKey:process.env.MEMO||'',
     postingKey:process.env.POSTING||'',
     memoUA:process.env.MEMO_UA||'',
+    userSteemSQL: process.env.USER_SQLSTEEM || '',
+    passwordSteemSQL: process.env.PASSWORDSQLSTEEM || '',
+    serverSteemSQL: process.env.SERVERSQLSTEEM || '',
+    databaseSteemSQL: process.env.DATABASESQLSTEEM || '',
     UA_threshold:process.env.UA_THRESHOLD||3,
     bot:"steem-1up"
 };
