@@ -107,8 +107,6 @@ module.exports = function(config,sc2){
         community.set("description", req.body.description);
         community.set("image", req.body.image);
         community.set("tags", req.body.tags);
-        community.set("max_upvote", req.body.max_upvote);
-        community.set("vote_when", req.body.vote_when);
         community.set("type_community", req.body.type_community);
         community.set("administrators", req.body.administrators);
         community.set("moderators", req.body.moderators);

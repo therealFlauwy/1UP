@@ -78,3 +78,7 @@ Parse.Cloud.afterSave('Votes', async function (request) {
   post.set("votes",nb);
   post.save();
 });
+
+Parse.Cloud.job("UpdatePosts",function(request,response){
+  
+});

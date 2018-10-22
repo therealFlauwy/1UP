@@ -37,10 +37,6 @@
                   <h3 >Blacklist</h3>
                   <p><%= community.get("blacklist") %></p>
                   <% }  %>
-                  <h3>Vote at Voting Power percentage</h3>
-                  <p><%= community.get("vote_when") %></p>
-                  <h3>Maximum number of daily upvotes per user</h3>
-                  <p><%= community.get("max_upvote") %></p>
                   <% if(community.get("owner")===session.name||
                       community.get("administrators").includes(session.name)||
                       community.get("moderators").includes(session.name)){ %>
