@@ -86,13 +86,35 @@ Parse.Cloud.job("botVote", async function(request, response) {
     const vm=await Utils.getVotingManaPerAccount(botAccount["0"]);
     console.log('Voting Mana',vm);
     if(vm==100){
-      posts=await getPostsToBeVoted();
+      const posts=await getPostsToBeVoted();
+      for (community in posts){
+        await voteForCommunity(community,posts[community]);
       }
-      else{
-        console.log('Still resting!');
-        response.error('Will vote later');
-      }
+    }
+    else{
+      console.log('Still resting!');
+      response.error('Will vote later');
+    }
 });
+
+function voteForCommunity(communityId,post){
+  return new Promise(async function(fulfill,reject){
+    console.log(communityId,post);
+    const Communities=Parse.Object.extend("Communities");
+    const communityQuery = new Parse.Query(Communities);
+    communityQuery.include("trail");
+    const community=await communityQuery.get(communityId);
+    const trailTail=community.get("trail");
+    console.log(trailTail.get("username"));
+    const Trail=Parse.Object.extend("Trail");
+    const trailQuery = new Parse.Query(Trail);
+    trailQuery.equalTo("community",community);
+    trailQuery.include("offline");
+    const trails=await trailQuery.find();
+    console.log("trails",trails);
+    fulfill();
+  });
+}
 
 function getPostsToBeVoted(){
   return new Promise(async function(fulfill,reject){
@@ -106,15 +128,15 @@ function getPostsToBeVoted(){
       if(postsToBeVoted[community]==undefined
         ||postsToBeVoted[community].votes<post.get("votes")
         ||(postsToBeVoted[community].votes==post.get("votes")
-        &&postsToBeVoted[community].created>post.get("created"))){
+        &&postsToBeVoted[community].updated>post.get("updatedAt"))){
           if(postsToBeVoted[community]==undefined)
             postsToBeVoted[community]={};
           postsToBeVoted[community].votes=post.get("votes");
-          postsToBeVoted[community].created=post.get("created");
+          postsToBeVoted[community].updated=post.get("updatedAt");
           postsToBeVoted[community].author=post.get("author");
           postsToBeVoted[community].permlink=post.get("permlink");
       }
     }
-    console.log(postsToBeVoted);
+    fulfill(postsToBeVoted);
   });
 }
