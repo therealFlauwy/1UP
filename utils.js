@@ -177,7 +177,7 @@ module.exports = function(config,sc2){
         innerTokenQuery.equalTo("name", community);
         let postsQuery=new Parse.Query(Parse.Object.extend("Posts"));;
         postsQuery.matchesQuery("community", innerTokenQuery);
-        postsQuery.greaterThan("created",new Date(new Date()-6.5*24*3600000));
+        postsQuery.greaterThan("created",new Date(new Date()-24*3600000));
         postsQuery.find({
           success: function(p) {
               fulfill(p);

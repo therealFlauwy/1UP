@@ -6,7 +6,7 @@ app.get("/updatePosts/:key", function(req, res) {
 //create the query for the seach
   if(req.params.key!=process.env.MASTER_KEY) return;
   function querysearch(type,users,tag,agePost){
-    var stardatedate='0 and 6*24',
+    var stardatedate='0 and 24',
         typetag=(type=='Whitelist only' ? '=' : '!='),
         usersquey=(type=='Whitelist only' ? users.replace(/,/g,`' or author='`) : users.replace(/,/g,`' AND author!='`)),
         query=`
@@ -109,6 +109,7 @@ var uploadData1 = (data,tag,callback)=>{
                 p.set("tag",data.category);
                 p.set("author",data.author);
                 p.set("permlink",data.permlink);
+                p.set("voted",false);
                 p.set("createdIdSteemsql",data.ID);
                 p.set("image", img);
                 p.set("votes", 0);
