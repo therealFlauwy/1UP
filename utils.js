@@ -103,6 +103,8 @@ module.exports = function(config,sc2){
       return type_user;
     },
     PostCommunity:function(community,req,res){
+        if(req.body.id==null)
+          community.set("lvl", 0);
         community.set("name", req.body.name);
         community.set("description", req.body.description);
         community.set("image", req.body.image);
