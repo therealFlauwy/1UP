@@ -105,7 +105,7 @@
 
             $("#confirm_edit_trail").click(function(){
               $.ajax({
-                  url: "<%= session.trails !=null?('/trail/'+JSON.parse(session.trails).filter(function(e){ return e.community.name==community.get('name')})[0].objectId)+'/':"" %>"+$("#percent_vote_follow").val(),
+                  url: "<%= (session.trails !=null && JSON.parse(session.trails).filter(function(e){ return e.community.name==community.get('name')})[0]!=undefined)?('/trail/'+JSON.parse(session.trails).filter(function(e){ return e.community.name==community.get('name')})[0].objectId)+'/':"" %>"+$("#percent_vote_follow").val(),
                   type: 'PATCH',
                   contentType:'application/json',
                   dataType: 'text'})
@@ -122,7 +122,7 @@
 
             $("#delete_trail").click(function(){
               $.ajax({
-                  url: "<%= session.trails !=null?('/trail/'+JSON.parse(session.trails).filter(function(e){ return e.community.name==community.get('name')})[0].objectId):null %>",
+                  url: "<%= (session.trails !=null && JSON.parse(session.trails).filter(function(e){ return e.community.name==community.get('name')})[0]!=undefined)?('/trail/'+JSON.parse(session.trails).filter(function(e){ return e.community.name==community.get('name')})[0].objectId):null %>",
                   type: 'DELETE',
                   contentType:'application/json',
                   dataType: 'text'})

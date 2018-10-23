@@ -2,7 +2,6 @@
 module.exports = function(app,steem,Utils,config,messages){
   // Default page shows the list of communities
   app.get("/", function(req, res) {
-      console.log("a");
       const community = Parse.Object.extend("Communities");
       const query = new Parse.Query(community);
       try{
