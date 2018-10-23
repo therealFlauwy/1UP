@@ -187,7 +187,8 @@ module.exports = function(config,sc2){
           }
         });
       });
-    }
+    },
+    getVotingManaPerAccount:getVotingManaPerAccount
   }
 }
 
@@ -205,4 +206,33 @@ function getUA(steem,config,username){
        })
      };
   return rp(request_rpc);
+};
+
+var getEffectiveVestingSharesPerAccount = function(account) {
+    var effective_vesting_shares = parseFloat(account.vesting_shares.replace(" VESTS", "")) +
+        parseFloat(account.received_vesting_shares.replace(" VESTS", "")) -
+        parseFloat(account.delegated_vesting_shares.replace(" VESTS", ""));
+    return effective_vesting_shares;
+};
+
+var getMana = function(account) {
+    const STEEM_VOTING_MANA_REGENERATION_SECONDS =432000;
+    const estimated_max = getEffectiveVestingSharesPerAccount(account)*1000000;
+    const current_mana = parseFloat(account.voting_manabar.current_mana);
+    const last_update_time = account.voting_manabar.last_update_time;
+    const diff_in_seconds = Math.round(Date.now()/1000-last_update_time);
+    let estimated_mana = (current_mana + diff_in_seconds * estimated_max / STEEM_VOTING_MANA_REGENERATION_SECONDS);
+    if (estimated_mana > estimated_max)
+        estimated_mana = estimated_max;
+    const estimated_pct = estimated_mana / estimated_max * 100;
+    return {"current_mana": current_mana, "last_update_time": last_update_time,
+            "estimated_mana": estimated_mana, "estimated_max": estimated_max, "estimated_pct": estimated_pct};
+};
+
+
+getVotingManaPerAccount = function(account) {
+  return new Promise(function(fulfill,reject){
+    const mana= getMana(account);
+    fulfill(mana.estimated_pct.toFixed(2));
+  });
 };

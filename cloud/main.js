@@ -1,10 +1,12 @@
 var steem = require('steem');
 var fs = require('fs');
 const MAX_VOTE_PER_DAY=10;
-const BOT=process.env.BOT;
+const BOT="lecaillon"
+const WIF=process.env.WIF;
 steem.api.setOptions({ url: 'https://api.steemit.com' });
 let sc2=require('sc2-sdk');
 const config = require("../config");
+const Utils=require("../utils.js")(config,steem);
 
 // Initialize SteemConnect API
  let steemc = sc2.Initialize({
@@ -79,6 +81,40 @@ Parse.Cloud.afterSave('Votes', async function (request) {
   post.save();
 });
 
-Parse.Cloud.job("UpdatePosts",function(request,response){
-
+Parse.Cloud.job("botVote", async function(request, response) {
+    const botAccount=await steem.api.getAccountsAsync([BOT]);
+    const vm=await Utils.getVotingManaPerAccount(botAccount["0"]);
+    console.log('Voting Mana',vm);
+    if(vm==100){
+      posts=await getPostsToBeVoted();
+      }
+      else{
+        console.log('Still resting!');
+        response.error('Will vote later');
+      }
 });
+
+function getPostsToBeVoted(){
+  return new Promise(async function(fulfill,reject){
+    const Post = Parse.Object.extend("Posts");
+    const postsQuery = new Parse.Query(Post);
+    postsQuery.greaterThan("created",new Date(new Date()-24*3600000));
+    let posts=await postsQuery.find();
+    let postsToBeVoted={};
+    for (post of posts){
+      const community=post.get("community").id;
+      if(postsToBeVoted[community]==undefined
+        ||postsToBeVoted[community].votes<post.get("votes")
+        ||(postsToBeVoted[community].votes==post.get("votes")
+        &&postsToBeVoted[community].created>post.get("created"))){
+          if(postsToBeVoted[community]==undefined)
+            postsToBeVoted[community]={};
+          postsToBeVoted[community].votes=post.get("votes");
+          postsToBeVoted[community].created=post.get("created");
+          postsToBeVoted[community].author=post.get("author");
+          postsToBeVoted[community].permlink=post.get("permlink");
+      }
+    }
+    console.log(postsToBeVoted);
+  });
+}
