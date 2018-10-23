@@ -1,12 +1,14 @@
 const sql = require('mssql')
-
+let isWorking=false;
 module.exports = function(app,steem,Utils,config,messages){
 
 app.get("/updatePosts/:key", function(req, res) {
 //create the query for the seach
+  if(isWorking) return;
   if(req.params.key!=process.env.MASTER_KEY) return;
+  isWorking=true;
   function querysearch(type,users,tag,agePost){
-    var stardatedate='0 and 24',
+    var stardatedate='0 and '+config.eligibleTime/3600000,
         typetag=(type=='Whitelist only' ? '=' : '!='),
         usersquey=(type=='Whitelist only' ? users.replace(/,/g,`' or author='`) : users.replace(/,/g,`' AND author!='`)),
         query=`
@@ -136,7 +138,8 @@ var uploadData =(data,community)=>{
             uploadData(data,community)
         }
         else{
-            console.log("All posts have been saved.")
+            console.log("All posts have been saved.");
+            isWorking=false;
             res.send(200);
         }
     })

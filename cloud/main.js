@@ -98,7 +98,7 @@ function getPostsToBeVoted(){
   return new Promise(async function(fulfill,reject){
     const Post = Parse.Object.extend("Posts");
     const postsQuery = new Parse.Query(Post);
-    postsQuery.greaterThan("created",new Date(new Date()-24*3600000));
+    postsQuery.greaterThan("created",new Date(new Date()-config.eligibleTime));
     let posts=await postsQuery.find();
     let postsToBeVoted={};
     for (post of posts){
