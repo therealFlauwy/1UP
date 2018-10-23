@@ -11,11 +11,11 @@
                         <div class="post_img" style="background-image: url(<%= community.get('image')%>)">
                         </div>
                         <div class="post_author">
-                            <a href="/posts/<%= community.get('name')%>" target="_blank">
+                            <a href="/posts/<%= community.get('name')%>" >
                                 <%=community.get('name')%>
                             </a>
                         </div>
-                        <span class="post_title" target="_blank"><%= community.get('description')%></span>
+                        <span class="post_title"><%= community.get('description')%></span>
                         <!-- TODO: Add link to post -->
                     </div>
                     <% }); %>

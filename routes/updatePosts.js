@@ -106,7 +106,6 @@ var uploadData1 = (data,tag,callback)=>{
                 let p=new posts1();
                 p.set("community",tag);
                 p.set("title", data.title);
-                p.set("body",data.body);
                 p.set("tag",data.category);
                 p.set("author",data.author);
                 p.set("permlink",data.permlink);
@@ -137,7 +136,7 @@ var uploadData =(data,community)=>{
         }
         else{
             console.log("All posts have been saved.")
-            return null
+            res.send(200);
         }
     })
 }
