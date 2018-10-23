@@ -2,8 +2,9 @@ const sql = require('mssql')
 
 module.exports = function(app,steem,Utils,config,messages){
 
-app.get("/updatePosts", function(req, res) {
+app.get("/updatePosts/:key", function(req, res) {
 //create the query for the seach
+  if(req.params.key!=process.env.MASTER_KEY) return;
   function querysearch(type,users,tag,agePost){
     var stardatedate='0 and 6*24',
         typetag=(type=='Whitelist only' ? '=' : '!='),
@@ -25,7 +26,6 @@ app.get("/updatePosts", function(req, res) {
         )AND (author${typetag}'${usersquey}') AND (parent_author='') AND
         datediff(hour, created, GETUTCDATE()) between ${stardatedate}
         order by created DESC `
-        console.log(query);
     return query;
 }
 //connect to the bd and buscar the post
@@ -102,8 +102,6 @@ var uploadData1 = (data,tag,callback)=>{
                 var rex=/((http(s?):)([/|.|\w|\-|%|(|)])*\.(?:jpg|png|jpeg|JPG|JPEG|PNG))|((http(s?):)(.)*\/ipfs\/\w*)/;
                 let imgPost=rex.exec(data.body);
                 var img=imgPost ? imgPost[0] : "no_img";
-                console.log(img)
-
                 const posts1=Parse.Object.extend("Posts");
                 let p=new posts1();
                 p.set("community",tag);
@@ -117,7 +115,6 @@ var uploadData1 = (data,tag,callback)=>{
                 p.set("votes", 0);
                 p.set("created",data.created);
                 p.save().then((p)=>{
-                    console.log(`New object created with objectId: ${p.id}`)
                     if(callback)
                         callback()
                 })
