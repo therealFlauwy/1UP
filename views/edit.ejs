@@ -25,16 +25,12 @@
                     <option name="whitelist"  value="0">Whitelist only</option>
                     <option name="open" value="1">Open</option>
                   </select>
-                  <h3>Tags</h3>
+                  <h3>Tag</h3>
                   <input id="tags" value='<%= community.get("tags") %>'/>
                   <h3 class="white mod">Whitelist</h3>
                   <input id="whitelist" class="white" value='<%= community.get("whitelist") %>'/>
                   <h3 class="black mod">Blacklist</h3>
                   <input id="blacklist" class="black" value='<%= community.get("blacklist") %>'/>
-                  <h3>Vote at Voting Power percentage</h3>
-                  <input id="vote_when" value='<%= community.get("vote_when") %>'/>
-                  <h3>Maximum number of daily upvotes per user</h3>
-                  <input id="max_upvote" value='<%= community.get("max_upvote") %>'/>
                   <button id="save-edit">Save</button>
                   <% if(type_user==1){ %>
                   <button id="delete" >Delete community</button>
@@ -103,8 +99,6 @@
                       description: $("#description").val(),
                       image: $("#image").val(),
                       tags: $("#tags").val(),
-                      max_upvote: $("#max_upvote").val(),
-                      vote_when: $("#vote_when").val(),
                       type_community: $(
                           "#type_community option:selected"
                       ).val()==0?"Whitelist only":"Open",

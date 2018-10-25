@@ -22,16 +22,12 @@
                       <option name="whitelist">Whitelist only</option>
                       <option name="open">Open</option>
                     </select>
-                    <h3>Tags *</h3>
-                    <input type="text" id="tags" placeholder="List of tags eligible">
+                    <h3>Tag *</h3>
+                    <input type="text" id="tags" placeholder="Eligible Tag">
                     <h3 class="whitelist">Whitelist</h3>
-                    <input type="text" id="whitelist" class="whitelist" placeholder="Whitelisted users">
+                    <input type="text" id="whitelist" class="whitelist" placeholder="Whitelisted users (separated by comma)">
                     <h3 class="blacklist">Blacklist</h3>
-                    <input type="text" class="blacklist" id="blacklist" placeholder="Blacklisted users">
-                    <h3>Vote at Voting Power percentage *</h3>
-                    <input type="number" id="vote_when" placeholder="100" />
-                    <h3>Maximum number of daily upvotes per user *</h3>
-                    <input type="number" id="max_upvote" placeholder="1" />
+                    <input type="text" class="blacklist" id="blacklist" placeholder="Blacklisted users (separated by comma)">
                     <button id="create_community">Create!</button>
                     <p id="error_create" style="color:red;display:none;">Please fill all the non optional fields.</p>
                 </div>
@@ -69,8 +65,6 @@
                         description: $("#description").val(),
                         image: $("#image").val(),
                         tags: $("#tags").val(),
-                        max_upvote: $("#max_upvote").val(),
-                        vote_when: $("#vote_when").val(),
                         type_community: $(
                             "#type_community option:selected"
                         ).val(),

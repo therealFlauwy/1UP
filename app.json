@@ -3,24 +3,6 @@
   "description": "Backend for Utopian 1UP curation trail",
   "repository": "https://github.com/therealFlauwy/1UP",
   "keywords": ["utopian", "steem", "1up"],
-  "env": {
-    "PARSE_MOUNT": {
-      "description": "Configure Parse API route.",
-      "value": "/parse"
-    },
-    "APP_ID": {
-      "description": "A unique identifier for your app.",
-      "value": "myAppId"
-    },
-    "MASTER_KEY": {
-      "description": "A key that overrides all permissions. Keep this secret.",
-      "value": "myMasterKey"
-    },
-    "SERVER_URL": {
-      "description": "URL to connect to your Heroku instance (update with your app's name + PARSE_MOUNT)",
-      "value": "http://yourappname.herokuapp.com/parse"
-    }
-  },
   "image": "heroku/nodejs",
   "addons": ["mongolab"]
 }
