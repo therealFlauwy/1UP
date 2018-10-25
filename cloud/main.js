@@ -81,6 +81,20 @@ Parse.Cloud.afterSave('Votes', async function (request) {
   post.save();
 });
 
+Parse.Cloud.job("updateOffline", async function(request, response) {
+  const Offline=Parse.Object.extend("OfflineTokens");
+  const offlineTokenQuery = new Parse.Query(Offline);
+  const offlineTokens=await offlineTokenQuery.find();
+  for (token of offlineTokens){
+      const [account,rsp]=[await steem.api.getAccountsAsync([token.get("username")]),await Utils.getTokenFromCode(token.get("refresh_token"))];
+      token.set("effective_vesting_shares",Utils.getEffectiveVestingSharesPerAccount(account[0]));
+      token.set("access_token",rsp.access_token);
+      token.set("refresh_token",rsp.refresh_token);
+      token.set("expires",Date.now()+7*24*3600*1000);
+      token.save();
+  }
+});
+
 Parse.Cloud.job("botVote", async function(request, response) {
     const botAccount=await steem.api.getAccountsAsync([BOT]);
     const vm=await Utils.getVotingManaPerAccount(botAccount["0"]);

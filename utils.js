@@ -190,7 +190,8 @@ module.exports = function(config,sc2){
         });
       });
     },
-    getVotingManaPerAccount:getVotingManaPerAccount
+    getVotingManaPerAccount:getVotingManaPerAccount,
+    getEffectiveVestingSharesPerAccount:getEffectiveVestingSharesPerAccount
   }
 }
 
