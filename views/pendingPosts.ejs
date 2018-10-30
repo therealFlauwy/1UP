@@ -1,0 +1,77 @@
+<html lang="en">
+  <%- include include/head.ejs %>
+    <body>
+        <div class="container">
+            <%- include include/header.ejs %>
+            <div class='outline'>
+                <div id="inner">
+                    <h2>Pending tokens</h2>
+                    You can approve moderator token sends either by upvoting comments, or approving them here.
+                    <ul id="pending-list"></ul>
+                    <script>
+                    var data = <%- JSON.stringify(posts) %>;
+                    var html = "";
+                    var send;
+                    for (var postId in data) {
+                        send = data[postId];
+                        if (send.rejected) continue;
+                        html +=
+                        "<li style = '" +
+                        (send.used ? "text-decoration: line-through;color:#737373;" : "") +
+                        "'>" +
+                        send.amount +
+                        " UP to @" +
+                        send.account +
+                        (send.used ? "" : "<button class='approve-button' id='" + postId + "'>Approve</button> <button class='reject-button' id='reject" + postId + "'>Reject</button></li>")
+                        ;
+                    }
+                    document.getElementById("pending-list").innerHTML = html;
+                    var buttons = document.getElementsByClassName("approve-button");
+                    for (var i = 0; i < buttons.length; i++) {
+                        var reject = document.getElementById("reject" + buttons[i].id);
+                        reject.addEventListener("click", function () {
+                            this.parentElement.style.display = "none";
+                            $.ajax({
+                                type: 'POST',
+                                data: JSON.stringify({postId: this.id}),
+                                contentType: 'application/json',
+                                url: '/admin/reject'
+                            })
+                            .done(function() {
+                                alert("The post was rejected.")
+                            })
+                            .fail(function() {
+                                alert("There was a server error rejecting this post. Try reloading.");
+                            });
+                        });
+                        buttons[i].addEventListener("click", function() {
+                            this.style.display = "none";
+                            this.parentElement.style.textDecoration = "line-through";
+                            this.parentElement.style.color = "#737373";
+                            var button = this;
+                            $.ajax({
+                                type: 'POST',
+                                data: JSON.stringify({postId: this.id}),
+                                contentType: 'application/json',
+                                url: '/admin/approve'
+                            })
+                            .done(function() {
+                                alert("The post was approved!")
+                            })
+                            .fail(function() {
+                                alert("There was a server error approving this post. Try reloading.");
+                            });
+                        });
+                    }
+                    </script>
+                </div>
+            </div>
+            <%- include include/footer.ejs %>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://cdn.steemjs.com/lib/latest/steem.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/parse/1.11.0/parse.min.js"></script>
+        <script src="/public/assets/js/scripts.js"></script>
+    </body>
+</html>

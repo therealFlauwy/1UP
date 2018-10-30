@@ -1,0 +1,25 @@
+<html lang="en">
+  <%- include include/head.ejs %>
+    <body>
+        <div class="container">
+          <%- include include/header.ejs %>
+            <!-- Display list of communities !-->
+            <h1>Error 403: Not an admin</h1>
+            Sorry, only admins can access this page. If you are an admin, ensure you are signed in to the right account.
+            <%- include include/footer.ejs %>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://cdn.steemjs.com/lib/latest/steem.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/parse/1.11.0/parse.min.js"></script>
+        <script src="/public/assets/js/scripts.js"></script>
+        <script>
+            /* Mobile menu openning */
+            $(document).ready(function() {
+                const menuMainButton = $('.menu-main-button');
+                menuMainButton.click(function() {
+                    $('body').toggleClass('open-menu');
+                });
+            });
+        </script>
+    </body>
+</html>

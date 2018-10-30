@@ -11,6 +11,7 @@ let config = {
     appId: process.env.APP_ID || 'myAppId',
     masterKey: process.env.MASTER_KEY || '',
     secret: process.env.SECRET || '',
+    bot: process.env.BOT || "steem-1up",
     memoKey:process.env.MEMO||'',
     postingKey:process.env.POSTING||'',
     memoUA:process.env.MEMO_UA||'',
