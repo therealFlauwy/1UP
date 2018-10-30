@@ -15,7 +15,13 @@ let config = {
     memoKey:process.env.MEMO||'',
     postingKey:process.env.POSTING||'',
     memoUA:process.env.MEMO_UA||'',
-    UA_threshold:process.env.UA_THRESHOLD||3
+    userSteemSQL: process.env.USER_STEEM_SQL || '',
+    passwordSteemSQL: process.env.PASSWORD_STEEM_SQL || '',
+    serverSteemSQL: process.env.SERVER_STEEM_SQL || '',
+    databaseSteemSQL: process.env.DATABASE_STEEM_SQL || '',
+    UA_threshold:process.env.UA_THRESHOLD||3,
+    eligibleTime:6*24*3600000,
+    bot:"steem-1up"
 };
 
 module.exports = config;

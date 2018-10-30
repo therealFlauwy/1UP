@@ -37,10 +37,6 @@
                   <h3 >Blacklist</h3>
                   <p><%= community.get("blacklist") %></p>
                   <% }  %>
-                  <h3>Vote at Voting Power percentage</h3>
-                  <p><%= community.get("vote_when") %></p>
-                  <h3>Maximum number of daily upvotes per user</h3>
-                  <p><%= community.get("max_upvote") %></p>
                   <% if(community.get("owner")===session.name||
                       community.get("administrators").includes(session.name)||
                       community.get("moderators").includes(session.name)){ %>
@@ -109,7 +105,7 @@
 
             $("#confirm_edit_trail").click(function(){
               $.ajax({
-                  url: "<%= session.trails !=null?('/trail/'+JSON.parse(session.trails).filter(function(e){ return e.community.name==community.get('name')})[0].objectId)+'/':"" %>"+$("#percent_vote_follow").val(),
+                  url: "<%= (session.trails !=null && JSON.parse(session.trails).filter(function(e){ return e.community.name==community.get('name')})[0]!=undefined)?('/trail/'+JSON.parse(session.trails).filter(function(e){ return e.community.name==community.get('name')})[0].objectId)+'/':"" %>"+$("#percent_vote_follow").val(),
                   type: 'PATCH',
                   contentType:'application/json',
                   dataType: 'text'})
@@ -126,7 +122,7 @@
 
             $("#delete_trail").click(function(){
               $.ajax({
-                  url: "<%= session.trails !=null?('/trail/'+JSON.parse(session.trails).filter(function(e){ return e.community.name==community.get('name')})[0].objectId):null %>",
+                  url: "<%= (session.trails !=null && JSON.parse(session.trails).filter(function(e){ return e.community.name==community.get('name')})[0]!=undefined)?('/trail/'+JSON.parse(session.trails).filter(function(e){ return e.community.name==community.get('name')})[0].objectId):null %>",
                   type: 'DELETE',
                   contentType:'application/json',
                   dataType: 'text'})

@@ -16,7 +16,7 @@ module.exports = function(app,steem,Utils,config,messages){
                       sToken: req.cookies.access_token
                   });
               },
-              error: function(error) {}
+              error: function(error) {console.log(error);}
           });
       });
     }catch(e){console.log(e);}

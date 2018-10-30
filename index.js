@@ -9,6 +9,8 @@ const config = require("./config");
 const cookieParser = require("cookie-parser");
 const expressSession = require("express-session");
 const bodyParser = require("body-parser");
+const sql = require('mssql')
+
 
 //Configure Parse.js parameters
 const databaseUri = config.db;
@@ -40,6 +42,23 @@ app.use(cookieParser());
 
 //Define public folder
 app.use("/public", express.static(path.join(__dirname, "/public")));
+
+//configure sqlsteem
+const configSqlSteem= {
+    //info steemsql
+    user: config.userSteemSQL,
+    password: config.passwordSteemSQL,
+    server: config.serverSteemSQL,
+    database: config.databaseSteemSQL,
+    connectionTimeout: 300000,
+    requestTimeout: 300000,
+    opciones : {
+        encrypt : false
+    }
+};
+sql.connect(configSqlSteem, (err)=>{
+    if (err) console.log(err);
+})
 
 //Routes folder
 require('./routes')(app,config);
