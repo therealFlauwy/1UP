@@ -1,15 +1,35 @@
-            <div class="header">
-                <div class="wrapper">
-                    <a href="/"><img class="logo" src="/public/assets/images/logo.svg" alt="1UP logo" title="1UP"></a>
-                    <span class="menu-main-button">
-    						<span class="bar bar-1"></span>
-                    <span class="bar bar-2"></span>
-                    <span class="bar bar-3"></span>
-                    </span>
-                    <ul class="menu-main">
-                        <% if(!session.loggedIn){ %>
-                        <li><a href="/login" class="item">Login</a></li>
-                        <% } else { %>
+<header class="header">
+  <div class="container">
+      <div class="inner">
+          <a href="/">
+              <img src="/public/assets/images/global/1up_logo_white.svg" class="logo" />
+          </a>
+
+          <div class="desktop-menu">
+              <ul class="menu">
+                  <li class="menu-item">
+                      <a href="/">COMMUNITIES</a>
+                  </li>
+                  <li class="menu-item">
+                      <a href="https://busy.org/@steem-1up" target="_blank">UPDATES</a>
+                  </li>
+                  <% if(!session.loggedIn){ %>
+                    <li class="menu-item">
+                      <a href="/login">LOGIN</a>
+                    </li>
+                  <% } %>
+              </ul>
+          </div>
+          <% if(session.loggedIn){ 
+            var accountParse = JSON.parse(session.account);
+            var img2 = JSON.parse(accountParse.json_metadata);
+            var img = img2.profile.profile_image;
+          %>
+            <div class="desktop-user">
+                <div class="user-drop">
+                    <div class="inner">
+                      <img class="avatar" alt="avatar" src="<%- img %>" />
+                      <div class="username">
                         <select id="loggedIn">
                           <option class="no_link">@<%= session.name%></option>
                           <% if(session.communities!==null)
@@ -28,15 +48,59 @@
                           <option value="/wallet">UP Wallet</option>
                           <option value="/logout">Logout</option>
                         </select>
-                        <% } %>
-                        <li><a href="https://steemit.com/utopian-io/@flauwy/steemy-ep-46-how-to-create-and-follow-a-curation-trail-with-steemauto"
-                                target="_blank" class="item">How to vote?</a></li>
-                        <li><a href="https://steemit.com/curation/@flauwy/utopian-1up-a-lucrative-steem-trail-for-the-best-daily-utopian-contributions"
-                                target="_blank" class="item">About</a></li>
-                        <li><a href="/topUsers"
-                                target="_blank" class="item">Top Users</a></li>
-                        <li><a href="https://github.com/therealFlauwy/1UP" target="_blank"
-                                        class="item icon-github" title="1UP on Github"></a></li>
-                    </ul>
+                      </div>
+                    </div>
                 </div>
             </div>
+          <% } %>
+
+          <div class="mobile-menu-selector">
+              <img src="/public/assets/images/global/menu.svg" class="menu-icon" />
+          </div>
+      </div>
+  </div>
+  <div class="mobile-menu">
+      <div class="mobile-menu-list">
+          <div class="mobile-logo">
+              <img src="/public/assets/images/global/1up_logo_white.svg" class="logo" />
+          </div>
+          <div class="mobile-menu-item">
+              <a href="topUsers/">
+              <span class="mobile-menu-text">
+                  GROUPS
+              </span>
+              </a>
+          </div>
+          <div class="mobile-menu-item">
+              <a href="https://steemit.com/curation/@flauwy/utopian-1up-a-lucrative-steem-trail-for-the-best-daily-utopian-contributions" target="_blank">
+              <span class="mobile-menu-text">
+                  VOTING
+              </span>
+              </a>
+          </div>
+          <div class="mobile-menu-item">
+              <a href="#">
+              <span class="mobile-menu-text">
+                  FAQ
+              </span>
+              </a>
+          </div>
+          <div class="mobile-menu-item">
+              <a href="#">
+              <span class="mobile-menu-text">
+                  UPDATES
+              </span>
+              </a>
+          </div>
+          <% if(!session.loggedIn){ %>
+            <div class="mobile-menu-item">
+              <a href="#">
+              <span class="mobile-menu-text">
+                  LOGIN
+              </span>
+              </a>
+            </div>
+          <% } %>
+      </div>
+  </div>
+</header>

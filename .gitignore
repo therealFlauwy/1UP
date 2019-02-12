@@ -33,3 +33,6 @@ node_modules
 
 # Token cache
 stateCache.json
+
+# Config info
+config.js

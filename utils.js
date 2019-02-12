@@ -14,7 +14,6 @@ module.exports = function(config,sc2){
                 sc2.setAccessToken(req.cookies.access_token);
                 sc2.me(async function(err, response) {
                     if (err === null){
-
                         const ua=await getUA(steem,config,response.name);
                         req.session.ua=JSON.parse(ua).result.accounts[0];
                         // get Account information about the user logged in

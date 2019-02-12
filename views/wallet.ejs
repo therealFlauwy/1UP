@@ -1,36 +1,39 @@
+<!DOCTYPE html>
 <html lang="en">
   <%- include include/head.ejs %>
     <body>
-        <div class="container">
+        <div class="wrapper">
             <%- include include/header.ejs %>
-            <div class='outline'>
-                <div id="inner">
-                    <h2>UP Wallet</h2>
-                    You have <span class="total-tokens"><%= tokens ? tokens.tokens : 0 %></span> <span class="ticker">UP</span>.
-                    <% (tokens ? tokens.history : []).forEach(function (event) { %>
-                        <div class='history-item'>
-                            <br>
-                            <span class='history-amount'>+<%= event.amount %> UP</span>
-                            <%
-                                var reason = event.reason ? event.reason[0] : "other";
-                                var reasonText;
-                                if (reason === "other") {
-                                    reasonText = "Other";
-                                } else if (reason === "adminui") {
-                                    reasonText = "Manual transfer";
-                                } else if (reason === "modcomment") {
-                                    reasonText = "<a href='https://busy.org/" + event.reason[1] + "' target='_blank'>This post</a> was approved by a moderator";
-                                } else if (reason === "delegation") {
-                                    reasonText = "Delegation payout";
-                                } else {
-                                    reasonText = "Other";
-                                }
-                            %>
-                            <div class='history-reason'>Reason: <%- reasonText %></div>
-                        </div>
-                    <% }); %>
-                </div>
-            </div>
+            <main class="main">
+                <section id="wallet">
+                    <div class="container">
+                        <h2>UP Wallet</h2>
+                        You have <span class="total-tokens"><%= tokens ? tokens.tokens : 0 %></span> <span class="ticker">UP</span>.
+                        <% (tokens ? tokens.history : []).forEach(function (event) { %>
+                            <div class='history-item'>
+                                <br>
+                                <span class='history-amount'>+<%= event.amount %> UP</span>
+                                <%
+                                    var reason = event.reason ? event.reason[0] : "other";
+                                    var reasonText;
+                                    if (reason === "other") {
+                                        reasonText = "Other";
+                                    } else if (reason === "adminui") {
+                                        reasonText = "Manual transfer";
+                                    } else if (reason === "modcomment") {
+                                        reasonText = "<a href='https://busy.org/" + event.reason[1] + "' target='_blank'>This post</a> was approved by a moderator";
+                                    } else if (reason === "delegation") {
+                                        reasonText = "Delegation payout";
+                                    } else {
+                                        reasonText = "Other";
+                                    }
+                                %>
+                                <div class='history-reason'>Reason: <%- reasonText %></div>
+                            </div>
+                        <% }); %>
+                    </div>
+                </section>
+            </main>
             <%- include include/footer.ejs %>
         </div>
 

@@ -1,11 +1,13 @@
+<!DOCTYPE html>
 <html lang="en">
   <%- include include/head.ejs %>
     <body>
-        <div class="container">
+        <div class="wrapper">
             <%- include include/header.ejs %>
-<!-- HTML for erros !-->
-            <div class='outline'>
-                <div id="inner">
+            <!-- HTML for erros !-->
+            <main class="main">
+              <section id="view">
+                <div class="container">
                   <h2><%= community.get("name") %></h2>
                   <div id="view_img" style="background-image: url(<%= community.get("image") %>">
                   </div>
@@ -71,9 +73,10 @@
                       <button id="confirm_remove_trail_tail">Confirm</button>
                     </div>
                   <% } %>
-              </div>
-          </div>
-          <%- include include/footer.ejs %>
+                </div>
+              </section>
+            </main>
+            <%- include include/footer.ejs %>
           </div>
 
           <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
