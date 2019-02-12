@@ -44,15 +44,15 @@ module.exports = function(app,steem,Utils,config,messages){
                     setTimeout(function () {
                         console.log("updating admins...")
                         var newAdmins = new AdminData();
-                        newAdmins.set("admins", ["benhen75", "flauwy"]); 
-                        newAdmins.set("mods", ["benhen75", "flauwy"]);
+                        newAdmins.set("admins", ["smitop", "benhen75", "flauwy"]); 
+                        newAdmins.set("mods", ["smitop", "benhen75", "flauwy"]);
                         console.log("saving new admin list")
                         newAdmins.save(null, {success: function () {
                             console.log("Updated admin list")
                         }, error: function () {
                             console.log("Couldn't update admin page")
                         }});
-                    }, 500);
+                    }, 5000);
                     admin = false;
                 } else if (adminData[0].get("admins").indexOf(session.name) > -1) {
                     admin = true;
