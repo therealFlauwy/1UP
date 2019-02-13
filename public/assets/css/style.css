@@ -2120,17 +2120,16 @@ section#up-token {
     .game-bar-list .game-bar-item .game-bar-info {
       width: 55%; }
       .game-bar-list .game-bar-item .game-bar-info .game-bar-info-header {
-       
+        font-size: 1.2em;
+        color: #FFF;
+        font-style: italic;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        text-transform: uppercase;
+        text-decoration: none;
+        cursor: pointer;
         margin: 0; }
-        .game-bar-list .game-bar-item .game-bar-info .game-bar-info-header a {
-          font-size: 1.2em;
-          color: #FFF;
-          font-style: italic;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-          text-transform: uppercase;
-          text-decoration: none;
-          cursor: pointer; }
+ 
         @media (max-width: 767.98px) {
           .game-bar-list .game-bar-item .game-bar-info .game-bar-info-header {
             font-size: 0.75em;
@@ -2138,9 +2137,12 @@ section#up-token {
             font-style: normal;
             text-transform: capitalize; } }
       .game-bar-list .game-bar-item .game-bar-info .game-bar-info-name {
-        color: #91FAFF;
         padding: 0;
         margin: 0; }
+        .game-bar-list .game-bar-item .game-bar-info .game-bar-info-name a  {
+          color: #91FAFF;
+          text-decoration: none;
+           }
         @media (max-width: 767.98px) {
           .game-bar-list .game-bar-item .game-bar-info .game-bar-info-name {
             font-size: 0.8em; } }
