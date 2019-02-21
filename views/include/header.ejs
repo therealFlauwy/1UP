@@ -65,39 +65,33 @@
               <img src="/public/assets/images/global/1up_logo_white.svg" class="logo" />
           </div>
           <div class="mobile-menu-item">
-              <a href="topUsers/">
+            <a href="/">
               <span class="mobile-menu-text">
-                  GROUPS
+                COMMUNITIES
               </span>
-              </a>
+            </a>
           </div>
           <div class="mobile-menu-item">
-              <a href="https://steemit.com/curation/@flauwy/utopian-1up-a-lucrative-steem-trail-for-the-best-daily-utopian-contributions" target="_blank">
+            <a href="https://busy.org/@steem-1up" target="_blank">
               <span class="mobile-menu-text">
-                  VOTING
+               UPDATES
               </span>
-              </a>
-          </div>
-          <div class="mobile-menu-item">
-              <a href="#">
-              <span class="mobile-menu-text">
-                  FAQ
-              </span>
-              </a>
-          </div>
-          <div class="mobile-menu-item">
-              <a href="#">
-              <span class="mobile-menu-text">
-                  UPDATES
-              </span>
-              </a>
+            </a>
           </div>
           <% if(!session.loggedIn){ %>
             <div class="mobile-menu-item">
-              <a href="#">
-              <span class="mobile-menu-text">
+              <a href="/login">
+                <span class="mobile-menu-text">
                   LOGIN
-              </span>
+                </span>
+              </a>
+            </div>
+          <% } else { %>
+            <div class="mobile-menu-item">
+              <a href="/logout">
+                <span class="mobile-menu-text">
+                  LOGOUT
+                </span>
               </a>
             </div>
           <% } %>

@@ -59,8 +59,8 @@
                           </div>
                           <div class="col-12">
                               <div class="vote-actions">
-                                  <button class="button purple-button vote-action-button">TODAY</button>
-                                  <button class="button purple-button vote-action-button" disabled>YESTERDAY</button>
+                                  <button class="button purple-button vote-action-button today <% if (day === 'yesterday') {%>disabled<%}%>">TODAY</button>
+                                  <button class="button purple-button vote-action-button yesterday <% if (day === 'today' || !day) {%>disabled<%}%>">YESTERDAY</button>
                               </div>
                           </div>
 
@@ -89,21 +89,35 @@
                                         <img src="<%= posts[0].get('image')%>" class="game-bar-img"/>
                                     </div>
                                     <div class="game-bar-info">
-                                        <p class="game-bar-info-header">
-                                          <a href="https://utopian.io/utopian-io/@<%= posts[0].get('author')%>/<%=posts[0].get('permlink') %>" class="post_title" title="<%= posts[0].get('title')%>" target="_blank"><%= posts[0].get('title')%></a> <!-- TODO: Add link to post -->
+                                        <p class="game-bar-info-header 1UP_popup"
+                                            data-steemit="https://steemit.com/utopian-io/@<%= posts[0].get('author')%>/<%=posts[0].get('permlink') %>" 
+                                            data-busy="https://busy.org/utopian-io/@<%= posts[0].get('author')%>/<%=posts[0].get('permlink') %>"
+                                            data-image="<%= posts[0].get('image')%>"
+                                            data-title="<%= posts[0].get('title')%>"
+                                            data-description="<%= posts[0].get('description')%>"
+                                            data-votes="<%= posts[0].get('votes')||0 %>" 
+                                            data-author="<%= posts[0].get('author')%>"
+                                            data-ranking="1"
+                                            data-created="<%=posts[0].get('created')%>"
+                                            data-tags="<%=posts[0].get('tags')%>"
+                                            data-value="<%=posts[0].get('value')%>"
+                                            data-id="<%=posts[0].id%>"
+                                            
+                                            data-date="<%= posts[0].get('date')%>">
+                                            <%= posts[0].get('title')%>
                                         </p>
                                         <p class="game-bar-info-name">
-                                          <a href="https://utopian.io/@<%= posts[0].get('author')%>" target="_blank">@<%= posts[0].get('author')%> <%= /*posts[0].get('reputation')*/%></a>
+                                          <a href="https://steemit.com/@<%= posts[0].get('author')%>" target="_blank">@<%= posts[0].get('author')%> <%= /*posts[0].get('reputation')*/%></a>
                                         </p>
                                         <p class="game-bar-info-description">
                                             <%= posts[0].get('description')%>
                                         </p>
                                     </div>
                                     <div class="game-bar-action">
-                                        <p class="game-bar-action-text"><%= posts[0].get('votes')||0%></p>
                                         <button class="game-bar-action-button 1UP_votes" id="<%= posts[0].id %>">
+                                            <p class="game-bar-action-text"><%= posts[0].get('votes')||0%></p>
                                             <svg class="game-bar-action-svg" xmlns="http://www.w3.org/2000/svg"
-                                                 viewBox="0 0 85.797 59.228">
+                                                viewBox="0 0 85.797 59.228">
                                                 <defs>
                                                     <filter id="a" x="0" y="0" width="85.797" height="59.228"
                                                             filterUnits="userSpaceOnUse">
@@ -148,7 +162,7 @@
                                             data-created="<%=posts[index].get('created')%>"
                                             data-tags="<%=posts[index].get('tags')%>"
                                             data-value="<%=posts[index].get('value')%>"
-                                            data-id="<%=posts[index].get('createdIdSteemsql')%>"
+                                            data-id="<%=posts[index].id%>"
                                             
                                             data-date="<%= posts[index].get('date')%>">
                                             <%= posts[index].get('title')%>
@@ -161,10 +175,10 @@
                                         </p>
                                     </div>
                                     <div class="game-bar-action">
-                                        <p class="game-bar-action-text"><%= posts[index].get('votes')||0%></p>
-                                        <button class="game-bar-action-button 1UP_votes" id="<%= post.id %>">
+                                        <button class="game-bar-action-button 1UP_votes" id="<%= posts[index].id %>">
+                                            <p class="game-bar-action-text"><%= posts[index].get('votes')||0%></p>
                                             <svg class="game-bar-action-svg" xmlns="http://www.w3.org/2000/svg"
-                                                 viewBox="0 0 85.797 59.228">
+                                                viewBox="0 0 85.797 59.228">
                                                 <defs>
                                                     <filter id="a" x="0" y="0" width="85.797" height="59.228"
                                                             filterUnits="userSpaceOnUse">
@@ -255,11 +269,12 @@
                                       </p>
                                   </div>
                                   <div class="game-acts">
-                                      <p class="game-acts-number">
+                                      <!--<p class="game-acts-number">
                                           18
-                                      </p>
+                                      </p>-->
                                       <div style="width:180px;">
                                           <button class="game-bar-action-button 1UP_votes 1UP_votesId" id="0" style="width:100%; max-width: 100%;">
+                                            <p class="game-bar-action-text">18</p>
                                               <svg xmlns="http://www.w3.org/2000/svg" width="85.797" height="59.228"
                                                    viewBox="0 0 85.797 59.228">
                                                   <defs>
@@ -309,7 +324,7 @@
         $('.header-title').html($(this).data('title'));
         $('.game-info-desc').html($(this).data('description'));
         // $('.game-info-tags').html(posts[post].get('tags'));
-        $('.game-acts-number').html($(this).data('votes'));
+        $('.game-bar-action-text').html($(this).data('votes'));
         $('.extra-date').html(formatDate($(this).data('created')));
         $('.extra-name').html('@'+$(this).data('author'));
         $('.ranking').html($(this).data('ranking'));
@@ -326,7 +341,8 @@
       $('.1UP_votes').on('click', function(){
         let that=this;
         let id=this.id;
-        console.log(id);
+        // console.log(id);
+
         $.ajax({
           type:"POST",
           contentType: 'application/json',
@@ -334,7 +350,7 @@
           data:JSON.stringify({"voter":"<%=session.name%>","community":"<%=community%>","id":id}),
           success: function(msg) {
             console.log('voted!');
-            $(that).find(".votes_amount").html(parseInt($(that).find(".votes_amount").html())+1);
+            $(that).find(".game-bar-action-text").html(parseInt($(that).find(".game-bar-action-text").html())+1);
           },
           error: function(msg) {
             alert(msg.responseJSON.error);
@@ -342,7 +358,21 @@
         });
       });
 
+      $('.today').on('click', function(){
+
+        window.location.href = '/posts/<%= community.get("name") %>/today';
+
+      });
+
+      $('.yesterday').on('click', function(){
+
+        window.location.href = '/posts/<%= community.get("name") %>/yesterday';
+
+      });
+
+
       function formatDate(date) {
+
         var d = new Date(date),
             month = '' + (d.getMonth() + 1),
             day = '' + d.getDate(),
@@ -419,12 +449,12 @@
 
       /* Mobile menu openning */
       $( document ).ready(function() {
-        var menuMainButton = $('.menu-main-button');
+        var menuMainButton = $('.menu-icon');
         menuMainButton.click(function(){
-          if ($('body').hasClass('open-menu'))
-            $('body').removeClass('open-menu');
+          if ($('.mobile-menu').hasClass('open'))
+            $('.mobile-menu').removeClass('open');
           else {
-            $('body').addClass('open-menu');
+            $('.mobile-menu').addClass('open');
           }
         });
       });

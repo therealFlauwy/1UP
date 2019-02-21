@@ -1464,10 +1464,10 @@ html {
   display: block;
   outline: none;
   cursor: pointer; }
-  .button:disabled, .purple-button:disabled, .pink-button:disabled {
+  .button.disabled, .purple-button.disabled, .pink-button.disabled {
     background-color: #DCE3E3;
     color: #9B91A0 !important;
-    cursor: default; }
+    cursor: pointer; }
 
 .purple-button {
   background-color: #491E5F;
@@ -2089,7 +2089,7 @@ section#up-token {
     padding: 0.8em 0; }
     @media (max-width: 767.98px) {
       .game-bar-list .game-bar-item {
-        padding: 0; } }
+        padding: 0.2em 0;; } }
     .game-bar-list .game-bar-item .game-bar-inner {
       display: flex;
       position: relative;
@@ -2153,12 +2153,17 @@ section#up-token {
           .game-bar-list .game-bar-item .game-bar-info .game-bar-info-description {
             display: none; } }
     .game-bar-list .game-bar-item .game-bar-action {
-      width: 15%; }
+      width: 15%;
+      align-self: flex-end; }
       @media (max-width: 767.98px) {
         .game-bar-list .game-bar-item .game-bar-action {
           width: 25%; } }
       .game-bar-list .game-bar-item .game-bar-action .game-bar-action-text {
+        position: absolute;
+        bottom: 0;
+        right: 15px;
         font-size: 2em;
+
         color: #C791E2;
         text-align: center;
         margin: 0;

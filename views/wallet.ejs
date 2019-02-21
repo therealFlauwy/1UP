@@ -41,5 +41,14 @@
         <script src="https://cdn.steemjs.com/lib/latest/steem.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/parse/1.11.0/parse.min.js"></script>
         <script src="/public/assets/js/scripts.js"></script>
+        <script>
+            /* Mobile menu openning */
+            $(document).ready(function() {
+                const menuMainButton = $('.menu-icon');
+                menuMainButton.click(function() {
+                    $('.mobile-menu').toggleClass('open');
+                });
+            });
+        </script>
     </body>
 </html>

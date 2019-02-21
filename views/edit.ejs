@@ -59,6 +59,11 @@
           <script>
           $(document).ready(function() {
 
+            const menuMainButton = $('.menu-icon');
+              menuMainButton.click(function() {
+                  $('.mobile-menu').toggleClass('open');
+              });
+
           //Hide the delete confirmation button at first
           $("delete_confirm").hide();
 
@@ -175,6 +180,6 @@
 
         });
 
-          </script>
+        </script>
       </body>
 </html>

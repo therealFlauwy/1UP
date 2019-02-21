@@ -18,6 +18,18 @@ const config = require("../config");
 
 module.exports = function(app,steem2,Utils,config,messages){
 
+    app.get("/test", function(req, res) {
+
+        var date = new Date("2019-02-12T19:45:36");
+
+  // Log the whole date infos. Should match the date given into the parameter
+  console.log(date);
+  console.log(date.toISOString());
+
+  res.sendStatus(200);
+
+
+    });
 app.get("/updatePost/:community/:url(*)", function(req, res) {
 
     //let url = req.params.url;
@@ -50,6 +62,8 @@ app.get("/updatePost/:community/:url(*)", function(req, res) {
                     var rex=/((http(s?):)([/|.|\w|\-|%|(|)])*\.(?:jpg|png|jpeg|JPG|JPEG|PNG))|((http(s?):)(.)*\/ipfs\/\w*)/;
                     let imgPost=rex.exec(data.body);
                     var img=imgPost ? imgPost[0] : "no_img";
+                    var created = new Date(data.created);
+
                     const posts1=Parse.Object.extend("Posts");
                     let p=new posts1();
                     p.set("community",tag);
@@ -61,7 +75,7 @@ app.get("/updatePost/:community/:url(*)", function(req, res) {
                     p.set("createdIdSteemsql",data.id);
                     p.set("image", img);
                     p.set("votes", 0);
-                    p.set("created",data.created);
+                    p.set("created", created);
                     p.set("value",data.total_payout_value);
                     data.json_metadata ? p.set("tags",data.json_metadata.tags) : null;
                     
@@ -80,20 +94,32 @@ app.get("/updatePost/:community/:url(*)", function(req, res) {
     let innerTokenQuery = new Parse.Query(Parse.Object.extend("Communities"));
         innerTokenQuery.equalTo("name", req.params.community);
 
-    const content= steem.api.getContentAsync(author, perm);
-    content.then(result=> {
-        //Throw an error if this post was already voted by the bot
-        console.log(result.id, result.title)
-
-        uploadData1(result, innerTokenQuery,()=>{
-        
-                console.log("Update done");
-                res.send(200);
+        innerTokenQuery.find({
+            success: function(communitie) {
+                const content= steem.api.getContentAsync(author, perm);
+                content.then(result=> {
+                    //Throw an error if this post was already voted by the bot
+                    //console.log(result.id, result.title, t)
             
-        })
+                    uploadData1(result, communitie[0],()=>{
+                    
+                            console.log("Update done");
+                            res.sendStatus(200);
+                        
+                    })
+                    
+                    
+                })
+                
+                //console.log(`community: ${t}`)
+                
+                    
+            },error: function(error) {
+                res.send(error)
+            }
+        });
 
     
-    });
 });
 
 }

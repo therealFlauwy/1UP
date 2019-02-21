@@ -20,17 +20,25 @@
           <script>
           /* Mobile menu openning */
           $(document).ready(function() {
-          //Show whitelist or blacklist according to the type of community
-          $("#type_community").change(function() {
-              $(".whitelist").toggle($(
-                  "#type_community option[name='whitelist']"
-              ).prop("selected") == true);
-              $(".blacklist").toggle($(
-                  "#type_community option[name='open']"
-              ).prop("selected") == true);
-          });
+
+            /* Mobile menu openning */
+            const menuMainButton = $('.menu-icon');
+            menuMainButton.click(function() {
+                $('.mobile-menu').toggleClass('open');
+            });
+            
+            //Show whitelist or blacklist according to the type of community
+            $("#type_community").change(function() {
+                $(".whitelist").toggle($(
+                    "#type_community option[name='whitelist']"
+                ).prop("selected") == true);
+                $(".blacklist").toggle($(
+                    "#type_community option[name='open']"
+                ).prop("selected") == true);
+            });
         });
 
+        
 
           </script>
       </body>

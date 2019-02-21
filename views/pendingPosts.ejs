@@ -65,6 +65,14 @@
                                 });
                             });
                         }
+
+                        /* Mobile menu openning */
+                        $(document).ready(function() {
+                            const menuMainButton = $('.menu-icon');
+                            menuMainButton.click(function() {
+                                $('.mobile-menu').toggleClass('open');
+                            });
+                        });
                         </script>
                     </div>
                 </section>
