@@ -5,6 +5,7 @@ module.exports = function(app,steem,Utils,config,messages){
           const community = Parse.Object.extend("Communities");
           const query = new Parse.Query(community);
           query.equalTo("name", req.params.community);
+          console.log(req.params.community) // print 2 time, why?
           query.limit(1);
           //Query the community named on the url
           query.find({

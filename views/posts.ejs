@@ -53,7 +53,7 @@
                               <div class="votes-remaining-wrapper">
                                   <p class="votes-remaining-header">VOTES LEFT</p>
                                   <p class="votes-remaining-number">
-                                      12
+                                      ??
                                   </p>
                               </div>
                           </div>
@@ -204,7 +204,7 @@
                           <% if(posts.length<=0){%>
                             <div class="empty-state">
                               <br>
-                              <p class="h2">We don’t have anything<br> to show yet</p>
+                              <p class="h2">We don’t have anything to show yet</p>
                             </div>
                           <% } %>
 
@@ -341,7 +341,6 @@
       $('.1UP_votes').on('click', function(){
         let that=this;
         let id=this.id;
-        // console.log(id);
 
         $.ajax({
           type:"POST",
@@ -349,7 +348,7 @@
           url: '/vote',
           data:JSON.stringify({"voter":"<%=session.name%>","community":"<%=community%>","id":id}),
           success: function(msg) {
-            console.log('voted!');
+            console.log('voted!', msg);
             $(that).find(".game-bar-action-text").html(parseInt($(that).find(".game-bar-action-text").html())+1);
           },
           error: function(msg) {
@@ -415,6 +414,13 @@
                 "estimated_mana": estimated_mana, "estimated_max": estimated_max, "estimated_pct": estimated_pct};
       }
 
+      var getEffectiveVestingSharesPerAccount = function(account) {
+          var effective_vesting_shares = parseFloat(account.vesting_shares.replace(" VESTS", "")) +
+              parseFloat(account.received_vesting_shares.replace(" VESTS", "")) -
+              parseFloat(account.delegated_vesting_shares.replace(" VESTS", ""));
+          return effective_vesting_shares;
+      };
+
       function getTimeBeforeFull(vp) {
         var gap=100-vp;
         return gap*60*60*1.2;
@@ -429,7 +435,9 @@
             $('.vote-timer-numbers').html(sToTime(time));
           }
           else
-          $('.vote-timer-numbers').html("Voting soon");
+          $('.vote-timer-header-text').html("Voting soon");
+          $('.vote-timer-numbers').html("");
+
             clearInterval(interval);
 
         }, 1000);
@@ -444,7 +452,7 @@
           minutes = (minutes < 10) ? "0" + minutes : minutes;
           seconds = (seconds < 10) ? "0" + seconds : seconds;
 
-          return "<span class='vote-timer-number hour'><span class='vote-timer-number-text'>" + hours + "</span> <span class='vote-timer-div-human'>h</span><span class='vote-timer-div-colon'>:</span></span><span class='vote-timer-number minute'><span class='vote-timer-number-text'>" + minutes + "</span><span class='vote-timer-div-human'>m</span><span class='vote-timer-div-colon'>:</span></span><span class='vote-timer-number second'><span class='vote-timer-number-text'>"+seconds+"</span><span class='vote-timer-div-human'>m</span></span>";
+          return "<span class='vote-timer-number hour'><span class='vote-timer-number-text'>" + hours + "</span> <span class='vote-timer-div-human'>h</span><span class='vote-timer-div-colon'>:</span></span><span class='vote-timer-number minute'><span class='vote-timer-number-text'>" + minutes + "</span><span class='vote-timer-div-human'>m</span><span class='vote-timer-div-colon'>:</span></span><span class='vote-timer-number second'><span class='vote-timer-number-text'>"+seconds+"</span><span class='vote-timer-div-human'>s</span></span>";
       }
 
       /* Mobile menu openning */
@@ -471,26 +479,13 @@
 
         gameModalExit.addEventListener("click", closeGameModal);
 
-        
       };
 
       function openGameModal(post) {
         gameModal.className = gameModal.className + " open";
         bodyElement.className = bodyElement.className + " noscroll";
-
-        console.log("post", post)
-
-        /*$('.header').html(posts[post].get('title'));
-        $('.game-info-desc').html(posts[post].get('description'));
-        // $('.game-info-tags').html(posts[post].get('tags'));
-        $('.game-acts-number').html(posts[post].get('votes'));
-        $(".game-info-image").attr("src",posts[post].get('image'));*/
-
-        
-
-        // extra-date  
-
       }
+
       function closeGameModal() {
         gameModal.className = gameModal.className.replace("open", "");
         bodyElement.className = bodyElement.className.replace("noscroll", "");

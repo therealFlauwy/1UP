@@ -1571,6 +1571,16 @@ header.header {
     flex-grow: 1;
    }
     @media (max-width: 767.98px) {
+      .mobile-menu-user {
+        padding-left:36px; 
+      }
+
+      .mobile-menu-user select {
+        color: #91FAFF;
+        background-color: #22003B;
+      }
+
+
       header.header .desktop-user {
         display: none; } }
     header.header .desktop-user .user-drop {

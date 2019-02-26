@@ -22,7 +22,6 @@ module.exports = function(app,steem,Utils,config,messages){
                 // Execute any logic that should take place after the object is saved.
                 res.sendStatus(200);
               }).catch((error) => {
-                console.log("errrr",error.message);
                 // Execute any logic that should take place if the save fails.
                 // error is a Parse.Error with an error code and message.
                 res.status(500).send({error:error.message});

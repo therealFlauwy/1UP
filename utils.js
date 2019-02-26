@@ -195,7 +195,7 @@ module.exports = function(config,sc2){
         date2 = new Date(new Date() - day*24*3600000);
       }
 
-      console.log(date1, date2)
+      // console.log(date1, date2)
 
       return new Promise(function(fulfill, reject) {
 
