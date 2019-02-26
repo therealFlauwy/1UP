@@ -1,68 +1,309 @@
+<!DOCTYPE html>
 <html lang="en">
   <%- include include/head.ejs %>
     <body>
-        <div class="container">
-          <%- include include/header.ejs %>
-			<div class="top">
         <div class="wrapper">
-					<div class="top_left">
-						<div class="voting_period_wrapper">
-	            <p class="h2">Voting period ends in:</p>
-	            <div class="voting_period">
-								<span class="skeleton">
-									00<span class='unit'>h</span> 00<span class='unit'>m</span>
-								</span>
-							</div>
-              <% if(posts.length!==0){ %>
-	            <div class="goes_to">1UP goes to <a href="https://utopian.io/@<%= posts[0].get('author')%>" class="goes_to_user" target="_blank" title="Utopian profile">@<%= posts[0].get('author')%> !</a></div><%}%>
-	          </div>
-	        </div>
-	        <% if(posts.length!==0){ %>
-	        <div class="post_default top_post">
-	          <span class="nb_post">1</span>
-		          <div class="post_img" style="background-image: url(<%= posts[0].get('image')%>)">
-								<div class="post_links">
-									<a href="https://steemit.com/utopian-io/@<%= posts[0].get('author')%>/<%=posts[0].get('permlink') %>" class="post_link link-steemit icon-steemit" target="_blank" title="Open on Steemit"></a>
-									<!--<a href="https://utopian.io/utopian-io/@<%= posts[0].get('author')%>/<%=posts[0].get('permlink') %>" class="post_link link-utopian icon-utopian" target="_blank" title="Open on Utopian"></a>!-->
-									<a href="https://busy.org/utopian-io/@<%= posts[0].get('author')%>/<%=posts[0].get('permlink') %>" class="post_link link-busy icon-busy" target="_blank" title="Open on Busy"></a>
-								</div>
-								<div class="button-upvote 1UP_votes" id="<%= posts[0].id %>"><span class="icon icon-1up"></span><span class="votes_amount"><%= posts[0].get('votes')||0%></span></div>
-							</div>
-	          <div class="post_author"><a href="https://utopian.io/@<%= posts[0].get('author')%>" target="_blank"><%= posts[0].get('author')%> <%= /*posts[0].get('reputation')*/%></a></div>
-	          <a href="https://utopian.io/utopian-io/@<%= posts[0].get('author')%>/<%=posts[0].get('permlink') %>" class="post_title" title="<%= posts[0].get('title')%>" target="_blank"><%= posts[0].get('title')%></a> <!-- TODO: Add link to post -->
-	        </div>
-	        <%}%>
-        </div>
-      </div>
+          <%- include include/header.ejs %>
+          <main class="main">
+              <div class="page-stepper">
+                  <div class="container">
+                      <div class="page-step-wrapper">
+                          <div class="page-step">
+                              <h6 class="page-step-text"><a href="/">ALL</a></h6>
+                          </div>
+                          <!--<div class="page-step">
+                              <h6 class="page-step-text"><%= community.get("tags") %></h6>
+                          </div>-->
+                          <div class="page-step">
+                              <h6 class="page-step-text"><%= community.get("name") %></h6>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+      
+              <section id="gaming-header-info">
+                  <div class="container">
+                      <div class="row">
+                          <div class="col-12 col-md-4">
+                              <img src="<%= community.get('image') %>"
+                                   style="display: block; max-width: 100%; max-height: 100%; margin: auto"/>
+                          </div>
+      
+                          <div class="col-6 col-md-4">
+                              <div class="vote-wrapper">
+                                  <div class="vote-timer">
+                                      <p class="vote-timer-header-text">TIME LEFT</p>
+                                  
+                                      <div class="vote-timer-numbers">
+                                        <span class="vote-timer-number hour">
+                                          <span class="vote-timer-number-text">00</span> <span class="vote-timer-div-human">h</span><span class="vote-timer-div-colon">:</span>
+                                        </span>
+                                        <span class="vote-timer-number minute">
+                                          <span class="vote-timer-number-text">00</span><span class="vote-timer-div-human">m</span><span class="vote-timer-div-colon">:</span>
+                                        </span>
+                                        <span class="vote-timer-number second">
+                                          <span class="vote-timer-number-text">00</span><span class="vote-timer-div-human">s</span>
+                                        </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+      
+                          <div class="col-6 col-md-4">
+                              <div class="votes-remaining-wrapper">
+                                  <p class="votes-remaining-header">VOTES LEFT</p>
+                                  <p class="votes-remaining-number">
+                                      ??
+                                  </p>
+                              </div>
+                          </div>
+                          <div class="col-12">
+                              <div class="vote-actions">
+                                  <button class="button purple-button vote-action-button today <% if (day === 'yesterday') {%>disabled<%}%>">TODAY</button>
+                                  <button class="button purple-button vote-action-button yesterday <% if (day === 'today' || !day) {%>disabled<%}%>">YESTERDAY</button>
+                              </div>
+                          </div>
 
-      <div class='other_posts'>
-       	<% posts.forEach(function(post, index) { if(index!==0){%>
-				<div class="post_default post">
+                          <% if(posts.length!==0){ %>
+                            <!--<div class="col-12">
+                              <div class="goes_to">
+                                1UP goes to <a href="https://utopian.io/@<%= posts[0].get('author')%>" class="goes_to_user" target="_blank" title="Utopian profile">@<%= posts[0].get('author')%> !</a>
+                              </div>
+                            </div>-->
+                          <%}%>
+                      </div>
+                  </div>
+              </section>
+      
+              <section id="game-bar-section">
+                  <div class="container">
+                      <div class="game-bar-list">
 
-         	<span class="nb_post"><%=index+1%></span>
-					 	<div class="post_img" style="background-image: url(<%= posts[index].get('image')%>)">
-							<div class="post_links">
-								<!-- TODO: These links dont work -->
-								<a href="https://utopian.io/utopian-io/@<%= post.get('author')%>/<%=post.get('permlink') %>" class="post_link link-utopian icon-utopian" target="_blank" title="Open on Utopian"></a>
-                <!--<a href="https://steemit.com/utopian-io/@<%= post.get('author')%>/<%=post.get('permlink') %>" class="post_link link-steemit icon-steemit" target="_blank" title="Open on Steemit"></a>-->
-								<a href="https://busy.org/utopian-io/@<%= post.get('author')%>/<%=post.get('permlink') %>" class="post_link link-busy icon-busy" target="_blank" title="Open on Busy"></a>
-						 	</div>
-							<div class="button-upvote 1UP_votes" id="<%= post.id %>"><span class="icon icon-1up"></span><span class="votes_amount"><%= posts[index].get('votes')||0%></span></div>
-						</div>
-	        <div class="post_author"><a href="https://utopian.io/@<%= posts[index].get('author')%>" target="_blank"><%= posts[index].get('author')%></a> <%= /*posts[index].get('reputation')*/%></div>
-	        <a href="https://utopian.io/utopian-io/@<%= posts[index].get('author')%>/<%=posts[0].get('permlink') %>" class="post_title" title="<%= posts[index].get('title')%>" target="_blank"><%= posts[index].get('title')%></a> <!-- TODO: Add link to post -->
-				</div>
-	      <% }}); %>
+                          <% if(posts.length!==0){ %>
+                            <div class="game-bar-item">
+                                <div class="game-bar-inner">
+                                    <div class="game-bar-rank">
+                                        <p class="game-bar-rank-text">1</p>
+                                    </div>
+                                    <div class="game-bar-image">
+                                        <img src="<%= posts[0].get('image')%>" class="game-bar-img"/>
+                                    </div>
+                                    <div class="game-bar-info">
+                                        <p class="game-bar-info-header 1UP_popup"
+                                            data-steemit="https://steemit.com/utopian-io/@<%= posts[0].get('author')%>/<%=posts[0].get('permlink') %>" 
+                                            data-busy="https://busy.org/utopian-io/@<%= posts[0].get('author')%>/<%=posts[0].get('permlink') %>"
+                                            data-image="<%= posts[0].get('image')%>"
+                                            data-title="<%= posts[0].get('title')%>"
+                                            data-description="<%= posts[0].get('description')%>"
+                                            data-votes="<%= posts[0].get('votes')||0 %>" 
+                                            data-author="<%= posts[0].get('author')%>"
+                                            data-ranking="1"
+                                            data-created="<%=posts[0].get('created')%>"
+                                            data-tags="<%=posts[0].get('tags')%>"
+                                            data-value="<%=posts[0].get('value')%>"
+                                            data-id="<%=posts[0].id%>"
+                                            
+                                            data-date="<%= posts[0].get('date')%>">
+                                            <%= posts[0].get('title')%>
+                                        </p>
+                                        <p class="game-bar-info-name">
+                                          <a href="https://steemit.com/@<%= posts[0].get('author')%>" target="_blank">@<%= posts[0].get('author')%> <%= /*posts[0].get('reputation')*/%></a>
+                                        </p>
+                                        <p class="game-bar-info-description">
+                                            <%= posts[0].get('description')%>
+                                        </p>
+                                    </div>
+                                    <div class="game-bar-action">
+                                        <button class="game-bar-action-button 1UP_votes" id="<%= posts[0].id %>">
+                                            <p class="game-bar-action-text"><%= posts[0].get('votes')||0%></p>
+                                            <svg class="game-bar-action-svg" xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 85.797 59.228">
+                                                <defs>
+                                                    <filter id="a" x="0" y="0" width="85.797" height="59.228"
+                                                            filterUnits="userSpaceOnUse">
+                                                        <feOffset input="SourceAlpha"></feOffset>
+                                                        <feGaussianBlur stdDeviation="4" result="b"></feGaussianBlur>
+                                                        <feFlood flood-color="#d5fffc" flood-opacity="0.796"></feFlood>
+                                                        <feComposite operator="in" in2="b"></feComposite>
+                                                        <feComposite in="SourceGraphic"></feComposite>
+                                                    </filter>
+                                                </defs>
+                                                <g class="up-icon-g" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                    <path class="up-icon-path"
+                                                          d="M47.923,1.57a56.217,56.217,0,0,0-10.6.685c-2.741.548-4.8,5.117-4.8,5.939a.568.568,0,0,0,.594.653,1.632,1.632,0,0,0,.326-.046s4.295-1.234,13.889-1.234c6.716,0,8.452,1.508,8.452,3.7,0,3.2-2.33,8.269-10.1,8.269-4.386,0-5.756-.137-5.756-.137-.5-.137-.548-.365-.548-.822s2.833-6.2,3.107-6.716a.653.653,0,0,0,.091-.274c0-.365-.457-.594-.959-.594-6.625,0-7.9,1.005-8.909,2.7-.489.786-3.378,6.928-5.5,11.5C25.556,27.9,23,30.672,18.165,30.672c-4.432,0-5.528-1.416-5.528-3.609,0-3.7,10.508-22.432,10.508-23.62,0-.274-.091-.5-.653-.685a36.381,36.381,0,0,0-5.437-.274c-1.6,0-3.426.137-4.432.228C9.243,3.038,7.187,7.607,7.187,8.24c0,.228.091.594.868.594,1.462,0,2.284.548,2.284,1.462,0,2.513-7.63,14.437-7.63,18.549,0,4.523,3.2,7.949,12.929,7.949a41.7,41.7,0,0,0,6.967-.493,13.523,13.523,0,0,0,2.444-.535,14.685,14.685,0,0,0,6.239-3.351l.075-.069h0a18.043,18.043,0,0,0,3.319-4.383l1.263-1.671a5.6,5.6,0,0,1,3.061-.594c1.142,0,2.558.091,4.34.091,6.527,0,11.33-.868,14.032-2.467a15.868,15.868,0,0,0,7.127-13.2C64.507,4.318,60.807,1.57,47.923,1.57Z"
+                                                          transform="translate(9.29 10.43)"></path>
+                                                </g>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                          <%}%>
 
-				<% if(posts.length<=0){%>
- 				 <div class="empty-state">
- 					 <br>
- 					 <p class="h2">We don’t have anything<br> to show yet</p>
- 				 </div>
- 			 <% } %>
+                          <% posts.forEach(function(post, index) { if(index!==0){%>
+                            <div class="game-bar-item">
+                                <div class="game-bar-inner">
+                                    <div class="game-bar-rank">
+                                        <p class="game-bar-rank-text"><%=index+1%></p>
+                                    </div>
+                                    <div class="game-bar-image">
+                                      <img src="<%= posts[index].get('image')%>" class="game-bar-img"/>
+                                    </div>
+                                    <div class="game-bar-info">
+                                        <p class="game-bar-info-header 1UP_popup"
+                                            data-steemit="https://steemit.com/utopian-io/@<%= posts[index].get('author')%>/<%=posts[index].get('permlink') %>" 
+                                            data-busy="https://busy.org/utopian-io/@<%= posts[index].get('author')%>/<%=posts[index].get('permlink') %>"
+                                            data-image="<%= posts[index].get('image')%>"
+                                            data-title="<%= posts[index].get('title')%>"
+                                            data-description="<%= posts[index].get('description')%>"
+                                            data-votes="<%= posts[index].get('votes')||0 %>" 
+                                            data-author="<%= posts[index].get('author')%>"
+                                            data-ranking="<%=index+1%>"
+                                            data-created="<%=posts[index].get('created')%>"
+                                            data-tags="<%=posts[index].get('tags')%>"
+                                            data-value="<%=posts[index].get('value')%>"
+                                            data-id="<%=posts[index].id%>"
+                                            
+                                            data-date="<%= posts[index].get('date')%>">
+                                            <%= posts[index].get('title')%>
+                                        </p>
+                                        <p class="game-bar-info-name">
+                                            <a href="https://steemit.com/@<%= posts[index].get('author')%>" target="_blank">@<%= posts[index].get('author')%></a> <%= /*posts[index].get('reputation')*/%>
+                                        </p>
+                                        <p class="game-bar-info-description">
+                                            <%= posts[index].get('description')%>
+                                        </p>
+                                    </div>
+                                    <div class="game-bar-action">
+                                        <button class="game-bar-action-button 1UP_votes" id="<%= posts[index].id %>">
+                                            <p class="game-bar-action-text"><%= posts[index].get('votes')||0%></p>
+                                            <svg class="game-bar-action-svg" xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 85.797 59.228">
+                                                <defs>
+                                                    <filter id="a" x="0" y="0" width="85.797" height="59.228"
+                                                            filterUnits="userSpaceOnUse">
+                                                        <feOffset input="SourceAlpha"></feOffset>
+                                                        <feGaussianBlur stdDeviation="4" result="b"></feGaussianBlur>
+                                                        <feFlood flood-color="#d5fffc" flood-opacity="0.796"></feFlood>
+                                                        <feComposite operator="in" in2="b"></feComposite>
+                                                        <feComposite in="SourceGraphic"></feComposite>
+                                                    </filter>
+                                                </defs>
+                                                <g class="up-icon-g" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                    <path class="up-icon-path"
+                                                          d="M47.923,1.57a56.217,56.217,0,0,0-10.6.685c-2.741.548-4.8,5.117-4.8,5.939a.568.568,0,0,0,.594.653,1.632,1.632,0,0,0,.326-.046s4.295-1.234,13.889-1.234c6.716,0,8.452,1.508,8.452,3.7,0,3.2-2.33,8.269-10.1,8.269-4.386,0-5.756-.137-5.756-.137-.5-.137-.548-.365-.548-.822s2.833-6.2,3.107-6.716a.653.653,0,0,0,.091-.274c0-.365-.457-.594-.959-.594-6.625,0-7.9,1.005-8.909,2.7-.489.786-3.378,6.928-5.5,11.5C25.556,27.9,23,30.672,18.165,30.672c-4.432,0-5.528-1.416-5.528-3.609,0-3.7,10.508-22.432,10.508-23.62,0-.274-.091-.5-.653-.685a36.381,36.381,0,0,0-5.437-.274c-1.6,0-3.426.137-4.432.228C9.243,3.038,7.187,7.607,7.187,8.24c0,.228.091.594.868.594,1.462,0,2.284.548,2.284,1.462,0,2.513-7.63,14.437-7.63,18.549,0,4.523,3.2,7.949,12.929,7.949a41.7,41.7,0,0,0,6.967-.493,13.523,13.523,0,0,0,2.444-.535,14.685,14.685,0,0,0,6.239-3.351l.075-.069h0a18.043,18.043,0,0,0,3.319-4.383l1.263-1.671a5.6,5.6,0,0,1,3.061-.594c1.142,0,2.558.091,4.34.091,6.527,0,11.33-.868,14.032-2.467a15.868,15.868,0,0,0,7.127-13.2C64.507,4.318,60.807,1.57,47.923,1.57Z"
+                                                          transform="translate(9.29 10.43)"></path>
+                                                </g>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                          <% }}); %>
+            
+                          <% if(posts.length<=0){%>
+                            <div class="empty-state">
+                              <br>
+                              <p class="h2">We don’t have anything to show yet</p>
+                            </div>
+                          <% } %>
 
-      </div>
-      <%- include include/footer.ejs %>
+                      </div>
+                  </div>
+              </section>
+      
+              <div class="steem-modal" id="game-info-modal">
+                  <div class="modal-wrapper">
+                      <div class="modal game-info-modal">
+                          <div class="modal-exit" id="game-modal-exit">
+                              <span>X</span>
+                          </div>
+                          <div class="modal-content">
+                              <h6 class="header header-title">
+                                
+                              </h6>
+                              <div class="extra">
+                                  <div class="extra-name">
+                                      @captainwilly (63)
+                                  </div>
+                                  <div class="extra-date">
+                                      11/09/2018
+                                  </div>
+      
+                                  <div class="extra-open">
+                                      <div class="open-in">
+                                          <div>
+                                              Open in:
+                                          </div>
+                                          <a href="#" class="steemit_link" target="_blank" ><img src="/public/assets/images/page-1/modal/icon_steemit.svg" /></a>
+                                          <a href="#" class="busy_link" target="_blank" ><img src="/public/assets/images/page-1/modal/icon_busy.svg" /></a>
+                                      </div>
+                                  </div>
+                              </div>
+      
+                              <img src="#" class="game-info-image" />
+      
+                              <p class="game-info-desc">
+                              </p>
+      
+                              <div class="game-info-tags">
+                                  <p class="game-tag">
+                                      steemmonsters
+                                  </p>
+                                  <p class="game-tag">
+                                      gaming
+                                  </p>
+                                  
+                              </div>
+      
+                              <div class="game-stats">
+                                  <div class="game-sts">
+                                      <p class="game-sts-info">
+                                          <span class="text-pink">1UP Post Ranking:</span><span class="text-blue glow ranking">1</span>
+                                      </p>
+                                      <p class="game-sts-info">
+                                          <span class="text-pink">Post value:</span><span class="text-blue glow post-value">$28.14</span>
+                                      </p>
+                                      <p class="game-sts-info">
+                                          <span class="text-pink">1UP votes remaining:</span><span class="text-blue glow 1up-remaining">28</span>
+                                      </p>
+                                  </div>
+                                  <div class="game-acts">
+                                      <!--<p class="game-acts-number">
+                                          18
+                                      </p>-->
+                                      <div style="width:180px;">
+                                          <button class="game-bar-action-button 1UP_votes 1UP_votesId" id="0" style="width:100%; max-width: 100%;">
+                                            <p class="game-bar-action-text">18</p>
+                                              <svg xmlns="http://www.w3.org/2000/svg" width="85.797" height="59.228"
+                                                   viewBox="0 0 85.797 59.228">
+                                                  <defs>
+                                                      <filter id="a" x="0" y="0" width="85.797" height="59.228"
+                                                              filterUnits="userSpaceOnUse">
+                                                          <feOffset input="SourceAlpha"></feOffset>
+                                                          <feGaussianBlur stdDeviation="4" result="b"></feGaussianBlur>
+                                                          <feFlood flood-color="#d5fffc" flood-opacity="0.796"></feFlood>
+                                                          <feComposite operator="in" in2="b"></feComposite>
+                                                          <feComposite in="SourceGraphic"></feComposite>
+                                                      </filter>
+                                                  </defs>
+                                                  <g class="up-icon-g" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                                      <path class="up-icon-path"
+                                                            d="M47.923,1.57a56.217,56.217,0,0,0-10.6.685c-2.741.548-4.8,5.117-4.8,5.939a.568.568,0,0,0,.594.653,1.632,1.632,0,0,0,.326-.046s4.295-1.234,13.889-1.234c6.716,0,8.452,1.508,8.452,3.7,0,3.2-2.33,8.269-10.1,8.269-4.386,0-5.756-.137-5.756-.137-.5-.137-.548-.365-.548-.822s2.833-6.2,3.107-6.716a.653.653,0,0,0,.091-.274c0-.365-.457-.594-.959-.594-6.625,0-7.9,1.005-8.909,2.7-.489.786-3.378,6.928-5.5,11.5C25.556,27.9,23,30.672,18.165,30.672c-4.432,0-5.528-1.416-5.528-3.609,0-3.7,10.508-22.432,10.508-23.62,0-.274-.091-.5-.653-.685a36.381,36.381,0,0,0-5.437-.274c-1.6,0-3.426.137-4.432.228C9.243,3.038,7.187,7.607,7.187,8.24c0,.228.091.594.868.594,1.462,0,2.284.548,2.284,1.462,0,2.513-7.63,14.437-7.63,18.549,0,4.523,3.2,7.949,12.929,7.949a41.7,41.7,0,0,0,6.967-.493,13.523,13.523,0,0,0,2.444-.535,14.685,14.685,0,0,0,6.239-3.351l.075-.069h0a18.043,18.043,0,0,0,3.319-4.383l1.263-1.671a5.6,5.6,0,0,1,3.061-.594c1.142,0,2.558.091,4.34.091,6.527,0,11.33-.868,14.032-2.467a15.868,15.868,0,0,0,7.127-13.2C64.507,4.318,60.807,1.57,47.923,1.57Z"
+                                                            transform="translate(9.29 10.43)"></path>
+                                                  </g>
+                                              </svg>
+                                          </button>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </main>
+          
+          <%- include include/footer.ejs %>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -70,26 +311,77 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/parse/1.11.0/parse.min.js"></script>
     <script>
 
-    steem.config.set('websocket','wss://steemd.privex.io');
+      steem.config.set('websocket','wss://steemd.privex.io');
 
-    $('.1UP_votes').on('click', function(){
-          let that=this;
-          let id=this.id;
-          console.log(id);
-          $.ajax({
-            type:"POST",
-            contentType: 'application/json',
-            url: '/vote',
-            data:JSON.stringify({"voter":"<%=session.name%>","community":"<%=community%>","id":id}),
-            success: function(msg) {
-              console.log('voted!');
-              $(that).find(".votes_amount").html(parseInt($(that).find(".votes_amount").html())+1);
-            },
-            error: function(msg) {
-              alert(msg.responseJSON.error);
-            }
-          });
+      $('.1UP_popup').on('click', function(event){
+
+        var d = $(this).data('busy');      
+
+        $(".game-info-image").attr("src",$(this).data('image'));
+        $(".steemit_link").attr("href",$(this).data('steemit'));
+        $(".busy_link").attr("href",$(this).data('busy'));
+
+        $('.header-title').html($(this).data('title'));
+        $('.game-info-desc').html($(this).data('description'));
+        // $('.game-info-tags').html(posts[post].get('tags'));
+        $('.game-bar-action-text').html($(this).data('votes'));
+        $('.extra-date').html(formatDate($(this).data('created')));
+        $('.extra-name').html('@'+$(this).data('author'));
+        $('.ranking').html($(this).data('ranking'));
+        $(".1UP_votesId").attr("id",$(this).data('id'));
+        $('.post-value').html($(this).data('value'));
+        $('.game-info-tags').html($(this).data('tags'));
+        
+
+        openGameModal('post');
+
+       
+      });
+      
+      $('.1UP_votes').on('click', function(){
+        let that=this;
+        let id=this.id;
+
+        $.ajax({
+          type:"POST",
+          contentType: 'application/json',
+          url: '/vote',
+          data:JSON.stringify({"voter":"<%=session.name%>","community":"<%=community%>","id":id}),
+          success: function(msg) {
+            console.log('voted!', msg);
+            $(that).find(".game-bar-action-text").html(parseInt($(that).find(".game-bar-action-text").html())+1);
+          },
+          error: function(msg) {
+            alert(msg.responseJSON.error);
+          }
         });
+      });
+
+      $('.today').on('click', function(){
+
+        window.location.href = '/posts/<%= community.get("name") %>/today';
+
+      });
+
+      $('.yesterday').on('click', function(){
+
+        window.location.href = '/posts/<%= community.get("name") %>/yesterday';
+
+      });
+
+
+      function formatDate(date) {
+
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+
+        return [day, month, year].join('/');
+      }
 
       //get bot account information
       steem.api.getAccounts(["<%=bot%>"], async function(err, result) {
@@ -109,63 +401,95 @@
       };
 
       var getMana = function(account) {
-          const STEEM_VOTING_MANA_REGENERATION_SECONDS =432000;
-          const estimated_max = getEffectiveVestingSharesPerAccount(account)*1000000;
-          const current_mana = parseFloat(account.voting_manabar.current_mana);
-          const last_update_time = account.voting_manabar.last_update_time;
-          const diff_in_seconds = Math.round(Date.now()/1000-last_update_time);
-          let estimated_mana = (current_mana + diff_in_seconds * estimated_max / STEEM_VOTING_MANA_REGENERATION_SECONDS);
-          if (estimated_mana > estimated_max)
-              estimated_mana = estimated_max;
-          const estimated_pct = estimated_mana / estimated_max * 100;
-          return {"current_mana": current_mana, "last_update_time": last_update_time,
-                  "estimated_mana": estimated_mana, "estimated_max": estimated_max, "estimated_pct": estimated_pct};
+        const STEEM_VOTING_MANA_REGENERATION_SECONDS =432000;
+        const estimated_max = getEffectiveVestingSharesPerAccount(account)*1000000;
+        const current_mana = parseFloat(account.voting_manabar.current_mana);
+        const last_update_time = account.voting_manabar.last_update_time;
+        const diff_in_seconds = Math.round(Date.now()/1000-last_update_time);
+        let estimated_mana = (current_mana + diff_in_seconds * estimated_max / STEEM_VOTING_MANA_REGENERATION_SECONDS);
+        if (estimated_mana > estimated_max)
+            estimated_mana = estimated_max;
+        const estimated_pct = estimated_mana / estimated_max * 100;
+        return {"current_mana": current_mana, "last_update_time": last_update_time,
+                "estimated_mana": estimated_mana, "estimated_max": estimated_max, "estimated_pct": estimated_pct};
       }
 
-    function getTimeBeforeFull(vp)
-    {
-      var gap=100-vp;
-      return gap*60*60*1.2;
+      var getEffectiveVestingSharesPerAccount = function(account) {
+          var effective_vesting_shares = parseFloat(account.vesting_shares.replace(" VESTS", "")) +
+              parseFloat(account.received_vesting_shares.replace(" VESTS", "")) -
+              parseFloat(account.delegated_vesting_shares.replace(" VESTS", ""));
+          return effective_vesting_shares;
+      };
 
-    }
-    function startTicker(timeBeforeFull)
-    {
-      var time=timeBeforeFull;
-      $('.voting_period').html(sToTime(time));
-      var interval=setInterval(function(){
-        time--;
-        if(time>=0){
-          $('.voting_period').html(sToTime(time));
-        }
-        else
-        $('.voting_period').html("Voting soon");
-          clearInterval(interval);
+      function getTimeBeforeFull(vp) {
+        var gap=100-vp;
+        return gap*60*60*1.2;
+      }
 
-      }, 1000);
-    }
+      function startTicker(timeBeforeFull) {
+        var time=timeBeforeFull;
+        $('.vote-timer-numbers').html(sToTime(time));
+        var interval=setInterval(function(){
+          time--;
+          if(time>=0){
+            $('.vote-timer-numbers').html(sToTime(time));
+          }
+          else
+          $('.vote-timer-header-text').html("Voting soon");
+          $('.vote-timer-numbers').html("");
 
-function sToTime(duration) {
-    let  seconds = parseInt((duration%60))
-        , minutes = parseInt((duration/60)%60)
-        , hours = parseInt((duration/(60*60))%24);
+            clearInterval(interval);
 
-    hours = (hours < 10) ? "0" + hours : hours;
-    minutes = (minutes < 10) ? "0" + minutes : minutes;
+        }, 1000);
+      }
 
-    return hours + "<span class='unit'>h</span> " + minutes + "<span class='unit'>m</span>";
-}
+      function sToTime(duration) {
+          let  seconds = parseInt((duration%60))
+              , minutes = parseInt((duration/60)%60)
+              , hours = parseInt((duration/(60*60))%24);
 
-	/* Mobile menu openning */
-	$( document ).ready(function() {
-		var menuMainButton = $('.menu-main-button');
-		menuMainButton.click(function(){
-			if ($('body').hasClass('open-menu'))
-				$('body').removeClass('open-menu');
-			else {
-				$('body').addClass('open-menu');
-			}
-		});
-	});
+          hours = (hours < 10) ? "0" + hours : hours;
+          minutes = (minutes < 10) ? "0" + minutes : minutes;
+          seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+          return "<span class='vote-timer-number hour'><span class='vote-timer-number-text'>" + hours + "</span> <span class='vote-timer-div-human'>h</span><span class='vote-timer-div-colon'>:</span></span><span class='vote-timer-number minute'><span class='vote-timer-number-text'>" + minutes + "</span><span class='vote-timer-div-human'>m</span><span class='vote-timer-div-colon'>:</span></span><span class='vote-timer-number second'><span class='vote-timer-number-text'>"+seconds+"</span><span class='vote-timer-div-human'>s</span></span>";
+      }
+
+      /* Mobile menu openning */
+      $( document ).ready(function() {
+        var menuMainButton = $('.menu-icon');
+        menuMainButton.click(function(){
+          if ($('.mobile-menu').hasClass('open'))
+            $('.mobile-menu').removeClass('open');
+          else {
+            $('.mobile-menu').addClass('open');
+          }
+        });
+      });
+
+      var gameModal,
+        gameModalExit,
+        gameModalActions,
+        bodyElement;
+        window.onload = function() {
+        gameModal = document.getElementById("game-info-modal");
+        gameModalExit = document.getElementById("game-modal-exit");
+        gameModalActions = document.getElementsByClassName("game-bar-info-header");
+        bodyElement = document.getElementsByTagName("body")[0];
+
+        gameModalExit.addEventListener("click", closeGameModal);
+
+      };
+
+      function openGameModal(post) {
+        gameModal.className = gameModal.className + " open";
+        bodyElement.className = bodyElement.className + " noscroll";
+      }
+
+      function closeGameModal() {
+        gameModal.className = gameModal.className.replace("open", "");
+        bodyElement.className = bodyElement.className.replace("noscroll", "");
+      }
     </script>
     <script src="/public/assets/js/scripts.js"></script>
   </body>

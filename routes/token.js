@@ -44,8 +44,8 @@ module.exports = function(app,steem,Utils,config,messages){
                     setTimeout(function () {
                         console.log("updating admins...")
                         var newAdmins = new AdminData();
-                        newAdmins.set("admins", ["smitop", "flauwy"]); 
-                        newAdmins.set("mods", ["smitop", "flauwy"]);
+                        newAdmins.set("admins", ["smitop", "benhen75", "flauwy"]); 
+                        newAdmins.set("mods", ["smitop", "benhen75", "flauwy"]);
                         console.log("saving new admin list")
                         newAdmins.save(null, {success: function () {
                             console.log("Updated admin list")

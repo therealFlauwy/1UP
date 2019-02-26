@@ -1,25 +1,28 @@
+<!DOCTYPE html>
 <html lang="en">
   <%- include include/head.ejs %>
     <body>
-        <div class="container">
-          <%- include include/header.ejs %>
+        <div class="wrapper">
+            <%- include include/header.ejs %>
             <!-- Display list of communities !-->
-            <div class='other_posts'>
-                <% communities.forEach(function(community, index) { %>
-                    <div class="post_default post">
-                        <a href="/view/<%=community.get('name')%>" class="nb_post"><%=index+1%></a>
-                        <div class="post_img" style="background-image: url(<%= community.get('image')%>)">
+            <main class="main">
+                <div class='container other_posts'>
+                    <% communities.forEach(function(community, index) { %>
+                        <div class="post_default post">
+                            <a href="/view/<%=community.get('name')%>" class="nb_post"><%=index+1%></a>
+                            <div class="post_img" style="background-image: url(<%= community.get('image')%>)">
+                            </div>
+                            <div class="post_author">
+                                <a href="/posts/<%= community.get('name')%>" >
+                                    <%=community.get('name')%>
+                                </a>
+                            </div>
+                            <span class="post_title"><%= community.get('description')%></span>
+                            <!-- TODO: Add link to post -->
                         </div>
-                        <div class="post_author">
-                            <a href="/posts/<%= community.get('name')%>" >
-                                <%=community.get('name')%>
-                            </a>
-                        </div>
-                        <span class="post_title"><%= community.get('description')%></span>
-                        <!-- TODO: Add link to post -->
-                    </div>
                     <% }); %>
-            </div>
+                </div>
+            </main>
             <%- include include/footer.ejs %>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -29,9 +32,9 @@
         <script>
             /* Mobile menu openning */
             $(document).ready(function() {
-                const menuMainButton = $('.menu-main-button');
+                const menuMainButton = $('.menu-icon');
                 menuMainButton.click(function() {
-                    $('body').toggleClass('open-menu');
+                    $('.mobile-menu').toggleClass('open');
                 });
             });
         </script>
