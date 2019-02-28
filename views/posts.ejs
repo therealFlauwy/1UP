@@ -434,9 +434,10 @@
           if(time>=0){
             $('.vote-timer-numbers').html(sToTime(time));
           }
-          else
-          $('.vote-timer-header-text').html("Voting soon");
-          $('.vote-timer-numbers').html("");
+          else {
+            $('.vote-timer-header-text').html("Voting soon");
+            $('.vote-timer-numbers').html("");
+          }
 
             clearInterval(interval);
 

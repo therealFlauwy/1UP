@@ -172,42 +172,76 @@ module.exports = function(config,sc2){
         text += possible.charAt(Math.floor(Math.random() * possible.length));
       return text;
     },
-    getPostsFromCommunity:function(community, day) {
-      var date1, date2
-      today = new Date();
-      today.setHours(0);
-      today.setMinutes(0);
-      today.setSeconds(0);
-      today.setMilliseconds(0);
-
-      if(day === "yesterday") {
-        date1 = new Date();
-        date1.setHours(0);
-        date1.setMinutes(0);
-        date1.setSeconds(0);
-        date1.setMilliseconds(0);
-        date2 = new Date(today.setDate(new Date().getDate()-1));
-      } else if (day === "today" || !day) {
-        date1 = new Date();
-        date2 = today;
-      } else { // last x day
-        date1 = new Date();
-        date2 = new Date(new Date() - day*24*3600000);
-      }
-
-      // console.log(date1, date2)
+    getCommunity:function(query) {
 
       return new Promise(function(fulfill, reject) {
 
-        // let innerTokenQuery = new Parse.Query(Parse.Object.extend("Communities"));
-        // innerTokenQuery.equalTo("name", community);
+        //Query the community named on the url
+        query.find({
+          success: function(communities) {
+            // if it does not exist, return an error
+            if (communities.length == 0)
+              //res.redirect("/error/no_community");
+              reject('no_community')
+            else {
+              fulfill(communities[0]);
+            }
+          },
+          error: function(error) {
+            console.log(error);
+            reject('sth_wrong');            
+          }
+        });
+
+      });
+    },
+    getPostsFromCommunity:function(community, day) {
+
+      return new Promise(function(fulfill, reject) {
+
+        var date1, date2;
+
+        var today = new Date();
+        today.setHours(0);
+        today.setMinutes(0);
+        today.setSeconds(0);
+        today.setMilliseconds(0);
+
+        if(day === "yesterday") {
+          date1 = new Date();
+          date1.setHours(0);
+          date1.setMinutes(0);
+          date1.setSeconds(0);
+          date1.setMilliseconds(0);
+          //date2 = new Date(today.setDate(new Date().getDate()-1));
+          var date2 = new Date(today - 1*24*3600000);
+
+        } else if (day === "today" || !day) {
+          date1 = new Date();
+          date2 = today;
+        } else { // last x day
+          date1 = new Date();
+          date2 = new Date(new Date() - day*24*3600000);
+        }
+
+        console.log(date1, date2)
+
         let postsQuery=new Parse.Query(Parse.Object.extend("Posts"));
         postsQuery.matchesQuery("community", community);
         postsQuery.lessThan("created",date1);
         postsQuery.greaterThan("created",date2);
         postsQuery.find({
           success: function(p) {
-            fulfill(p);
+            const sortedPosts=p.sort(function(a,b){
+              if(a.get('votes')>b.get('votes'))
+                return -1;
+              else if(b.get('votes')>a.get('votes'))
+                return 1;
+              else{
+                return a.get('updatedAt')-b.get('updatedAt');
+              }
+            }); 
+            fulfill(sortedPosts);
           },
           error:function(error){
             reject(error);
