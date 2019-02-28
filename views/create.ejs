@@ -1,37 +1,40 @@
+<!DOCTYPE html>
 <html lang="en">
   <%- include include/head.ejs %>
     <body>
-        <div class="container">
+        <div class="wrapper">
             <%- include include/header.ejs %>
             <!-- HTML for community creation !-->
-            <div class='outline'>
-                <div id="inner">
-                    <h2>Create a new community</h2>
-                    <h3>Name *</h3>
-                    <input type="text" id="name" placeholder="Name" />
-                    <h3>Short description *</h3>
-                    <input type="text" id="description" placeholder="Brief description">
-                    <h3>Image Url *</h3>
-                    <input type="text" id="image" placeholder="Image Url">
-                    <h3>Administrators</h3>
-                    <input type="text" id="admins" placeholder="Set administrators">
-                    <h3>Moderators</h3>
-                    <input type="text" id="moderators" placeholder="Set moderators">
-                    <h3>Post selection *</h3>
-                    <select id="type_community">
-                      <option name="whitelist">Whitelist only</option>
-                      <option name="open">Open</option>
-                    </select>
-                    <h3>Tag *</h3>
-                    <input type="text" id="tags" placeholder="Eligible Tag">
-                    <h3 class="whitelist">Whitelist</h3>
-                    <input type="text" id="whitelist" class="whitelist" placeholder="Whitelisted users (separated by comma)">
-                    <h3 class="blacklist">Blacklist</h3>
-                    <input type="text" class="blacklist" id="blacklist" placeholder="Blacklisted users (separated by comma)">
-                    <button id="create_community">Create!</button>
-                    <p id="error_create" style="color:red;display:none;">Please fill all the non optional fields.</p>
-                </div>
-            </div>
+            <main class="main">
+                <section id="create">
+                    <div class="container">
+                        <h2>Create a new community</h2>
+                        <h3>Name *</h3>
+                        <input type="text" id="name" placeholder="Name" />
+                        <h3>Short description *</h3>
+                        <input type="text" id="description" placeholder="Brief description">
+                        <h3>Image Url *</h3>
+                        <input type="text" id="image" placeholder="Image Url">
+                        <h3>Administrators</h3>
+                        <input type="text" id="admins" placeholder="Set administrators">
+                        <h3>Moderators</h3>
+                        <input type="text" id="moderators" placeholder="Set moderators">
+                        <h3>Post selection *</h3>
+                        <select id="type_community">
+                        <option name="whitelist">Whitelist only</option>
+                        <option name="open">Open</option>
+                        </select>
+                        <h3>Tag *</h3>
+                        <input type="text" id="tags" placeholder="Eligible Tag">
+                        <h3 class="whitelist">Whitelist</h3>
+                        <input type="text" id="whitelist" class="whitelist" placeholder="Whitelisted users (separated by comma)">
+                        <h3 class="blacklist">Blacklist</h3>
+                        <input type="text" class="blacklist" id="blacklist" placeholder="Blacklisted users (separated by comma)"><br /><br />
+                        <button id="create_community">Create!</button>
+                        <p id="error_create" style="color:red;display:none;">Please fill all the non optional fields.</p>
+                    </div>
+                </section>
+            </main>
             <%- include include/footer.ejs %>
         </div>
 
@@ -93,9 +96,9 @@
                 else $("#error_create").show();
             });
 
-            const menuMainButton = $('.menu-main-button');
+            const menuMainButton = $('.menu-icon');
             menuMainButton.click(function() {
-                $('body').toggleClass('open-menu');
+                $('.mobile-menu').toggleClass('open');
             });
         });
         </script>

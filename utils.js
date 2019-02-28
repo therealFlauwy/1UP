@@ -14,7 +14,6 @@ module.exports = function(config,sc2){
                 sc2.setAccessToken(req.cookies.access_token);
                 sc2.me(async function(err, response) {
                     if (err === null){
-
                         const ua=await getUA(steem,config,response.name);
                         req.session.ua=JSON.parse(ua).result.accounts[0];
                         // get Account information about the user logged in
@@ -173,16 +172,42 @@ module.exports = function(config,sc2){
         text += possible.charAt(Math.floor(Math.random() * possible.length));
       return text;
     },
-    getPostsFromCommunity:function(community) {
+    getPostsFromCommunity:function(community, day) {
+      var date1, date2
+      today = new Date();
+      today.setHours(0);
+      today.setMinutes(0);
+      today.setSeconds(0);
+      today.setMilliseconds(0);
+
+      if(day === "yesterday") {
+        date1 = new Date();
+        date1.setHours(0);
+        date1.setMinutes(0);
+        date1.setSeconds(0);
+        date1.setMilliseconds(0);
+        date2 = new Date(today.setDate(new Date().getDate()-1));
+      } else if (day === "today" || !day) {
+        date1 = new Date();
+        date2 = today;
+      } else { // last x day
+        date1 = new Date();
+        date2 = new Date(new Date() - day*24*3600000);
+      }
+
+      // console.log(date1, date2)
+
       return new Promise(function(fulfill, reject) {
-        let innerTokenQuery = new Parse.Query(Parse.Object.extend("Communities"));
-        innerTokenQuery.equalTo("name", community);
-        let postsQuery=new Parse.Query(Parse.Object.extend("Posts"));;
-        postsQuery.matchesQuery("community", innerTokenQuery);
-        postsQuery.greaterThan("created",new Date(new Date()-config.eligibleTime));
+
+        // let innerTokenQuery = new Parse.Query(Parse.Object.extend("Communities"));
+        // innerTokenQuery.equalTo("name", community);
+        let postsQuery=new Parse.Query(Parse.Object.extend("Posts"));
+        postsQuery.matchesQuery("community", community);
+        postsQuery.lessThan("created",date1);
+        postsQuery.greaterThan("created",date2);
         postsQuery.find({
           success: function(p) {
-              fulfill(p);
+            fulfill(p);
           },
           error:function(error){
             reject(error);

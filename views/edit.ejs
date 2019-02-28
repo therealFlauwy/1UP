@@ -1,49 +1,54 @@
+<!DOCTYPE html>
 <html lang="en">
   <%- include include/head.ejs %>
     <body>
-        <div class="container">
+        <div class="wrapper">
             <%- include include/header.ejs %>
-            <div class='outline'>
-                <div id="inner">
-                  <h3>Name</h3>
-                  <input id="name" value='<%= community.get("name") %>'/>
-                  <h3>Image</h3>
-                  <input id="image" value='<%= community.get("image") %>'>
-                  <h3>Short description</h3>
-                  <input id="description" value='<%= community.get("description") %>'/>
-                  <% if(trail!=null) { %>
-                  <h3>Trail Tail</p>
-                  <p id="tail_trail">@<%= trail.get("username") %></p>
-                  <button id="remove_trail">Remove Trail</button>
-                  <% } %>
-                  <h3>Administrators</h3>
-                  <input id="admins"value='<%= community.get("administrators") %>'/>
-                  <h3>Moderators</h3>
-                  <input id="moderators" value='<%= community.get("moderators") %>'/>
-                  <h3>Post selection</h3>
-                  <select id="type_community">
-                    <option name="whitelist"  value="0">Whitelist only</option>
-                    <option name="open" value="1">Open</option>
-                  </select>
-                  <h3>Tag</h3>
-                  <input id="tags" value='<%= community.get("tags") %>'/>
-                  <h3 class="white mod">Whitelist</h3>
-                  <input id="whitelist" class="white" value='<%= community.get("whitelist") %>'/>
-                  <h3 class="black mod">Blacklist</h3>
-                  <input id="blacklist" class="black" value='<%= community.get("blacklist") %>'/>
-                  <button id="save-edit">Save</button>
-                  <% if(type_user==1){ %>
-                  <button id="delete" >Delete community</button>
-                  <div id="delete_confirm">
-                    <p>Are you sure you want to delete <%= community.get("name") %>?</p>
-                    <button id="yes-delete">Yes</button>
-                    <button id="no-delete">No</button>
-                  </div>
-                  <% } %>
-                  <p id="error_create" style="color:red;display:none;">Please fill all the non optional fields.</p>
+
+            <main class="main">
+              <section id="edit">
+                <div class="container">
+
+                    <h3>Name</h3>
+                    <input id="name" value='<%= community.get("name") %>'/>
+                    <h3>Image</h3>
+                    <input id="image" value='<%= community.get("image") %>'>
+                    <h3>Short description</h3>
+                    <input id="description" value='<%= community.get("description") %>'/>
+                    <% if(trail!=null) { %>
+                    <h3>Trail Tail</p>
+                    <p id="tail_trail">@<%= trail.get("username") %></p>
+                    <button id="remove_trail">Remove Trail</button>
+                    <% } %>
+                    <h3>Administrators</h3>
+                    <input id="admins"value='<%= community.get("administrators") %>'/>
+                    <h3>Moderators</h3>
+                    <input id="moderators" value='<%= community.get("moderators") %>'/>
+                    <h3>Post selection</h3>
+                    <select id="type_community">
+                      <option name="whitelist"  value="0">Whitelist only</option>
+                      <option name="open" value="1">Open</option>
+                    </select>
+                    <h3>Tag</h3>
+                    <input id="tags" value='<%= community.get("tags") %>'/>
+                    <h3 class="white mod">Whitelist</h3>
+                    <input id="whitelist" class="white" value='<%= community.get("whitelist") %>'/>
+                    <h3 class="black mod">Blacklist</h3>
+                    <input id="blacklist" class="black" value='<%= community.get("blacklist") %>'/>
+                    <button id="save-edit">Save</button>
+                    <% if(type_user==1){ %>
+                    <button id="delete" >Delete community</button>
+                    <div id="delete_confirm">
+                      <p>Are you sure you want to delete <%= community.get("name") %>?</p>
+                      <button id="yes-delete">Yes</button>
+                      <button id="no-delete">No</button>
+                    </div>
+                    <% } %>
+                    <p id="error_create" style="color:red;display:none;">Please fill all the non optional fields.</p>                 
                 </div>
-              </div>
-          </div>
+              </section>
+            </main>
+        
           <%- include include/footer.ejs %>
           </div>
 
@@ -53,6 +58,11 @@
           <script src="/public/assets/js/scripts.js"></script>
           <script>
           $(document).ready(function() {
+
+            const menuMainButton = $('.menu-icon');
+              menuMainButton.click(function() {
+                  $('.mobile-menu').toggleClass('open');
+              });
 
           //Hide the delete confirmation button at first
           $("delete_confirm").hide();
@@ -170,6 +180,6 @@
 
         });
 
-          </script>
+        </script>
       </body>
 </html>

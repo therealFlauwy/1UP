@@ -1,7 +1,7 @@
 const sql = require('mssql')
 let isWorking=false;
 module.exports = function(app,steem,Utils,config,messages){
-
+    
 app.get("/updatePosts/:key", function(req, res) {
 //create the query for the seach
   if(isWorking) return;
