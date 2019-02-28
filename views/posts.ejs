@@ -64,13 +64,7 @@
                               </div>
                           </div>
 
-                          <% if(posts.length!==0){ %>
-                            <!--<div class="col-12">
-                              <div class="goes_to">
-                                1UP goes to <a href="https://utopian.io/@<%= posts[0].get('author')%>" class="goes_to_user" target="_blank" title="Utopian profile">@<%= posts[0].get('author')%> !</a>
-                              </div>
-                            </div>-->
-                          <%}%>
+                          
                       </div>
                   </div>
               </section>
@@ -146,8 +140,11 @@
                                     <div class="game-bar-rank">
                                         <p class="game-bar-rank-text"><%=index+1%></p>
                                     </div>
+                                    
                                     <div class="game-bar-image">
-                                      <img src="<%= posts[index].get('image')%>" class="game-bar-img"/>
+                                      <% if (posts[index].get('image') != 'no_img') {%>
+                                        <img src="<%= posts[index].get('image')%>" class="game-bar-img"/>
+                                      <%}%>
                                     </div>
                                     <div class="game-bar-info">
                                         <p class="game-bar-info-header 1UP_popup"
@@ -241,7 +238,7 @@
                                   </div>
                               </div>
       
-                              <img src="#" class="game-info-image" />
+                              <img src="" class="game-info-image" />
       
                               <p class="game-info-desc">
                               </p>
