@@ -4,94 +4,96 @@ var steem = require('steem');
 module.exports = function(config,sc2){
   return {
     getSession:function(req) {
-        return new Promise(function(fulfill, reject) {
-            // If already logged in, return the session parameters
-            if (req.session.logged_in){
-                fulfill({loggedIn:true,account:req.session.account,name:req.session.name,communities:req.session.communities,trail_tail:req.session.trail_tail,trails:req.session.trails,ua:req.session.ua});
-              }
-            else if (req.cookies.access_token !== undefined) {
-                // If retreiving informaiton from cookies, recreate the session.
-                sc2.setAccessToken(req.cookies.access_token);
-                sc2.me(async function(err, response) {
-                    if (err === null){
-                        const ua=await getUA(steem,config,response.name);
-                        req.session.ua=JSON.parse(ua).result.accounts[0];
-                        // get Account information about the user logged in
-                        req.session.name = response.name;
-                        req.session.account = JSON.stringify(response.account);
-                        req.session.logged_in = true;
+      return new Promise(function(fulfill, reject) {
+        // If already logged in, return the session parameters
+        if (req.session.logged_in){
+            fulfill({loggedIn:true,account:req.session.account,name:req.session.name,communities:req.session.communities,trail_tail:req.session.trail_tail,trails:req.session.trails,ua:req.session.ua});
+          }
+        else if (req.cookies.access_token !== undefined) {
+          // If retreiving informaiton from cookies, recreate the session.
+          sc2.setAccessToken(req.cookies.access_token);
+          sc2.me(async function(err, response) {
+            if (err === null){
+              const ua=await getUA(steem,config,response.name);
+              req.session.ua=JSON.parse(ua).result.accounts[0];
+              // get Account information about the user logged in
+              req.session.name = response.name;
+              req.session.account = JSON.stringify(response.account);
+              req.session.logged_in = true;
 
-                        // get Trails followed by user
-                        let trail= new Parse.Query(Parse.Object.extend("Trail"));
-                        trail.equalTo("voter",response.name);
-                        trail.include("community");
-                        try{
-                        await trail.find({
-                          success: function(trails) {
-                            if(trails.length==0)
-                              req.session.trails=null;
-                            else
-                              req.session.trails=JSON.stringify(trails);
-                          }
-                        });
-                      } catch(e){console.log(e);}
-
-                        // get all user data
-                        let owner=new Parse.Query(Parse.Object.extend("Communities"));
-                        let admin=new Parse.Query(Parse.Object.extend("Communities"));
-                        let mod=new Parse.Query(Parse.Object.extend("Communities"));
-                        let Offline = Parse.Object.extend("OfflineTokens");
-                        // Add an inner query to get the communities where account is a tail trail
-                        var innerTokenQuery = new Parse.Query(Offline);
-                        innerTokenQuery.equalTo("username", response.name);
-                        let trail_tail=new Parse.Query(Parse.Object.extend("Communities"));;
-                        trail_tail.matchesQuery("trail", innerTokenQuery);
-                        // query all the communities on which the user is either owner administrator or moderator.
-                        owner.equalTo("owner",response.name);
-                        admin.equalTo("administrators",response.name);
-                        mod.equalTo("moderators",response.name);
-                        let mainQuery = Parse.Query.or(owner, mod,admin,trail_tail);
-                        // include pointers of element trail
-                        mainQuery.include("trail");
-                        await mainQuery.find({
-                          success: function(communities) {
-                            // Add the relevant communities to the session. This will be used for populating the community select box.
-                            if(communities.length!==0){
-                              let tt= communities.filter(function(community){return community.get("trail")==undefined?false:(community.get("trail").get("username")==response.name);});
-                              req.session.trail_tail=tt.length==0?null:JSON.stringify(tt.map(function(e){return e.get("name");}));
-                              req.session.communities=JSON.stringify(communities);
-                            }
-                            else {
-                              req.session.trail_tail=null;
-                              req.session.communities=null;
-                            }
-                            fulfill({loggedIn:true,account:req.session.account,name:req.session.name,communities:req.session.communities,trail_tail:req.session.trail_tail,trails:req.session.trails,ua:req.session.ua});
-                        },
-                        error: function(error) {
-                            fulfill({loggedIn:true,account:req.session.account,name:req.session.name,communities:null,trail_tail:null,trails:req.session.trails,ua:req.session.ua});
-                        }
-                      });
-                    } else fulfill({loggedIn:false});
+              // get Trails followed by user
+              let trail= new Parse.Query(Parse.Object.extend("Trail"));
+              trail.equalTo("voter",response.name);
+              trail.include("community");
+              
+              try{
+                await trail.find({
+                  success: function(trails) {
+                    if(trails.length==0)
+                      req.session.trails=null;
+                    else
+                      req.session.trails=JSON.stringify(trails);
+                  }
                 });
-            } else {
-                fulfill({loggedIn:false});
-            }
-        });
+              } catch(e){console.log(e);}
+
+                // get all user data
+                let owner=new Parse.Query(Parse.Object.extend("Communities"));
+                let admin=new Parse.Query(Parse.Object.extend("Communities"));
+                let mod=new Parse.Query(Parse.Object.extend("Communities"));
+                let Offline = Parse.Object.extend("OfflineTokens");
+                // Add an inner query to get the communities where account is a tail trail
+                var innerTokenQuery = new Parse.Query(Offline);
+                innerTokenQuery.equalTo("username", response.name);
+                let trail_tail=new Parse.Query(Parse.Object.extend("Communities"));;
+                trail_tail.matchesQuery("trail", innerTokenQuery);
+                // query all the communities on which the user is either owner administrator or moderator.
+                owner.equalTo("owner",response.name);
+                admin.equalTo("administrators",response.name);
+                mod.equalTo("moderators",response.name);
+                let mainQuery = Parse.Query.or(owner, mod,admin,trail_tail);
+                // include pointers of element trail
+                mainQuery.include("trail");
+                await mainQuery.find({
+                  success: function(communities) {
+                    // Add the relevant communities to the session. This will be used for populating the community select box.
+                    if(communities.length!==0){
+                      let tt= communities.filter(function(community){return community.get("trail")==undefined?false:(community.get("trail").get("username")==response.name);});
+                      req.session.trail_tail=tt.length==0?null:JSON.stringify(tt.map(function(e){return e.get("name");}));
+                      req.session.communities=JSON.stringify(communities);
+                    }
+                    else {
+                      req.session.trail_tail=null;
+                      req.session.communities=null;
+                    }
+                    fulfill({loggedIn:true,account:req.session.account,name:req.session.name,communities:req.session.communities,trail_tail:req.session.trail_tail,trails:req.session.trails,ua:req.session.ua});
+                },
+                error: function(error) {
+                  console.log(error)
+                    fulfill({loggedIn:true,account:req.session.account,name:req.session.name,communities:null,trail_tail:null,trails:req.session.trails,ua:req.session.ua});
+                }
+              });
+            } else fulfill({loggedIn:false});
+          });
+        } else {
+          fulfill({loggedIn:false});
+        }
+      });
     },
     shuffle:function(array) {
-        let currentIndex = array.length,
-            temporaryValue, randomIndex;
-        // While there are still elements to shuffle...
-        while (0 !== currentIndex) {
-            // Pick a remaining element...
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex -= 1;
-            // And swap it with the current element.
-            temporaryValue = array[currentIndex];
-            array[currentIndex] = array[randomIndex];
-            array[randomIndex] = temporaryValue;
-        }
-        return array;
+      let currentIndex = array.length,
+        temporaryValue, randomIndex;
+      // While there are still elements to shuffle...
+      while (0 !== currentIndex) {
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+      }
+      return array;
     },
       getTypeUser:function(community,session){
       let type_user=-1;
@@ -102,33 +104,32 @@ module.exports = function(config,sc2){
       return type_user;
     },
     PostCommunity:function(community,req,res){
-        if(req.body.id==null)
-          community.set("lvl", 0);
-        community.set("name", req.body.name);
-        community.set("description", req.body.description);
-        community.set("image", req.body.image);
-        community.set("tags", req.body.tags);
-        community.set("type_community", req.body.type_community);
-        community.set("administrators", req.body.administrators);
-        community.set("moderators", req.body.moderators);
-        community.set("whitelist", req.body.whitelist);
-        community.set("blacklist", req.body.blacklist);
-        community.set("owner", req.body.owner);
-        community.set("link_trail",this.generateRandomString());
+      if(req.body.id==null) community.set("lvl", 0);
+      community.set("name", req.body.name);
+      community.set("description", req.body.description);
+      community.set("image", req.body.image);
+      community.set("tags", req.body.tags);
+      community.set("type_community", req.body.type_community);
+      community.set("administrators", req.body.administrators);
+      community.set("moderators", req.body.moderators);
+      community.set("whitelist", req.body.whitelist);
+      community.set("blacklist", req.body.blacklist);
+      community.set("owner", req.body.owner);
+      community.set("link_trail",this.generateRandomString());
 
-        community.save(null, {
-            success: function(community) {
-              try{
-                res.sendStatus(200);
-                req.session.destroy();
-              }catch(e){
-                console.log(e);
-              }
-            },
-            error: function(community, error) {
-                res.sendStatus(408);
-            }
-        });
+      community.save(null, {
+        success: function(community) {
+          try{
+            res.sendStatus(200);
+            req.session.destroy();
+          }catch(e){
+            console.log(e);
+          }
+        },
+        error: function(community, error) {
+            res.sendStatus(408);
+        }
+      });
     },
     hasOfflineToken:function(name){
       return new Promise(function(fulfill, reject) {
@@ -172,7 +173,26 @@ module.exports = function(config,sc2){
         text += possible.charAt(Math.floor(Math.random() * possible.length));
       return text;
     },
-    getCommunity:function(query) {
+
+    extractContent : function(html, length, ending) {
+
+      str = html.replace(/<[^>]+>/g, '');
+      //str = he.decode(stripedHtml);
+
+      if (length == null) {
+        length = 100;
+      }
+      if (ending == null) {
+        ending = '...';
+      }
+      if (str.length > length) {
+        return str.substring(0, length - ending.length) + ending;
+      } else {
+        return str;
+      }
+    },
+
+    getCommunities:function(query) {
 
       return new Promise(function(fulfill, reject) {
 
@@ -184,7 +204,7 @@ module.exports = function(config,sc2){
               //res.redirect("/error/no_community");
               reject('no_community')
             else {
-              fulfill(communities[0]);
+              fulfill(communities);
             }
           },
           error: function(error) {
@@ -195,6 +215,7 @@ module.exports = function(config,sc2){
 
       });
     },
+
     getPostsFromCommunity:function(community, day) {
 
       return new Promise(function(fulfill, reject) {
@@ -208,14 +229,8 @@ module.exports = function(config,sc2){
         today.setMilliseconds(0);
 
         if(day === "yesterday") {
-          date1 = new Date();
-          date1.setHours(0);
-          date1.setMinutes(0);
-          date1.setSeconds(0);
-          date1.setMilliseconds(0);
-          //date2 = new Date(today.setDate(new Date().getDate()-1));
-          var date2 = new Date(today - 1*24*3600000);
-
+          date1 = today;
+          date2 = new Date(today - 1*24*3600000);
         } else if (day === "today" || !day) {
           date1 = new Date();
           date2 = today;
