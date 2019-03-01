@@ -2247,15 +2247,15 @@ section#up-token {
 
 
 
-  #create h3, #view h3, #edit h3 {
+  #create h3, #view h3, #edit-page h3 {
     margin-bottom: 6px;
   }
 
-  #create p, #view p, #edit p {
+  #create p, #view p, #edit-page p {
     margin-top: 6px;
   }
 
-  #create, #view, #edit {
+  #create, #view, #edit-page {
   margin-bottom: 20px;
   }
   
@@ -2658,3 +2658,21 @@ optgroup {
   text-align: center;
   margin: 0;
   padding: 0; }
+
+  .container-edit {
+    border: 1px solid #ddd;
+    margin-top: 20px;
+  }
+
+  .votes-remaining-view h3 {
+    margin-bottom: 0;
+    margin-top: 5px;
+  }  
+  .votes-remaining-view p {
+    margin-top: 5px;
+    margin-bottom: 10px;
+  }
+
+  #percent_vote_follow {
+    width: 160px;
+  }
