@@ -18,11 +18,6 @@ const config = require("../config");
 
 module.exports = function(app,steem2,Utils,config,messages){
 
-app.get("/test", function(req, res) {
-
-    // console.log(Utils.extractContent('description', 200))
-
-});
 app.get("/updatePost/:community/:url(*)", function(req, res) {
 
     //let url = req.params.url;

@@ -46,7 +46,7 @@ Parse.Cloud.beforeSave('Votes', function (request, response) {
           response.error('Too late! This post was already voted by the trail!');
   // Check if voter voted more than once for same user
     var query = new Parse.Query(aVote);
-    query.equalTo('from',request.object.get('from'));
+    query.equalTo('voter', voter);
     query.greaterThan('createdAt',new Date(new Date()-24*3600000));
     query.find( {
           useMasterKey: true,

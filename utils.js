@@ -191,7 +191,24 @@ module.exports = function(config,sc2){
         return str;
       }
     },
+    getVotesLeft: function(from) {
 
+      return new Promise(function(fulfill, reject) {
+        var aVote = Parse.Object.extend("Votes");
+        var query = new Parse.Query(aVote);
+        query.equalTo('voter', from);
+        query.greaterThan('createdAt',new Date(new Date()-24*3600000));
+        query.find( {
+            useMasterKey: true,
+            success: function (votes) {
+              fulfill(10 - votes.length);
+            }
+            ,error:function(err){console.log(err); return reject(err);}
+          });
+        });
+    
+
+    },
     getCommunities:function(query) {
 
       return new Promise(function(fulfill, reject) {

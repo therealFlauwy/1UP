@@ -26,8 +26,28 @@ module.exports = function(app,steem,Utils,config,messages){
     }).catch((err) => {
       res.redirect("/error/" + err)
     });
+    
 
-    Promise.all([session_promise, community_promise, posts_promise]).then((data) => {
+    Promise.all([session_promise, community_promise, posts_promise])
+    .then((data) => {
+      
+      if(data[0].name) return Utils.getVotesLeft(data[0].name).then(function(votes){
+        data.push(votes);
+        return data;
+      }).catch((err) => {
+        data.push(0);
+        return data;
+      });
+      else {
+        data.push(0);
+        return data;
+      }
+
+      //return data;
+
+
+    })
+    .then((data) => {
       
       // View for no trail
       if(data[1].get("trail")===undefined){
@@ -36,6 +56,7 @@ module.exports = function(app,steem,Utils,config,messages){
             community: data[1],
             serverURL: config.serverURL,
             posts: data[2],
+            votes: data[3],
             day: req.params.day,
             bot:config.bot,
             trail: null
@@ -51,6 +72,7 @@ module.exports = function(app,steem,Utils,config,messages){
               community: data[1],
               serverURL:  config.serverURL,
               posts: data[2],
+              votes: data[3],
               day: req.params.day,
               bot:config.bot,
               trail:trail
@@ -58,7 +80,8 @@ module.exports = function(app,steem,Utils,config,messages){
         });
       }
 
-    }).catch(err => console.error('There was a problem', err));
+    })
+    .catch(err => console.error('There was a problem', err));
 
   });
 }

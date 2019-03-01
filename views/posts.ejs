@@ -53,7 +53,7 @@
                               <div class="votes-remaining-wrapper">
                                   <p class="votes-remaining-header">VOTES LEFT</p>
                                   <p class="votes-remaining-number">
-                                      ??
+                                    <%= votes %>
                                   </p>
                               </div>
                           </div>
@@ -198,10 +198,10 @@
                                           <span class="text-pink">1UP Post Ranking:</span><span class="text-blue glow ranking">1</span>
                                       </p>
                                       <p class="game-sts-info">
-                                          <span class="text-pink">Post value:</span><span class="text-blue glow post-value">$28.14</span>
+                                          <span class="text-pink">Post value:</span><span class="text-blue glow post-value"></span>
                                       </p>
                                       <p class="game-sts-info">
-                                          <span class="text-pink">1UP votes remaining:</span><span class="text-blue glow 1up-remaining">28</span>
+                                          <span class="text-pink">1UP votes remaining:</span><span class="text-blue glow 1up-remaining"><%= votes %></span>
                                       </p>
                                   </div>
                                   <div class="game-acts">
@@ -285,6 +285,11 @@
           success: function(msg) {
             console.log('voted!', msg);
             $(that).find(".game-bar-action-text").html(parseInt($(that).find(".game-bar-action-text").html())+1);
+            
+            $(document).find(".votes-remaining-number").html(parseInt($(document).find(".votes-remaining-number").html())-1);
+            $(document).find(".1up-remaining").html(parseInt($(document).find(".1up-remaining").html())-1);
+
+            
           },
           error: function(msg) {
             alert(msg.responseJSON.error);
