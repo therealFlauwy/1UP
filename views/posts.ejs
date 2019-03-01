@@ -145,9 +145,9 @@
                                     </div>
                                     
                                     <div class="game-bar-image">
-                                      
+                                      <% if (posts[index].get('image') != 'no_img') {%>
                                         <img src="<%= posts[index].get('image')%>" class="game-bar-img"/>
-                                      
+                                      <%} %>
                                     </div>
                                     <div class="game-bar-info">
                                         <p class="game-bar-info-header 1UP_popup"
@@ -265,7 +265,7 @@
                                           <span class="text-pink">Post value:</span><span class="text-blue glow post-value">$28.14</span>
                                       </p>
                                       <p class="game-sts-info">
-                                          <span class="text-pink">1UP votes remaining:</span><span class="text-blue glow 1up-remaining">??</span>
+                                          <span class="text-pink">1UP votes remaining:</span><span class="text-blue glow 1up-remaining">28</span>
                                       </p>
                                   </div>
                                   <div class="game-acts">
