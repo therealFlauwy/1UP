@@ -15,7 +15,7 @@ module.exports = function(config,sc2){
           sc2.me(async function(err, response) {
             if (err === null){
               const ua=await getUA(steem,config,response.name);
-              req.session.ua=JSON.parse(ua).result.accounts[0];
+              req.session.ua=ua.result.accounts[0];
               // get Account information about the user logged in
               req.session.name = response.name;
               req.session.account = JSON.stringify(response.account);
@@ -95,7 +95,7 @@ module.exports = function(config,sc2){
       }
       return array;
     },
-      getTypeUser:function(community,session){
+    getTypeUser:function(community,session){
       let type_user=-1;
       if(community.get("moderators").includes(session.name))
         type_user=0;
@@ -201,7 +201,6 @@ module.exports = function(config,sc2){
           success: function(communities) {
             // if it does not exist, return an error
             if (communities.length == 0)
-              //res.redirect("/error/no_community");
               reject('no_community')
             else {
               fulfill(communities);
@@ -282,7 +281,18 @@ function getUA(steem,config,username){
            params: {"user": config.bot, "encrypted_user": enc_user, "accounts": [username]}
        })
      };
-  return rp(request_rpc);
+  
+  let server_error = {"result": {"status": "error", "accounts": [{"ua": 0}]}}; 
+  return rp(request_rpc)
+    .then(function (result) {
+      let ua = JSON.parse(result)
+      if (ua.error) { console.log('UA error', ua.error); return server_error; }
+      return ua;
+    })
+    .catch(function (err) {
+      console.log('UA error', err)
+      return server_error;
+    });
 };
 
 var getEffectiveVestingSharesPerAccount = function(account) {
