@@ -2183,6 +2183,7 @@ section#up-token {
             font-size: 1.25em; } }
 
 .game-bar-action-button {
+  position: relative;
   text-align: center;
   background: linear-gradient(to bottom, #22003b 0%, #491e5f 100%);
   border: 1px solid #C791E2;
@@ -2647,3 +2648,13 @@ optgroup {
 
 
 
+.game-acts .game-bar-action-text {
+  position: absolute;
+  bottom: 0;
+  right: 15px;
+  font-size: 2em;
+
+  color: #C791E2;
+  text-align: center;
+  margin: 0;
+  padding: 0; }

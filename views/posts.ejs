@@ -79,8 +79,11 @@
                                     <div class="game-bar-rank">
                                         <p class="game-bar-rank-text">1</p>
                                     </div>
+
                                     <div class="game-bar-image">
+                                      <% if (posts[0].get('image') != 'no_img') {%>
                                         <img src="<%= posts[0].get('image')%>" class="game-bar-img"/>
+                                      <%}%>
                                     </div>
                                     <div class="game-bar-info">
                                         <p class="game-bar-info-header 1UP_popup"
@@ -142,9 +145,9 @@
                                     </div>
                                     
                                     <div class="game-bar-image">
-                                      <% if (posts[index].get('image') != 'no_img') {%>
+                                      
                                         <img src="<%= posts[index].get('image')%>" class="game-bar-img"/>
-                                      <%}%>
+                                      
                                     </div>
                                     <div class="game-bar-info">
                                         <p class="game-bar-info-header 1UP_popup"
@@ -238,7 +241,7 @@
                                   </div>
                               </div>
       
-                              <img src="" class="game-info-image" />
+                              <img src="/public/assets/images/no-image.png" class="game-info-image" />
       
                               <p class="game-info-desc">
                               </p>
@@ -262,7 +265,7 @@
                                           <span class="text-pink">Post value:</span><span class="text-blue glow post-value">$28.14</span>
                                       </p>
                                       <p class="game-sts-info">
-                                          <span class="text-pink">1UP votes remaining:</span><span class="text-blue glow 1up-remaining">28</span>
+                                          <span class="text-pink">1UP votes remaining:</span><span class="text-blue glow 1up-remaining">??</span>
                                       </p>
                                   </div>
                                   <div class="game-acts">
@@ -312,9 +315,8 @@
 
       $('.1UP_popup').on('click', function(event){
 
-        var d = $(this).data('busy');      
 
-        $(".game-info-image").attr("src",$(this).data('image'));
+        if($(this).data('image')!="no_img") $(".game-info-image").attr("src",$(this).data('image'));
         $(".steemit_link").attr("href",$(this).data('steemit'));
         $(".busy_link").attr("href",$(this).data('busy'));
 
@@ -436,7 +438,7 @@
             $('.vote-timer-numbers').html("");
           }
 
-            clearInterval(interval);
+          //clearInterval(interval);
 
         }, 1000);
       }
@@ -453,7 +455,11 @@
           return "<span class='vote-timer-number hour'><span class='vote-timer-number-text'>" + hours + "</span> <span class='vote-timer-div-human'>h</span><span class='vote-timer-div-colon'>:</span></span><span class='vote-timer-number minute'><span class='vote-timer-number-text'>" + minutes + "</span><span class='vote-timer-div-human'>m</span><span class='vote-timer-div-colon'>:</span></span><span class='vote-timer-number second'><span class='vote-timer-number-text'>"+seconds+"</span><span class='vote-timer-div-human'>s</span></span>";
       }
 
-      /* Mobile menu openning */
+      var gameModal,
+        gameModalExit,
+        gameModalActions,
+        bodyElement;
+        
       $( document ).ready(function() {
         var menuMainButton = $('.menu-icon');
         menuMainButton.click(function(){
@@ -463,21 +469,17 @@
             $('.mobile-menu').addClass('open');
           }
         });
-      });
 
-      var gameModal,
-        gameModalExit,
-        gameModalActions,
-        bodyElement;
-        window.onload = function() {
         gameModal = document.getElementById("game-info-modal");
         gameModalExit = document.getElementById("game-modal-exit");
         gameModalActions = document.getElementsByClassName("game-bar-info-header");
         bodyElement = document.getElementsByTagName("body")[0];
 
         gameModalExit.addEventListener("click", closeGameModal);
+      });
 
-      };
+      
+        
 
       function openGameModal(post) {
         gameModal.className = gameModal.className + " open";

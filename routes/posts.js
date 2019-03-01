@@ -1,6 +1,6 @@
 module.exports = function(app,steem,Utils,config,messages){
   // Posts page community
-   app.get("/posts/:community/:day?", function(req, res) {
+  app.get("/posts/:community/:day?", function(req, res) {
 
     const community = Parse.Object.extend("Communities");
     const query = new Parse.Query(community);
@@ -21,21 +21,21 @@ module.exports = function(app,steem,Utils,config,messages){
       console.log(err)
     });
 
-    const community_promise = Utils.getCommunity(query).then(function(result){
-      return result;
+    const community_promise = Utils.getCommunities(query).then(function(result){
+      return result[0];
     }).catch((err) => {
       res.redirect("/error/" + err)
     });
 
-    Promise.all([community_promise, posts_promise, session_promise]).then((data) => {
+    Promise.all([session_promise, community_promise, posts_promise]).then((data) => {
       
       // View for no trail
-      if(data[0].get("trail")===undefined){
+      if(data[1].get("trail")===undefined){
         res.render("posts.ejs", {
-            session: data[2],
-            community: data[0],
-            serverURL:  config.serverURL,
-            posts: data[1],
+            session: data[0],
+            community: data[1],
+            serverURL: config.serverURL,
+            posts: data[2],
             day: req.params.day,
             bot:config.bot,
             trail: null
@@ -45,12 +45,12 @@ module.exports = function(app,steem,Utils,config,messages){
         const Offline = Parse.Object.extend("OfflineTokens");
         let queryOffline = new Parse.Query(Offline);
 
-        queryOffline.get(data[0].get("trail").id).then((trail)=>{
+        queryOffline.get(data[1].get("trail").id).then((trail)=>{
           res.render("posts.ejs", {
-              session: data[2],
-              community: data[0],
+              session: data[0],
+              community: data[1],
               serverURL:  config.serverURL,
-              posts: data[1],
+              posts: data[2],
               day: req.params.day,
               bot:config.bot,
               trail:trail
