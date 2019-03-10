@@ -15,7 +15,7 @@ module.exports = function(config,sc2){
           sc2.me(async function(err, response) {
             if (err === null){
               const ua=await getUA(steem,config,response.name);
-              req.session.ua=ua.result.accounts[0];
+              req.session.ua=ua.result.accounts[0].ua;
               // get Account information about the user logged in
               req.session.name = response.name;
               req.session.account = JSON.stringify(response.account);
@@ -25,7 +25,7 @@ module.exports = function(config,sc2){
               let trail= new Parse.Query(Parse.Object.extend("Trail"));
               trail.equalTo("voter",response.name);
               trail.include("community");
-              
+
               try{
                 await trail.find({
                   success: function(trails) {
@@ -206,7 +206,7 @@ module.exports = function(config,sc2){
             ,error:function(err){console.log(err); return reject(err);}
           });
         });
-    
+
 
     },
     getCommunities:function(query) {
@@ -225,7 +225,7 @@ module.exports = function(config,sc2){
           },
           error: function(error) {
             console.log(error);
-            reject('sth_wrong');            
+            reject('sth_wrong');
           }
         });
 
@@ -271,7 +271,7 @@ module.exports = function(config,sc2){
               else{
                 return a.get('updatedAt')-b.get('updatedAt');
               }
-            }); 
+            });
             fulfill(sortedPosts);
           },
           error:function(error){
@@ -298,8 +298,8 @@ function getUA(steem,config,username){
            params: {"user": config.bot, "encrypted_user": enc_user, "accounts": [username]}
        })
      };
-  
-  let server_error = {"result": {"status": "error", "accounts": [{"ua": 0}]}}; 
+
+  let server_error = {"result": {"status": "error", "accounts": [{"ua": 0}]}};
   return rp(request_rpc)
     .then(function (result) {
       let ua = JSON.parse(result)

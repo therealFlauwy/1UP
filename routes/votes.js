@@ -17,6 +17,7 @@ module.exports = function(app,steem,Utils,config,messages){
               vote.set("author",post.get("author"));
               vote.set("permlink",post.get("permlink"));
               vote.set("ua",session.ua);
+              console.log(session.ua);
               // Create the vote object sent to be processed in the cloud
               vote.save().then((result) => {
                 // Execute any logic that should take place after the object is saved.
