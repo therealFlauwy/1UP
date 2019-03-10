@@ -104,10 +104,13 @@ var uploadData1 = (data,tag,callback)=>{
                 var rex=/((http(s?):)([/|.|\w|\-|%|(|)])*\.(?:jpg|png|jpeg|JPG|JPEG|PNG))|((http(s?):)(.)*\/ipfs\/\w*)/;
                 let imgPost=rex.exec(data.body);
                 var img=imgPost ? imgPost[0] : "no_img";
+                var description = data.body;
+
                 const posts1=Parse.Object.extend("Posts");
                 let p=new posts1();
                 p.set("community",tag);
                 p.set("title", data.title);
+                p.set("description", Utils.extractContent(description, 200));
                 p.set("tag",data.category);
                 p.set("author",data.author);
                 p.set("permlink",data.permlink);

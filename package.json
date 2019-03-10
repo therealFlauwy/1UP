@@ -1,6 +1,6 @@
 {
   "name": "utopian-1up",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Utopian 1UP backend",
   "main": "index.js",
   "dependencies": {

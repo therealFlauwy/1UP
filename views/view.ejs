@@ -3,35 +3,128 @@
   <%- include include/head.ejs %>
     <body>
         <div class="wrapper">
-            <%- include include/header.ejs %>
-            <!-- HTML for erros !-->
-            <main class="main">
+          <%- include include/header.ejs %>
+          <main class="main">
+              <div class="page-stepper">
+                  <div class="container">
+                      <div class="page-step-wrapper">
+                          <div class="page-step">
+                              <h6 class="page-step-text"><a href="/">ALL</a></h6>
+                          </div>
+                          <!--<div class="page-step">
+                              <h6 class="page-step-text"><%= community.get("tags") %></h6>
+                          </div>-->
+                          <div class="page-step">
+                              <h6 class="page-step-text"><%= community.get("name") %></h6>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+      
+              <section id="gaming-header-info">
+                  <div class="container">
+                      <div class="row">
+                          <div class="col-12 col-md-4">
+                              <img src="<%= community.get('image') %>"
+                                   style="display: block; max-width: 100%; max-height: 100%; margin: auto"/>
+                          </div>
+      
+                          <div class="col-6 col-md-4">
+                              <div class="vote-wrapper">
+                                  <div class="vote-timer">
+                                    <p><%= community.get("description") %></p>
+                                  </div>
+                              </div>
+                              <div id="follow_div">
+                                <input id="percent_vote_follow" type="number" placeholder="Vote percentage"/>
+                                <button id="confirm_trail">Confirm</button>
+                                <p id="message_follow_trail"></p>
+                              </div>
+                              <div id="remove_trail_tail_div">
+                                <button id="confirm_remove_trail_tail">Confirm</button>
+                              </div>
+                          </div>
+      
+                          <div class="col-6 col-md-4">
+                              <div class="votes-remaining-wrapper">
+                                  <div class="votes-remaining-view">
+                                      <h3>Administrators</h3>
+                                      <p>
+                                        <a target="_blank" href="https://steemit.com/@<%= community.get("administrators") %>">
+                                          @<%= community.get("administrators") %>
+                                        </a>
+                                      </p>
+                                      <h3>Moderators</h3>
+                                      <p>
+                                        <a target="_blank" href="https://steemit.com/@<%= community.get("moderators") %>">
+                                          @<%= community.get("moderators") %>
+                                        </a>
+                                      </p>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-12">
+                              <div class="vote-actions">
+                                  <% if(community.get("owner")===session.name||
+                                      community.get("administrators").includes(session.name)||
+                                      community.get("moderators").includes(session.name)){ %>
+                                    <button id="edit" onclick="location.href='/edit/<%= community.get("name") %>'" class="button purple-button vote-action-button">Edit Parameters</button>
+
+                                  <% }
+                                  if(session.loggedIn && (trail===null||trail.get("username")!==session.name)){
+                                      const relevant_trail=session.trails==null?[]:JSON.parse(session.trails).filter(function(e){ return e.community.name==community.get("name")});
+                                      if(session.trails!=null && relevant_trail.length==1){  %>
+                                        <button id="edit_trail" class="button purple-button vote-action-button disabled">Edit Trail</button>
+
+                                        <div id="edit_trail_div">
+                                          <h3>Trail</h3>
+                                          <input id="percent_vote_follow" type="number" value="<%= relevant_trail[0].weight %>"/>
+                                          <button id="cancel_edit_trail">Cancel</button>
+                                          <button id="confirm_edit_trail">Confirm</button>
+                                          <button id="delete_trail">Quit trail</button>
+                                          <p id="message_follow_trail"></p>
+                                        </div>
+                                      <% }
+                                      else { %>
+                                      <% if(trail!=null){ %>
+                                        <button id="link_trail" class="button purple-button vote-action-button disabled"
+                                        data-steemit="https://steemit.com/@<%= trail.get('username')%>">@<%= trail.get("username") %></button>
+                                        <button id="follow_trail" class="button purple-button vote-action-button">Follow Trail</button>
+                                      <% } %>
+
+                                    
+                                    <% }
+                                    } %>
+                    
+                                  <% if(session.trail_tail!==undefined && session.trail_tail!==null && JSON.parse(session.trail_tail).includes(community.get("name"))){ %>
+                                    <button id="remove_trail_tail" class="button purple-button vote-action-button disabled">Remove trail</button>
+                                  <% } %>
+
+                                
+                              </div>
+                              
+                          </div>
+
+                          
+                      </div>
+                  </div>
+              </section>
+
               <section id="view">
                 <div class="container">
-                  <h2><%= community.get("name") %></h2>
-                  <div id="view_img" style="background-image: url(<%= community.get("image") %>">
-                  </div>
-                  <h3>Short description</h3>
-                  <p><%= community.get("description") %></p>
-                  <h3>Trail account</h3>
+                  
                   <% if(trail===null){ %>
-                  <p>The trail account has not been set up yet. Use this link to connect it:</p>
-                  <a target="_blank" href="<%= serverURL %>/trail_account/<%= community.get("link_trail") %>">
-                    <%= serverURL %>/link_trail/<%= community.get("link_trail") %>
-                  </a>
-                  <% } else { %>
-                  <a target="_blank" href="https://steemit.com/@<%= trail.get("username") %>">
-                    @<%= trail.get("username") %>
-                  </a>
+                    <p>The trail account has not been set up yet. Use this link to connect it:</p>
+                    <a target="_blank" href="<%= serverURL %>/trail_account/<%= community.get("link_trail") %>">
+                      <%= serverURL %>/link_trail/<%= community.get("link_trail") %>
+                    </a>
                   <% } %>
-                  <h3>Administrators</h3>
-                  <p><%= community.get("administrators") %></p>
-                  <h3>Moderators</h3>
-                  <p><%= community.get("moderators") %></p>
-                  <h3>Post selection</h3>
-                  <p><%= community.get("type_community") %></p>
                   <h3>Tags</h3>
                   <p><%= community.get("tags") %></p>
+
+                  <h3>Post selection</h3>
+                  <p><%= community.get("type_community") %></p>
+                  
                   <% if (community.get("type_community")==="Whitelist only"){ %>
                   <h3 >Whitelist</h3>
                   <p><%= community.get("whitelist") %></p>
@@ -39,141 +132,115 @@
                   <h3 >Blacklist</h3>
                   <p><%= community.get("blacklist") %></p>
                   <% }  %>
-                  <% if(community.get("owner")===session.name||
-                      community.get("administrators").includes(session.name)||
-                      community.get("moderators").includes(session.name)){ %>
-                    <button id="edit" onclick="location.href='/edit/<%= community.get("name") %>'">Edit Parameters</button>
-                  <% }
-                  if(session.loggedIn && (trail===null||trail.get("username")!==session.name)){
-                      const relevant_trail=session.trails==null?[]:JSON.parse(session.trails).filter(function(e){ return e.community.name==community.get("name")});
-                      if(session.trails!=null && relevant_trail.length==1){  %>
-                        <button id="edit_trail">Edit Trail</button>
-                        <div id="edit_trail_div">
-                          <h3>Trail</h3>
-                          <input id="percent_vote_follow" type="number" value="<%= relevant_trail[0].weight %>"/>
-                          <button id="cancel_edit_trail">Cancel</button>
-                          <button id="confirm_edit_trail">Confirm</button>
-                          <button id="delete_trail">Quit trail</button>
-                          <p id="message_follow_trail"></p>
-                        </div>
-                      <% }
-                      else { %>
-                    <button id="follow_trail">Follow Trail</button>
-                    <div id="follow_div">
-                      <input id="percent_vote_follow" type="number" placeholder="Vote percentage"/>
-                      <button id="confirm_trail">Confirm</button>
-                      <p id="message_follow_trail"></p>
-                    </div>
-                    <% }
-                    } %>
-
-                  <% if(session.trail_tail!==undefined && session.trail_tail!==null && JSON.parse(session.trail_tail).includes(community.get("name"))){ %>
-                    <button id="remove_trail_tail">Remove from the trail</button>
-                    <div id="remove_trail_tail_div">
-                      <button id="confirm_remove_trail_tail">Confirm</button>
-                    </div>
-                  <% } %>
+                  
                 </div>
               </section>
-            </main>
-            <%- include include/footer.ejs %>
-          </div>
+            
+          </main>
+          
+          <%- include include/footer.ejs %>
+    </div>
 
-          <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-          <script src="https://cdn.steemjs.com/lib/latest/steem.min.js"></script>
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/parse/1.11.0/parse.min.js"></script>
-          <script src="/public/assets/js/scripts.js"></script>
-          <script>
-            // Add to none to empty fields
-            $("p").each(function(){
-              if($(this).html()==""&&$(this).attr("id")!="message_follow_trail")
-                $(this).html("None");
-            });
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.steemjs.com/lib/latest/steem.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/parse/1.11.0/parse.min.js"></script>
+    <script>
+      // Add to none to empty fields
+      $("p").each(function(){
+        if($(this).html()==""&&$(this).attr("id")!="message_follow_trail")
+          $(this).html("None");
+      });
 
-            // Show parameters to follow the trail
-            $("#follow_trail").click(function(){
-              $("#follow_div").show();
-            });
+      // button link to steemit
+      $("#link_trail").click(function(){
+        window.open($(this).data('steemit'),'_blank');
+      });
 
-            //Show edit and delete parameters for the trail
-            $("#edit_trail").click(function(){
-              $("#edit_trail").hide();
-              $("#edit_trail_div").show();
-            });
+      // Show parameters to follow the trail
+      $("#follow_trail").click(function(){
+        $("#follow_div").show();
+      });
 
-            $("#cancel_edit_trail").click(function(){
-              $("#edit_trail_div").hide();
-              $("#edit_trail").show();
-            });
+      //Show edit and delete parameters for the trail
+      $("#edit_trail").click(function(){
+        $("#edit_trail").hide();
+        $("#edit_trail_div").show();
+      });
 
-            $("#confirm_edit_trail").click(function(){
-              $.ajax({
-                  url: "<%= (session.trails !=null && JSON.parse(session.trails).filter(function(e){ return e.community.name==community.get('name')})[0]!=undefined)?('/trail/'+JSON.parse(session.trails).filter(function(e){ return e.community.name==community.get('name')})[0].objectId)+'/':"" %>"+$("#percent_vote_follow").val(),
-                  type: 'PATCH',
-                  contentType:'application/json',
-                  dataType: 'text'})
-                .done(function() {
-                    window.location.href="/view/<%=community.get('name') %>";
-                 })
-                  .fail(function(jqXHR, textStatus, errorThrown) {
-                    if(jqXHR.status==400)
-                      window.location.href="/error/sth_wrong";
-                    else if(jqXHR.status==401)
-                      window.location.href="/error/denied";
-                  });
-            });
+      $("#cancel_edit_trail").click(function(){
+        $("#edit_trail_div").hide();
+        $("#edit_trail").show();
+      });
 
-            $("#delete_trail").click(function(){
-              $.ajax({
-                  url: "<%= (session.trails !=null && JSON.parse(session.trails).filter(function(e){ return e.community.name==community.get('name')})[0]!=undefined)?('/trail/'+JSON.parse(session.trails).filter(function(e){ return e.community.name==community.get('name')})[0].objectId):null %>",
-                  type: 'DELETE',
-                  contentType:'application/json',
-                  dataType: 'text'})
-                .done(function() {
-                    window.location.href="/view/<%=community.get('name') %>";
-                 })
-                  .fail(function(jqXHR, textStatus, errorThrown) {
-                    if(jqXHR.status==400)
-                      window.location.href="/error/sth_wrong";
-                    else if(jqXHR.status==401)
-                      window.location.href="/error/denied";
-                  });
+      $("#confirm_edit_trail").click(function(){
+        $.ajax({
+            url: "<%= (session.trails !=null && JSON.parse(session.trails).filter(function(e){ return e.community.name==community.get('name')})[0]!=undefined)?('/trail/'+JSON.parse(session.trails).filter(function(e){ return e.community.name==community.get('name')})[0].objectId)+'/':"" %>"+$("#percent_vote_follow").val(),
+            type: 'PATCH',
+            contentType:'application/json',
+            dataType: 'text'})
+          .done(function() {
+              window.location.href="/view/<%=community.get('name') %>";
+            })
+            .fail(function(jqXHR, textStatus, errorThrown) {
+              if(jqXHR.status==400)
+                window.location.href="/error/sth_wrong";
+              else if(jqXHR.status==401)
+                window.location.href="/error/denied";
             });
-            // To remove the trail tail
-            $("#remove_trail_tail").click(function(){
-              $("#remove_trail_tail_div").show();
-            });
-            // Tail Trail can remove itself from the community
-            $("#confirm_remove_trail_tail").click(function(){
-              $.ajax({
-                  url: '/trail_tail/<%=community.id %>',
-                  type: 'DELETE',
-                  contentType:'application/json',
-                  dataType: 'text'})
-                .done(function() {
-                    window.location.href="/view/<%=community.get('name') %>";
-                 })
-                  .fail(function(jqXHR, textStatus, errorThrown) {
-                    console.log(jqXHR.status);
-                    if(jqXHR.status==400)
-                      window.location.href="/error/sth_wrong";
-                    else if(jqXHR.status==401)
-                      window.location.href="/error/denied";
-                  });
-            });
+      });
 
-            $("#confirm_trail").click(function(){
-              if($("#percent_vote_follow").val()!=null&&$("#percent_vote_follow").val()<=100&&$("#percent_vote_follow").val()>=0)
-                window.location.href="/trail/<%= community.id %>/"+$("#percent_vote_follow").val();
-              else {
-                $("#message_follow_trail").html("The percentage must be comprised between 0 and 100");
-              }
+      $("#delete_trail").click(function(){
+        $.ajax({
+            url: "<%= (session.trails !=null && JSON.parse(session.trails).filter(function(e){ return e.community.name==community.get('name')})[0]!=undefined)?('/trail/'+JSON.parse(session.trails).filter(function(e){ return e.community.name==community.get('name')})[0].objectId):null %>",
+            type: 'DELETE',
+            contentType:'application/json',
+            dataType: 'text'})
+          .done(function() {
+              window.location.href="/view/<%=community.get('name') %>";
+            })
+            .fail(function(jqXHR, textStatus, errorThrown) {
+              if(jqXHR.status==400)
+                window.location.href="/error/sth_wrong";
+              else if(jqXHR.status==401)
+                window.location.href="/error/denied";
             });
+      });
+      // To remove the trail tail
+      $("#remove_trail_tail").click(function(){
+        $("#remove_trail_tail_div").show();
+      });
+      // Tail Trail can remove itself from the community
+      $("#confirm_remove_trail_tail").click(function(){
+        $.ajax({
+            url: '/trail_tail/<%=community.id %>',
+            type: 'DELETE',
+            contentType:'application/json',
+            dataType: 'text'})
+          .done(function() {
+              window.location.href="/view/<%=community.get('name') %>";
+            })
+            .fail(function(jqXHR, textStatus, errorThrown) {
+              console.log(jqXHR.status);
+              if(jqXHR.status==400)
+                window.location.href="/error/sth_wrong";
+              else if(jqXHR.status==401)
+                window.location.href="/error/denied";
+            });
+      });
 
-            const menuMainButton = $('.menu-icon');
-            menuMainButton.click(function() {
-                $('.mobile-menu').toggleClass('open');
-            });
-          </script>
-      </body>
+      $("#confirm_trail").click(function(){
+        if($("#percent_vote_follow").val()!=null&&$("#percent_vote_follow").val()<=100&&$("#percent_vote_follow").val()>=0)
+          window.location.href="/trail/<%= community.id %>/"+$("#percent_vote_follow").val();
+        else {
+          $("#message_follow_trail").html("The percentage must be comprised between 0 and 100");
+        }
+      });
+
+      const menuMainButton = $('.menu-icon');
+      menuMainButton.click(function() {
+          $('.mobile-menu').toggleClass('open');
+      });
+    </script>
+    <script src="/public/assets/js/scripts.js"></script>
+  </body>
 </html>

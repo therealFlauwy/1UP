@@ -18,18 +18,6 @@ const config = require("../config");
 
 module.exports = function(app,steem2,Utils,config,messages){
 
-    app.get("/test", function(req, res) {
-
-        var date = new Date("2019-02-12T19:45:36");
-
-  // Log the whole date infos. Should match the date given into the parameter
-  console.log(date);
-  console.log(date.toISOString());
-
-  res.sendStatus(200);
-
-
-    });
 app.get("/updatePost/:community/:url(*)", function(req, res) {
 
     //let url = req.params.url;
@@ -54,6 +42,7 @@ app.get("/updatePost/:community/:url(*)", function(req, res) {
                     //if the post is save in the bd start the callback instantly
                     if(callback)
                         console.log("Post in db");
+                        console.log(postData);
 
                         callback()
                 }
@@ -63,11 +52,13 @@ app.get("/updatePost/:community/:url(*)", function(req, res) {
                     let imgPost=rex.exec(data.body);
                     var img=imgPost ? imgPost[0] : "no_img";
                     var created = new Date(data.created);
+                    var description = data.body;
 
                     const posts1=Parse.Object.extend("Posts");
                     let p=new posts1();
                     p.set("community",tag);
                     p.set("title", data.title);
+                    p.set("description", Utils.extractContent(description, 200));
                     p.set("tag",data.category);
                     p.set("author",data.author);
                     p.set("permlink",data.permlink);
