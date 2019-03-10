@@ -20,10 +20,8 @@
                   <% } %>
               </ul>
           </div>
-          <% if(session.loggedIn){ 
-            var accountParse = JSON.parse(session.account);
-            var img2 = JSON.parse(accountParse.json_metadata);
-            var img = img2.profile.profile_image;
+          <% if(session.loggedIn){
+            img="https://steemitimages.com/u/"+session.name+"/avatar";
           %>
             <div class="desktop-user">
                 <div class="user-drop">
